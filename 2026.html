@@ -130,38 +130,142 @@
                 padding-right: 0.75rem;
             }
         }
+        
+        /* Mobile Menu */
+        .mobile-menu {
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 280px;
+            height: 100vh;
+            background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%);
+            box-shadow: -4px 0 20px rgba(0,0,0,0.3);
+            transition: right 0.3s ease-in-out;
+            z-index: 100;
+            overflow-y: auto;
+        }
+        
+        .mobile-menu.active {
+            right: 0;
+        }
+        
+        .menu-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: rgba(0,0,0,0.5);
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease-in-out;
+            z-index: 99;
+        }
+        
+        .menu-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
     </style>
 </head>
 <body class="pb-12">
 
+    <!-- Mobile Menu Overlay -->
+    <div class="menu-overlay" id="menuOverlay" onclick="toggleMobileMenu()"></div>
+    
+    <!-- Mobile Menu Sidebar -->
+    <div class="mobile-menu" id="mobileMenu">
+        <div class="p-6">
+            <div class="flex justify-between items-center mb-8">
+                <h3 class="text-white font-bold text-lg">Menú</h3>
+                <button onclick="toggleMobileMenu()" class="text-white text-2xl hover:text-amber-400 transition">
+                    <i class="fa-solid fa-times"></i>
+                </button>
+            </div>
+            
+            <!-- Score Display in Menu -->
+            <div class="bg-slate-800 rounded-lg p-4 mb-6 text-center">
+                <p class="text-slate-400 text-xs uppercase mb-1">Puntuación Actual</p>
+                <p class="text-3xl font-bold text-emerald-400">
+                    <span id="mobile-score">0</span> <span class="text-lg text-slate-400">/ 100+</span>
+                </p>
+            </div>
+            
+            <!-- Menu Actions -->
+            <div class="space-y-3">
+                <button onclick="exportProgress(); toggleMobileMenu();" class="w-full bg-slate-700 hover:bg-slate-600 text-white py-3 px-4 rounded-lg text-sm transition flex items-center gap-3">
+                    <i class="fa-solid fa-download text-lg"></i>
+                    <span>Exportar Progreso</span>
+                </button>
+                
+                <button onclick="document.getElementById('import-file').click(); toggleMobileMenu();" class="w-full bg-slate-700 hover:bg-slate-600 text-white py-3 px-4 rounded-lg text-sm transition flex items-center gap-3">
+                    <i class="fa-solid fa-upload text-lg"></i>
+                    <span>Importar Progreso</span>
+                </button>
+                
+                <button onclick="resetProgress(); toggleMobileMenu();" class="w-full bg-red-600 hover:bg-red-700 text-white py-3 px-4 rounded-lg text-sm transition flex items-center gap-3">
+                    <i class="fa-solid fa-rotate-left text-lg"></i>
+                    <span>Reiniciar Todo</span>
+                </button>
+                
+                <a href="index.html" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white py-3 px-4 rounded-lg text-sm transition flex items-center gap-3 block text-center">
+                    <i class="fa-solid fa-home text-lg"></i>
+                    <span>Volver al Inicio</span>
+                </a>
+            </div>
+            
+            <!-- Info -->
+            <div class="mt-8 pt-6 border-t border-slate-700">
+                <p class="text-slate-400 text-xs text-center">
+                    💡 Sistema de Propósitos 2026<br>
+                    Versión 1.0
+                </p>
+            </div>
+        </div>
+    </div>
+
     <!-- Navigation / Header -->
     <nav class="bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 text-white sticky top-0 z-50 shadow-lg">
-        <div class="container mx-auto px-2 sm:px-4 py-2 sm:py-4">
-            <div class="flex justify-between items-center gap-1 sm:gap-2">
+        <div class="container mx-auto px-3 sm:px-4 py-3 sm:py-4">
+            <div class="flex justify-between items-center">
                 <!-- Left: Branding -->
-                <div class="flex items-center gap-2 flex-shrink min-w-0">
+                <div class="flex items-center gap-2 sm:gap-3 flex-1 min-w-0">
                     <i class="fa-solid fa-rocket text-lg sm:text-2xl text-amber-400 flex-shrink-0"></i>
-                    <h1 class="text-xs sm:text-lg font-bold tracking-wider truncate">MIS PROPÓSITOS 2026</h1>
+                    <h1 class="text-sm sm:text-lg font-bold tracking-wider truncate">MIS PROPÓSITOS 2026</h1>
                 </div>
                 
-                <!-- Right: Actions + Score -->
-                <div class="flex items-center gap-1 sm:gap-3 flex-shrink-0">
-                    <!-- Action Buttons -->
-                    <button onclick="exportProgress()" class="bg-slate-700 hover:bg-slate-600 text-white p-2 sm:px-3 sm:py-2 rounded text-xs transition touch-manipulation" title="Exportar">
+                <!-- Mobile: Hamburger + Score -->
+                <div class="flex items-center gap-3 sm:hidden">
+                    <div class="text-right">
+                        <p class="text-lg font-bold text-emerald-400">
+                            <span id="header-score-mobile">0</span>
+                        </p>
+                    </div>
+                    <button onclick="toggleMobileMenu()" class="text-white text-2xl hover:text-amber-400 transition p-2" aria-label="Menú">
+                        <i class="fa-solid fa-bars"></i>
+                    </button>
+                </div>
+                
+                <!-- Desktop: Full Actions -->
+                <div class="hidden sm:flex items-center gap-3">
+                    <button onclick="exportProgress()" class="bg-slate-700 hover:bg-slate-600 text-white px-3 py-2 rounded text-xs transition" title="Exportar">
                         <i class="fa-solid fa-download"></i>
+                        <span class="ml-1">Exportar</span>
                     </button>
-                    <button onclick="document.getElementById('import-file').click()" class="bg-slate-700 hover:bg-slate-600 text-white p-2 sm:px-3 sm:py-2 rounded text-xs transition touch-manipulation" title="Importar">
+                    <button onclick="document.getElementById('import-file').click()" class="bg-slate-700 hover:bg-slate-600 text-white px-3 py-2 rounded text-xs transition" title="Importar">
                         <i class="fa-solid fa-upload"></i>
+                        <span class="ml-1">Importar</span>
                     </button>
-                    <button onclick="resetProgress()" class="bg-red-600 hover:bg-red-700 text-white p-2 sm:px-3 sm:py-2 rounded text-xs transition touch-manipulation" title="Reiniciar">
+                    <button onclick="resetProgress()" class="bg-red-600 hover:bg-red-700 text-white px-3 py-2 rounded text-xs transition" title="Reiniciar">
                         <i class="fa-solid fa-rotate-left"></i>
+                        <span class="ml-1">Reiniciar</span>
                     </button>
                     <input type="file" id="import-file" accept=".json" onchange="importProgress(event)" class="hidden">
                     
-                    <!-- Score Display -->
-                    <div class="text-right ml-1 sm:ml-2 border-l border-slate-600 pl-1 sm:pl-3">
-                        <p class="text-xs sm:text-xl font-bold text-emerald-400 whitespace-nowrap">
-                            <span id="header-score">0</span><span class="hidden sm:inline"> / 100+</span>
+                    <div class="text-right ml-2 border-l border-slate-600 pl-3">
+                        <p class="text-xs text-slate-400 uppercase">Puntuación</p>
+                        <p class="text-xl font-bold text-emerald-400">
+                            <span id="header-score">0</span> / 100+
                         </p>
                     </div>
                 </div>
@@ -1033,9 +1137,13 @@
             const formattedTotal = Math.round(total);
             const scoreBig = document.getElementById('score-big');
             const headerScore = document.getElementById('header-score');
+            const headerScoreMobile = document.getElementById('header-score-mobile');
+            const mobileScore = document.getElementById('mobile-score');
             
             scoreBig.innerText = formattedTotal;
             headerScore.innerText = formattedTotal;
+            if(headerScoreMobile) headerScoreMobile.innerText = formattedTotal;
+            if(mobileScore) mobileScore.innerText = formattedTotal;
             
             // Add animation
             scoreBig.classList.add('score-update');
@@ -1136,6 +1244,21 @@
             // Initial Calc
             calculateScore();
         });
+        
+        // Mobile Menu Toggle
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobileMenu');
+            const overlay = document.getElementById('menuOverlay');
+            menu.classList.toggle('active');
+            overlay.classList.toggle('active');
+            
+            // Prevent body scroll when menu is open
+            if(menu.classList.contains('active')) {
+                document.body.style.overflow = 'hidden';
+            } else {
+                document.body.style.overflow = '';
+            }
+        }
 
     </script>
 </body>
