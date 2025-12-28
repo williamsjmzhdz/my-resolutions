@@ -95,6 +95,41 @@
             from { opacity: 0; transform: translateY(-10px); }
             to { opacity: 1; transform: translateY(0); }
         }
+        
+        /* Mobile Optimizations */
+        @media (max-width: 640px) {
+            body {
+                font-size: 14px;
+            }
+            
+            /* Better touch targets */
+            input[type=range]::-webkit-slider-thumb {
+                height: 28px;
+                width: 28px;
+                margin-top: -11px;
+            }
+            
+            input[type=range]::-webkit-slider-runnable-track {
+                height: 8px;
+            }
+            
+            /* Larger buttons for mobile */
+            button {
+                min-height: 44px;
+                padding: 0.75rem 1rem;
+            }
+            
+            /* Card padding adjustments */
+            .mobile-compact {
+                padding: 1rem !important;
+            }
+            
+            /* Prevent horizontal scroll */
+            .container {
+                padding-left: 0.75rem;
+                padding-right: 0.75rem;
+            }
+        }
     </style>
 </head>
 <body class="pb-12">
@@ -133,25 +168,25 @@
     </nav>
 
     <!-- Main Content -->
-    <div class="container mx-auto px-4 mt-8 grid grid-cols-1 xl:grid-cols-12 gap-8">
+    <div class="container mx-auto px-3 sm:px-4 mt-4 sm:mt-8 grid grid-cols-1 xl:grid-cols-12 gap-4 sm:gap-8">
 
         <!-- LEFT COLUMN: Simulator & Inputs (Span 8) -->
-        <div class="xl:col-span-8 space-y-8">
+        <div class="xl:col-span-8 space-y-4 sm:space-y-8">
             
             <!-- Hero / Intro Card -->
-            <div class="bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50 rounded-xl shadow-lg p-6 border-2 border-indigo-100">
-                <div class="flex items-start gap-4">
-                    <div class="bg-gradient-to-br from-indigo-500 to-purple-600 text-white p-3 rounded-lg">
-                        <i class="fa-solid fa-star text-2xl"></i>
+            <div class="bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50 rounded-xl shadow-lg p-4 sm:p-6 border-2 border-indigo-100">
+                <div class="flex items-start gap-3 sm:gap-4">
+                    <div class="bg-gradient-to-br from-indigo-500 to-purple-600 text-white p-2 sm:p-3 rounded-lg flex-shrink-0">
+                        <i class="fa-solid fa-star text-xl sm:text-2xl"></i>
                     </div>
-                    <div class="flex-1">
-                        <h2 class="text-2xl font-bold text-slate-800 mb-2">✨ Mis Propósitos de Año Nuevo 2026</h2>
-                        <p class="text-slate-700 mb-3">
+                    <div class="flex-1 min-w-0">
+                        <h2 class="text-xl sm:text-2xl font-bold text-slate-800 mb-2">✨ Mis Propósitos de Año Nuevo 2026</h2>
+                        <p class="text-sm sm:text-base text-slate-700 mb-3">
                             Este es mi tablero personal para rastrear el crecimiento durante el año. Cada pequeño paso cuenta. 
                             ¡A seguir el progreso y celebrar cada logro!
                         </p>
-                        <div class="bg-white/70 backdrop-blur-sm rounded-lg p-3 border border-indigo-200">
-                            <p class="text-sm text-indigo-900 italic font-medium">
+                        <div class="bg-white/70 backdrop-blur-sm rounded-lg p-2 sm:p-3 border border-indigo-200">
+                            <p class="text-xs sm:text-sm text-indigo-900 italic font-medium">
                                 💪 "El éxito es la suma de pequeños esfuerzos repetidos día tras día."
                             </p>
                         </div>
@@ -161,25 +196,25 @@
 
             <!-- SECCIÓN ORO -->
             <div class="space-y-4">
-                <div class="flex items-center gap-3 mb-2 p-3 bg-gradient-to-r from-amber-50 to-yellow-50 rounded-lg border-l-4 border-amber-400">
-                    <span class="bg-gradient-to-br from-amber-400 to-yellow-500 text-white p-3 rounded-lg shadow-md">
-                        <i class="fa-solid fa-trophy text-xl"></i>
+                <div class="flex items-center gap-2 sm:gap-3 mb-2 p-2 sm:p-3 bg-gradient-to-r from-amber-50 to-yellow-50 rounded-lg border-l-4 border-amber-400">
+                    <span class="bg-gradient-to-br from-amber-400 to-yellow-500 text-white p-2 sm:p-3 rounded-lg shadow-md flex-shrink-0">
+                        <i class="fa-solid fa-trophy text-lg sm:text-xl"></i>
                     </span>
-                    <div>
-                        <h3 class="text-xl font-bold text-slate-800">🏆 Prioridades Oro</h3>
+                    <div class="min-w-0">
+                        <h3 class="text-lg sm:text-xl font-bold text-slate-800">🏆 Prioridades Oro</h3>
                         <p class="text-xs text-slate-600">Objetivos de alto impacto · 65 puntos</p>
                     </div>
                 </div>
 
                 <!-- Obj 1: English -->
-                <div class="bg-white rounded-xl shadow-sm p-6 card-gold relative">
-                    <div class="flex justify-between items-start mb-4">
-                        <h4 class="font-bold text-lg text-slate-900">1. Inglés Profesional (Cambridge)</h4>
-                        <span class="text-xs font-bold bg-slate-100 px-2 py-1 rounded text-slate-500">20 Pts Max</span>
+                <div class="bg-white rounded-xl shadow-sm p-4 sm:p-6 card-gold relative mobile-compact">
+                    <div class="flex justify-between items-start mb-3 sm:mb-4 gap-2">
+                        <h4 class="font-bold text-base sm:text-lg text-slate-900">1. Inglés Profesional (Cambridge)</h4>
+                        <span class="text-xs font-bold bg-slate-100 px-2 py-1 rounded text-slate-500 whitespace-nowrap">20 Pts Max</span>
                     </div>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
                         <!-- Left: Inputs -->
-                        <div class="space-y-4">
+                        <div class="space-y-3 sm:space-y-4">
                             <div>
                                 <div class="flex justify-between text-sm mb-1">
                                     <span class="font-bold text-slate-700">Plataforma GoFluent</span>
@@ -192,7 +227,7 @@
                                 </p>
                             </div>
                             
-                            <div class="p-3 rounded-lg bg-slate-50">
+                            <div class="p-2 sm:p-3 rounded-lg bg-slate-50">
                                 <p class="text-sm font-bold text-slate-700 mb-2">Certificación Oficial:</p>
                                 <div class="space-y-2">
                                     <label class="flex items-center gap-2 cursor-pointer">
@@ -211,7 +246,7 @@
                             </div>
                         </div>
                         <!-- Right: Context -->
-                        <div class="bg-amber-50 p-4 rounded-lg text-sm text-amber-900 flex flex-col justify-center">
+                        <div class="bg-amber-50 p-3 sm:p-4 rounded-lg text-xs sm:text-sm text-amber-900 flex flex-col justify-center">
                             <p class="italic mb-2">"El multiplicador de ingresos #1."</p>
                             <p>Romper la racha de 5 años es la prioridad absoluta. Este objetivo define tu capacidad de expansión global.</p>
                         </div>
@@ -482,21 +517,21 @@
         </div>
 
         <!-- RIGHT COLUMN: Analytics & Scoreboard (Span 4) -->
-        <div class="xl:col-span-4 space-y-8">
+        <div class="xl:col-span-4 space-y-4 sm:space-y-8">
             
             <!-- Scoreboard -->
-            <div class="bg-gradient-to-br from-slate-800 via-slate-900 to-slate-800 text-white rounded-xl shadow-2xl p-6 border border-slate-700">
-                <div class="flex items-center gap-2 mb-3">
-                    <i class="fa-solid fa-chart-line text-emerald-400"></i>
-                    <h3 class="text-sm uppercase tracking-widest text-slate-300 font-semibold">Mi Progreso 2026</h3>
+            <div class="bg-gradient-to-br from-slate-800 via-slate-900 to-slate-800 text-white rounded-xl shadow-2xl p-4 sm:p-6 border border-slate-700">
+                <div class="flex items-center gap-2 mb-2 sm:mb-3">
+                    <i class="fa-solid fa-chart-line text-emerald-400 text-sm sm:text-base"></i>
+                    <h3 class="text-xs sm:text-sm uppercase tracking-widest text-slate-300 font-semibold">Mi Progreso 2026</h3>
                 </div>
-                <div class="flex items-end gap-2 mb-4">
-                    <span id="score-big" class="text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-400">0</span>
-                    <span class="text-2xl text-slate-400 mb-2 font-semibold">/ 100</span>
+                <div class="flex items-end gap-2 mb-3 sm:mb-4">
+                    <span id="score-big" class="text-5xl sm:text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-400">0</span>
+                    <span class="text-xl sm:text-2xl text-slate-400 mb-1 sm:mb-2 font-semibold">/ 100</span>
                 </div>
                 
                 <!-- Grade Badge -->
-                <div id="grade-badge" class="bg-rose-600 text-white text-center py-3 rounded-lg font-bold text-lg mb-6 shadow-lg">
+                <div id="grade-badge" class="bg-rose-600 text-white text-center py-2 sm:py-3 rounded-lg font-bold text-base sm:text-lg mb-4 sm:mb-6 shadow-lg">
                     🔴 COMENZANDO
                 </div>
 
@@ -528,14 +563,14 @@
             </div>
 
             <!-- Evaluation Matrix Reference -->
-            <div class="bg-white rounded-xl shadow-sm p-4 border border-slate-200">
-                <h4 class="font-bold text-slate-800 mb-3 text-sm uppercase">Matriz de Rangos</h4>
-                <ul class="text-xs space-y-2">
-                    <li class="flex justify-between p-1 rounded bg-emerald-50 text-emerald-800 font-bold"><span>90 - 100+</span> <span>SOBRESALIENTE</span></li>
-                    <li class="flex justify-between p-1 rounded bg-blue-50 text-blue-800 font-bold"><span>75 - 89</span> <span>SATISFACTORIO</span></li>
-                    <li class="flex justify-between p-1 rounded bg-yellow-50 text-yellow-800"><span>60 - 74</span> <span>REGULAR</span></li>
-                    <li class="flex justify-between p-1 rounded bg-orange-50 text-orange-800"><span>40 - 59</span> <span>INSUFICIENTE</span></li>
-                    <li class="flex justify-between p-1 rounded bg-rose-50 text-rose-800"><span>0 - 39</span> <span>DEFICIENTE</span></li>
+            <div class="bg-white rounded-xl shadow-sm p-3 sm:p-4 border border-slate-200">
+                <h4 class="font-bold text-slate-800 mb-2 sm:mb-3 text-xs sm:text-sm uppercase">Matriz de Rangos</h4>
+                <ul class="text-xs space-y-1 sm:space-y-2">
+                    <li class="flex justify-between p-1 sm:p-1.5 rounded bg-emerald-50 text-emerald-800 font-bold text-xs"><span>90 - 100+</span> <span>SOBRESALIENTE</span></li>
+                    <li class="flex justify-between p-1 sm:p-1.5 rounded bg-blue-50 text-blue-800 font-bold text-xs"><span>75 - 89</span> <span>SATISFACTORIO</span></li>
+                    <li class="flex justify-between p-1 sm:p-1.5 rounded bg-yellow-50 text-yellow-800 text-xs"><span>60 - 74</span> <span>REGULAR</span></li>
+                    <li class="flex justify-between p-1 sm:p-1.5 rounded bg-orange-50 text-orange-800 text-xs"><span>40 - 59</span> <span>INSUFICIENTE</span></li>
+                    <li class="flex justify-between p-1 sm:p-1.5 rounded bg-rose-50 text-rose-800 text-xs"><span>0 - 39</span> <span>DEFICIENTE</span></li>
                 </ul>
             </div>
 
