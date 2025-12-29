@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Dashboard de propósitos 2026 - Rastrea tu progreso en inglés, finanzas, salud y metas personales.">
+    <meta name="author" content="Williams">
+    <meta name="theme-color" content="#1e293b">
+    
+    <title>Mis Propósitos 2026 | Williams</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎯</text></svg>">
+    
+    <!-- Preconnect for performance -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdn.tailwindcss.com">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Custom Styles -->
+    <link rel="stylesheet" href="../src/css/main.css">
+    <link rel="stylesheet" href="../src/css/dashboard.css">
+</head>
+<body class="page-dashboard pb-12">
+
+    <!-- Skip to main content for accessibility -->
+    <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 bg-white px-4 py-2 rounded-lg shadow-lg z-[60]">
+        Saltar al contenido principal
+    </a>
+
+    <!-- ====================================================================
+         MOBILE MENU OVERLAY
+         ==================================================================== -->
+    <div class="menu-overlay" id="menuOverlay" aria-hidden="true"></div>
+    
+    <!-- ====================================================================
+         MOBILE MENU SIDEBAR
+         ==================================================================== -->
+    <nav class="mobile-menu" id="mobileMenu" aria-label="Menú móvil">
+        <div class="mobile-menu__content">
+            <header class="mobile-menu__header">
+                <h3 class="mobile-menu__title">Menú</h3>
+                <button 
+                    onclick="toggleMobileMenu()" 
+                    class="mobile-menu__close"
+                    aria-label="Cerrar menú">
+                    <i class="fa-solid fa-times" aria-hidden="true"></i>
+                </button>
+            </header>
+            
+            <!-- Score Display -->
+            <div class="mobile-menu__score">
+                <p class="mobile-menu__score-label">Puntuación Actual</p>
+                <p class="mobile-menu__score-value">
+                    <span id="mobile-score">0</span>
+                    <span class="text-lg text-slate-400">/ 100+</span>
+                </p>
+            </div>
+            
+            <!-- Menu Actions -->
+            <div class="mobile-menu__actions">
+                <button onclick="exportProgress(); toggleMobileMenu();" class="mobile-menu__btn">
+                    <i class="fa-solid fa-download text-lg" aria-hidden="true"></i>
+                    <span>Exportar Progreso</span>
+                </button>
+                
+                <button onclick="document.getElementById('import-file').click(); toggleMobileMenu();" class="mobile-menu__btn">
+                    <i class="fa-solid fa-upload text-lg" aria-hidden="true"></i>
+                    <span>Importar Progreso</span>
+                </button>
+                
+                <button onclick="resetProgress(); toggleMobileMenu();" class="mobile-menu__btn mobile-menu__btn--danger">
+                    <i class="fa-solid fa-rotate-left text-lg" aria-hidden="true"></i>
+                    <span>Reiniciar Todo</span>
+                </button>
+                
+                <a href="index.html" class="mobile-menu__btn mobile-menu__btn--primary">
+                    <i class="fa-solid fa-home text-lg" aria-hidden="true"></i>
+                    <span>Volver al Inicio</span>
+                </a>
+            </div>
+            
+            <!-- Footer Info -->
+            <footer class="mobile-menu__footer">
+                <p class="mobile-menu__footer-text">
+                    💡 Sistema de Propósitos 2026<br>
+                    Versión 2.0
+                </p>
+            </footer>
+        </div>
+    </nav>
+
+    <!-- ====================================================================
+         NAVIGATION HEADER
+         ==================================================================== -->
+    <header class="nav-main">
+        <div class="container mx-auto nav-main__container">
+            <!-- Branding -->
+            <div class="nav-main__brand">
+                <i class="fa-solid fa-rocket nav-main__icon" aria-hidden="true"></i>
+                <h1 class="nav-main__title">MIS PROPÓSITOS 2026</h1>
+            </div>
+            
+            <!-- Mobile: Score + Hamburger -->
+            <div class="nav-mobile">
+                <span class="nav-mobile__score" id="header-score-mobile">0</span>
+                <button 
+                    onclick="toggleMobileMenu()" 
+                    class="nav-mobile__toggle"
+                    aria-label="Abrir menú"
+                    aria-expanded="false">
+                    <i class="fa-solid fa-bars" aria-hidden="true"></i>
+                </button>
+            </div>
+            
+            <!-- Desktop: Full Actions -->
+            <div class="nav-main__actions">
+                <button onclick="exportProgress()" class="nav-btn" title="Exportar progreso">
+                    <i class="fa-solid fa-download" aria-hidden="true"></i>
+                    <span class="ml-1">Exportar</span>
+                </button>
+                <button onclick="document.getElementById('import-file').click()" class="nav-btn" title="Importar progreso">
+                    <i class="fa-solid fa-upload" aria-hidden="true"></i>
+                    <span class="ml-1">Importar</span>
+                </button>
+                <button onclick="resetProgress()" class="nav-btn nav-btn--danger" title="Reiniciar progreso">
+                    <i class="fa-solid fa-rotate-left" aria-hidden="true"></i>
+                    <span class="ml-1">Reiniciar</span>
+                </button>
+                
+                <!-- Hidden file input -->
+                <input type="file" id="import-file" accept=".json" class="hidden" aria-label="Seleccionar archivo para importar">
+                
+                <!-- Score Display -->
+                <div class="nav-main__score">
+                    <p class="nav-main__score-label">Puntuación</p>
+                    <p class="nav-main__score-value">
+                        <span id="header-score">0</span> / 100+
+                    </p>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- ====================================================================
+         MAIN CONTENT
+         ==================================================================== -->
+    <main id="main-content" class="container mx-auto px-3 sm:px-4 mt-4 sm:mt-8">
+        <div class="dashboard-grid">
+
+            <!-- ============================================================
+                 LEFT COLUMN: Goals & Inputs
+                 ============================================================ -->
+            <div class="space-y-4 sm:space-y-8">
+                
+                <!-- HERO INTRO CARD -->
+                <section class="hero-card" aria-labelledby="hero-title">
+                    <div class="hero-card__content">
+                        <div class="hero-card__icon">
+                            <i class="fa-solid fa-star" aria-hidden="true"></i>
+                        </div>
+                        <div class="hero-card__text">
+                            <h2 id="hero-title" class="hero-card__title">✨ Mis Propósitos de Año Nuevo 2026</h2>
+                            <p class="hero-card__description">
+                                Este es mi tablero personal para rastrear el crecimiento durante el año. 
+                                Cada pequeño paso cuenta. ¡A seguir el progreso y celebrar cada logro!
+                            </p>
+                            <blockquote class="hero-card__quote">
+                                💪 "El éxito es la suma de pequeños esfuerzos repetidos día tras día."
+                            </blockquote>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ========================================================
+                     GOLD SECTION
+                     ======================================================== -->
+                <section aria-labelledby="gold-section-title" class="space-y-4">
+                    <header class="section-header section-header--gold">
+                        <span class="section-header__icon section-header__icon--gold">
+                            <i class="fa-solid fa-trophy text-xl" aria-hidden="true"></i>
+                        </span>
+                        <div>
+                            <h3 id="gold-section-title" class="section-header__title">🏆 Prioridades Oro</h3>
+                            <p class="section-header__subtitle">Objetivos de alto impacto · 65 puntos</p>
+                        </div>
+                    </header>
+
+                    <!-- Objective 1: English -->
+                    <article class="goal-card goal-card--gold" aria-labelledby="obj1-title">
+                        <header class="goal-card__header">
+                            <h4 id="obj1-title" class="goal-card__title">1. Inglés Profesional (Cambridge)</h4>
+                            <span class="goal-card__points">20 Pts Max</span>
+                        </header>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
+                            <!-- Inputs -->
+                            <div class="space-y-3 sm:space-y-4">
+                                <div>
+                                    <div class="input-row">
+                                        <span class="input-row__label">Plataforma GoFluent</span>
+                                        <span class="input-row__value" id="val-gofluent-pts">0 pts</span>
+                                    </div>
+                                    <input type="range" id="rng-gofluent" min="0" max="50" step="1" value="0" 
+                                           aria-label="Horas en GoFluent">
+                                    <p class="input-hint">
+                                        <span id="val-gofluent-curr">0</span> / 50 horas 
+                                        <span class="text-slate-500">(≈3 niveles)</span>
+                                    </p>
+                                </div>
+                                
+                                <div class="radio-panel">
+                                    <p class="radio-panel__title">Certificación Oficial:</p>
+                                    <div class="radio-panel__options">
+                                        <label class="radio-option">
+                                            <input type="radio" name="english-cert" value="15" class="accent-amber-500">
+                                            <span class="radio-option__text">
+                                                Éxito (Certificado B2/C1)
+                                                <span class="radio-option__points">+15</span>
+                                            </span>
+                                        </label>
+                                        <label class="radio-option">
+                                            <input type="radio" name="english-cert" value="5" class="accent-amber-500">
+                                            <span class="radio-option__text">
+                                                Intento Serio (Presentar examen)
+                                                <span class="radio-option__points">+5</span>
+                                            </span>
+                                        </label>
+                                        <label class="radio-option">
+                                            <input type="radio" name="english-cert" value="0" class="accent-slate-500" checked>
+                                            <span class="radio-option__text radio-option__text--muted">Sin acción</span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Context -->
+                            <div class="bg-amber-50 p-3 sm:p-4 rounded-lg text-xs sm:text-sm text-amber-900 flex flex-col justify-center">
+                                <p class="italic mb-2">"El multiplicador de ingresos #1."</p>
+                                <p>Romper la racha de 5 años es la prioridad absoluta. Este objetivo define tu capacidad de expansión global.</p>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- Objective 2: Technical -->
+                    <article class="goal-card goal-card--gold" aria-labelledby="obj2-title">
+                        <header class="goal-card__header">
+                            <h4 id="obj2-title" class="goal-card__title">2. Especialización Técnica (Spark)</h4>
+                            <span class="goal-card__points">10 Pts Max</span>
+                        </header>
+                        <div class="radio-panel">
+                            <p class="radio-panel__title">Certificación Databricks (Udemy + Material):</p>
+                            <div class="radio-panel__options radio-panel__options--horizontal">
+                                <label class="radio-option">
+                                    <input type="radio" name="spark-cert" value="10" class="accent-amber-500">
+                                    <span class="radio-option__text">Aprobar (+10)</span>
+                                </label>
+                                <label class="radio-option">
+                                    <input type="radio" name="spark-cert" value="4" class="accent-amber-500">
+                                    <span class="radio-option__text">Curso + Presentar (+4)</span>
+                                </label>
+                                <label class="radio-option">
+                                    <input type="radio" name="spark-cert" value="0" class="accent-slate-500" checked>
+                                    <span class="radio-option__text radio-option__text--muted">Nada</span>
+                                </label>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- Objective 3: Finance -->
+                    <article class="goal-card goal-card--gold" aria-labelledby="obj3-title">
+                        <header class="goal-card__header">
+                            <h4 id="obj3-title" class="goal-card__title">3. Patrimonio e Inversión</h4>
+                            <span class="goal-card__points">15 Pts Max</span>
+                        </header>
+                        <div class="space-y-4">
+                            <div>
+                                <div class="input-row">
+                                    <span class="input-row__label">Saldo en Inversión (Base + Ahorro)</span>
+                                    <span class="input-row__value" id="val-finance-pts">0 pts</span>
+                                </div>
+                                <input type="range" id="rng-finance" min="80000" max="170000" step="1000" value="80873"
+                                       aria-label="Saldo en inversión">
+                                <p class="input-hint">
+                                    Saldo Actual: <span id="val-finance-curr" class="font-mono text-slate-800 font-bold">$80,873</span>
+                                </p>
+                            </div>
+                            <div>
+                                <div class="input-row">
+                                    <span class="input-row__label">Disciplina del 36%</span>
+                                    <span class="input-row__value" id="val-savings-habit-pts">0 pts</span>
+                                </div>
+                                <input type="range" id="rng-savings-habit" min="0" max="12" step="1" value="0"
+                                       aria-label="Meses con ahorro del 36%">
+                                <p class="input-hint">
+                                    <span id="val-savings-habit-curr">0</span> / 12 meses con ahorro del 36%
+                                </p>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- Objective 4: Health -->
+                    <article class="goal-card goal-card--gold" aria-labelledby="obj4-title">
+                        <header class="goal-card__header">
+                            <h4 id="obj4-title" class="goal-card__title">4. Salud Física</h4>
+                            <span class="goal-card__points">10 Pts Max</span>
+                        </header>
+                        <div class="space-y-4">
+                            <div>
+                                <div class="input-row">
+                                    <span class="input-row__label">Visitas al Gym (Acumulado Anual)</span>
+                                    <span class="input-row__value" id="val-gym-pts">0 pts</span>
+                                </div>
+                                <input type="range" id="rng-gym" min="0" max="100" step="1" value="0"
+                                       aria-label="Visitas al gimnasio">
+                                <p class="input-hint"><span id="val-gym-curr">0</span> / 100 Visitas</p>
+                            </div>
+                            <div>
+                                <div class="input-row">
+                                    <span class="input-row__label">Control Nutricional (Deliveries)</span>
+                                    <span class="input-row__value" id="val-delivery-pts">5 pts</span>
+                                </div>
+                                <input type="range" id="rng-delivery" min="0" max="52" step="1" value="0"
+                                       aria-label="Número de deliveries">
+                                <p class="input-hint">
+                                    <span id="val-delivery-curr">0</span> / 24 Deliveries al año 
+                                    <span id="val-delivery-status" class="font-semibold text-emerald-600">✓ En meta</span>
+                                </p>
+                            </div>
+                        </div>
+                    </article>
+                </section>
+
+                <!-- ========================================================
+                     SILVER SECTION
+                     ======================================================== -->
+                <section aria-labelledby="silver-section-title" class="space-y-4">
+                    <header class="section-header section-header--silver pt-6">
+                        <span class="section-header__icon section-header__icon--silver">
+                            <i class="fa-solid fa-medal text-xl" aria-hidden="true"></i>
+                        </span>
+                        <div>
+                            <h3 id="silver-section-title" class="section-header__title">🥈 Objetivos Plata</h3>
+                            <p class="section-header__subtitle">Hábitos consistentes · 25 puntos</p>
+                        </div>
+                    </header>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <!-- Objective 5: Work -->
+                        <article class="goal-card goal-card--compact goal-card--silver" aria-labelledby="obj5-title">
+                            <h5 id="obj5-title" class="font-bold text-sm text-slate-700 mb-2">5. Cumplimiento Laboral (8pts)</h5>
+                            <div class="flex items-center justify-between mt-3">
+                                <label class="flex items-center gap-2 cursor-pointer">
+                                    <input type="checkbox" id="chk-work" class="w-5 h-5 cursor-pointer">
+                                    <span class="text-sm text-slate-600">Requisitos cumplidos</span>
+                                </label>
+                                <span id="val-work-pts" class="font-bold text-blue-600 text-sm">0 pts</span>
+                            </div>
+                        </article>
+
+                        <!-- Objective 6: Family -->
+                        <article class="goal-card goal-card--compact goal-card--silver" aria-labelledby="obj6-title">
+                            <h5 id="obj6-title" class="font-bold text-sm text-slate-700 mb-3">6. Responsabilidad Familiar (6pts)</h5>
+                            <div class="space-y-3">
+                                <div>
+                                    <div class="flex justify-between text-xs mb-1">
+                                        <span class="text-slate-600">Transferencias Puntuales</span>
+                                        <span class="font-bold text-blue-600" id="val-transfers-pts">0 pts</span>
+                                    </div>
+                                    <input type="range" id="rng-transfers" min="0" max="12" step="1" value="0"
+                                           aria-label="Meses con transferencias puntuales">
+                                    <p class="input-hint"><span id="val-transfers-curr">0</span> / 12 meses</p>
+                                </div>
+                                <div>
+                                    <div class="flex justify-between text-xs mb-1">
+                                        <span class="text-slate-600">Convivencia Mensual</span>
+                                        <span class="font-bold text-blue-600" id="val-family-pts">0 pts</span>
+                                    </div>
+                                    <input type="range" id="rng-family" min="0" max="12" step="1" value="0"
+                                           aria-label="Meses con convivencia familiar">
+                                    <p class="input-hint"><span id="val-family-curr">0</span> / 12 meses</p>
+                                </div>
+                            </div>
+                        </article>
+
+                        <!-- Objective 7: Image -->
+                        <article class="goal-card goal-card--compact goal-card--silver" aria-labelledby="obj7-title">
+                            <h5 id="obj7-title" class="font-bold text-sm text-slate-700 mb-2">7. Imagen Personal (6pts)</h5>
+                            <div class="space-y-2">
+                                <p class="text-xs text-slate-400 mb-1">Adquisición de conjuntos (Smart Casual)</p>
+                                <div class="flex justify-between items-center text-xs">
+                                    <button onclick="updateCounter('img', -1)" class="counter-btn" aria-label="Disminuir conjuntos">-</button>
+                                    <span id="count-img" class="font-bold text-lg">0</span>
+                                    <button onclick="updateCounter('img', 1)" class="counter-btn" aria-label="Aumentar conjuntos">+</button>
+                                </div>
+                                <p class="text-right text-xs font-bold text-blue-600" id="val-img-pts">0 pts</p>
+                            </div>
+                        </article>
+
+                        <!-- Objective 8: Space -->
+                        <article class="goal-card goal-card--compact goal-card--silver" aria-labelledby="obj8-title">
+                            <h5 id="obj8-title" class="font-bold text-sm text-slate-700 mb-3">8. Mejora Espacio (5pts)</h5>
+                            <div class="space-y-3">
+                                <div>
+                                    <div class="flex justify-between text-xs mb-1">
+                                        <span class="text-slate-600">Ahorro Mensual</span>
+                                        <span class="font-bold text-blue-600" id="val-space-savings-pts">0 pts</span>
+                                    </div>
+                                    <input type="range" id="rng-space-savings" min="0" max="12" step="1" value="0"
+                                           aria-label="Meses con ahorro para espacio">
+                                    <p class="input-hint"><span id="val-space-savings-curr">0</span> / 12 meses</p>
+                                </div>
+                                <div>
+                                    <div class="flex justify-between text-xs mb-1">
+                                        <span class="text-slate-600">Muebles Comprados</span>
+                                        <span class="font-bold text-blue-600" id="val-furniture-pts">0 pts</span>
+                                    </div>
+                                    <input type="range" id="rng-furniture" min="0" max="3" step="1" value="0"
+                                           aria-label="Muebles comprados">
+                                    <p class="input-hint"><span id="val-furniture-curr">0</span> muebles (1°=3pts, +1pt c/u)</p>
+                                </div>
+                            </div>
+                        </article>
+                    </div>
+                </section>
+
+                <!-- ========================================================
+                     BRONZE & EXTRAS SECTION
+                     ======================================================== -->
+                <section aria-labelledby="bronze-section-title" class="space-y-4">
+                    <header class="section-header section-header--bronze pt-6">
+                        <span class="section-header__icon section-header__icon--bronze">
+                            <i class="fa-solid fa-gamepad text-xl" aria-hidden="true"></i>
+                        </span>
+                        <div>
+                            <h3 id="bronze-section-title" class="section-header__title">🥉 Vida & Balance</h3>
+                            <p class="section-header__subtitle">Entretenimiento y extras · 10+ puntos</p>
+                        </div>
+                    </header>
+
+                    <article class="goal-card goal-card--bronze">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-4">
+                            <!-- Gaming -->
+                            <div class="flex justify-between items-center border-b border-slate-100 pb-2">
+                                <span class="text-sm text-slate-700">Videojuegos AAA (2 base)</span>
+                                <div class="flex items-center gap-2">
+                                    <span class="text-xs text-slate-400">Completados:</span>
+                                    <input type="number" id="inp-games" value="0" min="0" max="10" 
+                                           class="w-12 text-center border rounded"
+                                           aria-label="Videojuegos completados">
+                                </div>
+                            </div>
+                            
+                            <!-- Anime & Manga Section -->
+                            <div class="border-b border-slate-100 pb-2">
+                                <div class="text-sm text-slate-700 font-bold mb-2">Anime & Manga (3pts base)</div>
+                                <div class="space-y-2 text-xs">
+                                    <div class="flex justify-between items-center">
+                                        <label class="flex items-center gap-1 cursor-pointer">
+                                            <input type="checkbox" id="chk-frieren" class="cursor-pointer">
+                                            <span class="text-slate-600">Frieren (Vol 7+)</span>
+                                        </label>
+                                        <span class="text-slate-500">1pt</span>
+                                    </div>
+                                    <div class="flex justify-between items-center">
+                                        <label class="flex items-center gap-1 cursor-pointer">
+                                            <input type="checkbox" id="chk-berserk" class="cursor-pointer">
+                                            <span class="text-slate-600">Berserk (5 vols)</span>
+                                        </label>
+                                        <span class="text-slate-500">1pt</span>
+                                    </div>
+                                    <div class="flex justify-between items-center">
+                                        <label class="flex items-center gap-1 cursor-pointer">
+                                            <input type="checkbox" id="chk-anime" class="cursor-pointer">
+                                            <span class="text-slate-600">Anime series (4)</span>
+                                        </label>
+                                        <span class="text-slate-500">1pt</span>
+                                    </div>
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-slate-600">Anime extra:</span>
+                                        <input type="number" id="inp-anime-extra" value="0" min="0" max="20" 
+                                               class="w-10 text-center border rounded"
+                                               aria-label="Anime extra visto">
+                                    </div>
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-slate-600">Manga extra (vols):</span>
+                                        <input type="number" id="inp-manga-extra" value="0" min="0" max="50" 
+                                               class="w-10 text-center border rounded"
+                                               aria-label="Volúmenes de manga extra">
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Cinema -->
+                            <div class="flex justify-between items-center border-b border-slate-100 pb-2">
+                                <span class="text-sm text-slate-700">Cine (6 visitas base)</span>
+                                <div class="flex items-center gap-2">
+                                    <span class="text-xs text-slate-400">Visitas:</span>
+                                    <input type="number" id="inp-cinema" value="0" min="0" max="30" 
+                                           class="w-12 text-center border rounded"
+                                           aria-label="Visitas al cine">
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Extras Section -->
+                        <div class="mt-4 pt-4 border-t border-slate-200 space-y-3">
+                            <!-- LoL Ranking -->
+                            <div>
+                                <div class="input-row">
+                                    <span class="input-row__label text-slate-700">LoL: Ranking (Base: Esmeralda IV)</span>
+                                    <span class="input-row__value" id="val-lol-pts">0 pts</span>
+                                </div>
+                                <input type="range" id="rng-lol" min="0" max="8" step="1" value="0"
+                                       aria-label="Rango en League of Legends">
+                                <p class="input-hint">
+                                    <span id="val-lol-rank">Sin clasificar</span> 
+                                    <span class="text-slate-500">(2pts base + 1pt/división extra)</span>
+                                </p>
+                            </div>
+                            
+                            <!-- Book Extra -->
+                            <div class="mt-3">
+                                <div class="flex justify-between items-center text-sm mb-2">
+                                    <label class="flex items-center gap-2 cursor-pointer">
+                                        <input type="checkbox" id="chk-book" class="w-4 h-4 cursor-pointer">
+                                        <span class="text-indigo-700 font-bold">Extra: Libro "Fundamentals of DE"</span>
+                                    </label>
+                                    <span class="font-bold text-indigo-600" id="val-book-pts">0 pts</span>
+                                </div>
+                                <p class="text-xs text-slate-400 ml-6">+3 pts al estudiar/leer el libro</p>
+                            </div>
+                            
+                            <!-- AWS Study -->
+                            <div class="mt-3">
+                                <div class="input-row">
+                                    <span class="text-indigo-700 font-bold text-sm">Extra: AWS - Estudio</span>
+                                    <span class="font-bold text-indigo-600 text-sm" id="val-aws-study-pts">0 pts</span>
+                                </div>
+                                <input type="range" id="rng-aws-study" min="0" max="100" step="10" value="0"
+                                       aria-label="Progreso de estudio AWS">
+                                <p class="input-hint">
+                                    <span id="val-aws-study-curr">0</span>% completado
+                                </p>
+                            </div>
+                            
+                            <!-- AWS Certification -->
+                            <div class="p-3 rounded-lg bg-indigo-50">
+                                <p class="text-sm font-bold text-indigo-700 mb-2">Certificación AWS (Hands On! + Material):</p>
+                                <div class="flex flex-wrap gap-4">
+                                    <label class="radio-option">
+                                        <input type="radio" name="aws-cert" value="10" class="accent-indigo-500">
+                                        <span class="text-sm text-indigo-700">Aprobar (+10)</span>
+                                    </label>
+                                    <label class="radio-option">
+                                        <input type="radio" name="aws-cert" value="4" class="accent-indigo-500">
+                                        <span class="text-sm text-indigo-700">Curso + Presentar (+4)</span>
+                                    </label>
+                                    <label class="radio-option">
+                                        <input type="radio" name="aws-cert" value="0" class="accent-slate-500" checked>
+                                        <span class="text-sm text-slate-400">Nada</span>
+                                    </label>
+                                </div>
+                            </div>
+                            
+                            <!-- Extra Savings -->
+                            <div class="flex items-center gap-2 mt-2 flex-wrap">
+                                <span class="text-sm text-emerald-700 font-bold">Ahorro Extra Discrecional (+$2k = +1pt):</span>
+                                <input type="number" id="inp-savings-extra" value="0" min="0" max="100000" step="1000" 
+                                       class="w-20 text-center border rounded" placeholder="$"
+                                       aria-label="Ahorro extra en pesos">
+                            </div>
+                        </div>
+                    </article>
+                </section>
+
+            </div>
+
+            <!-- ============================================================
+                 RIGHT COLUMN: Scoreboard & Analytics
+                 ============================================================ -->
+            <aside class="space-y-4 sm:space-y-8">
+                
+                <!-- Scoreboard -->
+                <section class="scoreboard" aria-labelledby="scoreboard-title">
+                    <header class="scoreboard__header">
+                        <i class="fa-solid fa-chart-line scoreboard__header-icon" aria-hidden="true"></i>
+                        <span id="scoreboard-title" class="scoreboard__header-text">Mi Progreso 2026</span>
+                    </header>
+                    
+                    <div class="scoreboard__score">
+                        <span id="score-big" class="scoreboard__score-main">0</span>
+                        <span class="scoreboard__score-max">/ 100</span>
+                    </div>
+                    
+                    <!-- Grade Badge -->
+                    <div id="grade-badge" class="grade-badge grade-badge--starting" role="status" aria-live="polite">
+                        🔴 COMENZANDO
+                    </div>
+
+                    <!-- Reward Text -->
+                    <div class="motivation-panel">
+                        <div class="motivation-panel__header">
+                            <i class="fa-solid fa-gift motivation-panel__icon" aria-hidden="true"></i>
+                            <span class="motivation-panel__label">Motivación:</span>
+                        </div>
+                        <p id="reward-text" class="motivation-panel__text">¡Momento de registrar el progreso!</p>
+                    </div>
+
+                    <!-- Score Breakdown -->
+                    <div class="score-breakdown">
+                        <div class="score-breakdown__item">
+                            <span class="score-breakdown__label">Oro:</span>
+                            <span id="pts-oro" class="score-breakdown__value score-breakdown__value--gold">0</span>
+                        </div>
+                        <div class="score-breakdown__item">
+                            <span class="score-breakdown__label">Plata:</span>
+                            <span id="pts-plata" class="score-breakdown__value score-breakdown__value--silver">0</span>
+                        </div>
+                        <div class="score-breakdown__item">
+                            <span class="score-breakdown__label">Bronce:</span>
+                            <span id="pts-bronze" class="score-breakdown__value score-breakdown__value--bronze">0</span>
+                        </div>
+                        <div class="score-breakdown__item">
+                            <span class="score-breakdown__label">Extras:</span>
+                            <span id="pts-extra" class="score-breakdown__value score-breakdown__value--extra">0</span>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Financial Chart -->
+                <section class="chart-card" aria-labelledby="finance-chart-title">
+                    <h4 id="finance-chart-title" class="chart-card__title">Ruta Financiera ($180k)</h4>
+                    <div class="chart-container">
+                        <canvas id="financeChart" aria-label="Gráfica de progreso financiero"></canvas>
+                    </div>
+                    <p class="chart-card__footer">Progreso basado en saldo actual</p>
+                </section>
+
+                <!-- Evaluation Matrix -->
+                <section class="matrix-card" aria-labelledby="matrix-title">
+                    <h4 id="matrix-title" class="matrix-card__title">Matriz de Rangos</h4>
+                    <ul class="matrix-list">
+                        <li class="matrix-item matrix-item--excellent">
+                            <span>90 - 100+</span>
+                            <span>SOBRESALIENTE</span>
+                        </li>
+                        <li class="matrix-item matrix-item--satisfactory">
+                            <span>75 - 89</span>
+                            <span>SATISFACTORIO</span>
+                        </li>
+                        <li class="matrix-item matrix-item--regular">
+                            <span>60 - 74</span>
+                            <span>REGULAR</span>
+                        </li>
+                        <li class="matrix-item matrix-item--improvable">
+                            <span>40 - 59</span>
+                            <span>INSUFICIENTE</span>
+                        </li>
+                        <li class="matrix-item matrix-item--deficient">
+                            <span>0 - 39</span>
+                            <span>DEFICIENTE</span>
+                        </li>
+                    </ul>
+                </section>
+
+            </aside>
+        </div>
+    </main>
+
+    <!-- ====================================================================
+         SCRIPTS
+         ==================================================================== -->
+    <script src="../src/js/app.js"></script>
+    <script src="../src/js/dashboard.js"></script>
+
+</body>
+</html>

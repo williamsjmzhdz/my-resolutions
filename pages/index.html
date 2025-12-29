@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Sistema personal de seguimiento de propósitos de año nuevo. Rastrea metas, hábitos y crecimiento personal.">
+    <meta name="author" content="Williams">
+    <meta name="theme-color" content="#667eea">
+    
+    <title>Mis Propósitos | Williams</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🚀</text></svg>">
+    
+    <!-- Preconnect for performance -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdn.tailwindcss.com">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+    <!-- Custom Styles -->
+    <link rel="stylesheet" href="../src/css/main.css">
+    <link rel="stylesheet" href="../src/css/index.css">
+</head>
+<body class="page-index py-8 sm:py-12 px-4">
+
+    <!-- Skip to main content for accessibility -->
+    <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 bg-white px-4 py-2 rounded-lg shadow-lg z-50">
+        Saltar al contenido principal
+    </a>
+
+    <div class="container mx-auto max-w-6xl" id="main-content">
+        
+        <!-- ================================================================
+             HEADER SECTION
+             ================================================================ -->
+        <header class="text-center mb-10 sm:mb-12 animate-fade-in">
+            <!-- Tag Badge -->
+            <div class="inline-block bg-white/10 backdrop-blur-md rounded-full px-4 sm:px-6 py-2 mb-4 border border-white/20">
+                <span class="text-white text-sm font-semibold">
+                    <i class="fa-solid fa-rocket mr-2" aria-hidden="true"></i>
+                    Transformación Continua
+                </span>
+            </div>
+            
+            <!-- Main Title -->
+            <h1 class="text-4xl sm:text-5xl md:text-6xl font-black text-white mb-4 leading-tight">
+                Mis Propósitos de <br class="sm:hidden">Año Nuevo
+            </h1>
+            
+            <!-- Subtitle -->
+            <p class="text-lg sm:text-xl text-white/90 max-w-2xl mx-auto leading-relaxed">
+                Seguimiento de metas, hábitos y crecimiento personal año tras año.
+            </p>
+        </header>
+
+        <!-- ================================================================
+             YEARS GRID
+             ================================================================ -->
+        <main>
+            <section aria-label="Años disponibles" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-10 sm:mb-12">
+                
+                <!-- 2026 Card (Active) -->
+                <article class="year-card year-card--active group animate-fade-in-up" style="animation-delay: 0.1s">
+                    <a href="2026.html" class="block year-card__content" aria-label="Ver propósitos del año 2026">
+                        <header class="year-card__header">
+                            <h2 class="year-card__year">2026</h2>
+                            <span class="badge badge--active">
+                                <i class="fa-solid fa-check mr-1" aria-hidden="true"></i>
+                                Activo
+                            </span>
+                        </header>
+                        
+                        <p class="year-card__description">
+                            Año de transformación personal. Enfoque en inglés, finanzas, salud y especialización técnica.
+                        </p>
+                        
+                        <div class="year-card__stats">
+                            <span>
+                                <i class="fa-solid fa-trophy text-amber-500" aria-hidden="true"></i>
+                                4 Oro
+                            </span>
+                            <span>
+                                <i class="fa-solid fa-medal text-slate-400" aria-hidden="true"></i>
+                                4 Plata
+                            </span>
+                            <span>
+                                <i class="fa-solid fa-star text-orange-500" aria-hidden="true"></i>
+                                Extras
+                            </span>
+                        </div>
+                        
+                        <footer class="year-card__footer">
+                            <span class="year-card__link">
+                                Ver Dashboard
+                                <i class="fa-solid fa-arrow-right year-card__link-icon" aria-hidden="true"></i>
+                            </span>
+                        </footer>
+                    </a>
+                </article>
+
+                <!-- 2027 Card (Upcoming) -->
+                <article class="year-card year-card--upcoming animate-fade-in-up" style="animation-delay: 0.2s" aria-disabled="true">
+                    <div class="year-card__content">
+                        <header class="year-card__header">
+                            <h2 class="year-card__year text-slate-400">2027</h2>
+                            <span class="badge badge--upcoming">
+                                Próximamente
+                            </span>
+                        </header>
+                        
+                        <p class="year-card__description text-slate-400">
+                            Las metas para 2027 se definirán una vez completado el ciclo 2026.
+                        </p>
+                        
+                        <div class="year-card__stats text-slate-400">
+                            <span>
+                                <i class="fa-solid fa-lock" aria-hidden="true"></i>
+                                Disponible en 2027
+                            </span>
+                        </div>
+                        
+                        <footer class="year-card__footer">
+                            <span class="text-sm font-semibold text-slate-400">Bloqueado</span>
+                            <i class="fa-solid fa-hourglass-half text-slate-300" aria-hidden="true"></i>
+                        </footer>
+                    </div>
+                </article>
+
+                <!-- 2028 Card (Future) -->
+                <article class="year-card year-card--upcoming animate-fade-in-up" style="animation-delay: 0.3s" aria-disabled="true">
+                    <div class="year-card__content">
+                        <header class="year-card__header">
+                            <h2 class="year-card__year text-slate-400">2028</h2>
+                            <span class="badge badge--upcoming">
+                                Próximamente
+                            </span>
+                        </header>
+                        
+                        <p class="year-card__description text-slate-400">
+                            El viaje continúa. Cada año construye sobre los logros del anterior.
+                        </p>
+                        
+                        <div class="year-card__stats text-slate-400">
+                            <span>
+                                <i class="fa-solid fa-lock" aria-hidden="true"></i>
+                                Disponible en 2028
+                            </span>
+                        </div>
+                        
+                        <footer class="year-card__footer">
+                            <span class="text-sm font-semibold text-slate-400">Bloqueado</span>
+                            <i class="fa-solid fa-hourglass-half text-slate-300" aria-hidden="true"></i>
+                        </footer>
+                    </div>
+                </article>
+
+            </section>
+
+            <!-- ================================================================
+                 PHILOSOPHY SECTION
+                 ================================================================ -->
+            <section class="philosophy-section animate-fade-in-up" style="animation-delay: 0.4s" aria-labelledby="philosophy-title">
+                <h3 id="philosophy-title" class="philosophy-section__title">
+                    <i class="fa-solid fa-chart-pie mr-2" aria-hidden="true"></i>
+                    Filosofía del Sistema
+                </h3>
+                
+                <div class="philosophy-grid">
+                    <div class="philosophy-item">
+                        <div class="philosophy-item__icon">🏆</div>
+                        <h4 class="philosophy-item__title">Oro: Impacto Alto</h4>
+                        <p class="philosophy-item__description">
+                            Objetivos que multiplican ingresos y abren oportunidades de crecimiento profesional.
+                        </p>
+                    </div>
+                    
+                    <div class="philosophy-item">
+                        <div class="philosophy-item__icon">🥈</div>
+                        <h4 class="philosophy-item__title">Plata: Hábitos</h4>
+                        <p class="philosophy-item__description">
+                            Consistencia en responsabilidades personales y mejora continua del entorno.
+                        </p>
+                    </div>
+                    
+                    <div class="philosophy-item">
+                        <div class="philosophy-item__icon">🥉</div>
+                        <h4 class="philosophy-item__title">Bronce: Balance</h4>
+                        <p class="philosophy-item__description">
+                            Entretenimiento, pasiones personales y vida equilibrada.
+                        </p>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- ================================================================
+             FOOTER
+             ================================================================ -->
+        <footer class="page-footer animate-fade-in-up" style="animation-delay: 0.5s">
+            <p class="page-footer__quote">
+                💡 "El éxito es la suma de pequeños esfuerzos repetidos día tras día."
+            </p>
+            <p class="page-footer__credit">
+                Hecho con <span class="text-pink-400">💜</span> por Williams | Sistema de Propósitos v2.0
+            </p>
+        </footer>
+
+    </div>
+
+    <!-- Core JavaScript -->
+    <script src="../src/js/app.js"></script>
+
+</body>
+</html>

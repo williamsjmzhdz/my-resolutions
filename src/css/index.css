@@ -1,0 +1,252 @@
+/**
+ * ============================================================================
+ * INDEX.CSS - Landing Page Specific Styles
+ * ============================================================================
+ * 
+ * Styles specific to the index/landing page of the Resolution Tracker.
+ * This includes year card styles, hero section, and page-specific components.
+ * 
+ * @author Williams
+ * @version 2.0.0
+ * @since 2026
+ */
+
+/* ============================================================================
+   PAGE LAYOUT
+   ============================================================================ */
+
+.page-index {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background-attachment: fixed;
+}
+
+/* ============================================================================
+   YEAR CARDS
+   ============================================================================ */
+
+.year-card {
+    background: white;
+    border-radius: var(--radius-xl);
+    overflow: hidden;
+    transition: all var(--transition-slow);
+    position: relative;
+}
+
+.year-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: transparent;
+    transition: background var(--transition-base);
+}
+
+.year-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+}
+
+/* Active Year Card */
+.year-card--active {
+    border: 3px solid var(--color-success);
+}
+
+.year-card--active::before {
+    background: linear-gradient(90deg, var(--color-success) 0%, #06b6d4 100%);
+}
+
+.year-card--active:hover {
+    border-color: var(--color-success-dark);
+}
+
+/* Upcoming/Locked Year Card */
+.year-card--upcoming {
+    opacity: 0.7;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+.year-card--upcoming:hover {
+    transform: none;
+    box-shadow: none;
+}
+
+/* Card Content */
+.year-card__content {
+    padding: var(--spacing-6);
+}
+
+.year-card__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: var(--spacing-4);
+}
+
+.year-card__year {
+    font-size: var(--font-size-3xl);
+    font-weight: 800;
+    color: var(--color-slate-800);
+}
+
+.year-card__description {
+    color: var(--color-slate-600);
+    margin-bottom: var(--spacing-4);
+    font-size: var(--font-size-sm);
+    line-height: 1.6;
+}
+
+.year-card__stats {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-4);
+    font-size: var(--font-size-sm);
+    color: var(--color-slate-500);
+    margin-bottom: var(--spacing-4);
+}
+
+.year-card__footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: var(--spacing-4);
+    border-top: 1px solid var(--color-slate-100);
+}
+
+.year-card__link {
+    font-size: var(--font-size-sm);
+    font-weight: 600;
+    color: var(--color-slate-700);
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-2);
+    transition: color var(--transition-fast);
+}
+
+.year-card__link:hover {
+    color: var(--color-primary);
+}
+
+.year-card__link-icon {
+    transition: transform var(--transition-base);
+}
+
+.year-card:hover .year-card__link-icon {
+    transform: translateX(4px);
+}
+
+/* ============================================================================
+   BADGES
+   ============================================================================ */
+
+.badge {
+    display: inline-flex;
+    align-items: center;
+    padding: var(--spacing-1) var(--spacing-3);
+    font-size: var(--font-size-xs);
+    font-weight: 700;
+    border-radius: var(--radius-full);
+    text-transform: uppercase;
+    letter-spacing: 0.025em;
+}
+
+.badge--active {
+    background: linear-gradient(135deg, var(--color-success) 0%, var(--color-success-dark) 100%);
+    color: white;
+}
+
+.badge--upcoming {
+    background: linear-gradient(135deg, var(--color-slate-400) 0%, var(--color-slate-500) 100%);
+    color: white;
+}
+
+/* ============================================================================
+   PHILOSOPHY SECTION
+   ============================================================================ */
+
+.philosophy-section {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-radius: var(--radius-2xl);
+    padding: var(--spacing-8);
+}
+
+.philosophy-section__title {
+    font-size: var(--font-size-2xl);
+    font-weight: 700;
+    color: white;
+    text-align: center;
+    margin-bottom: var(--spacing-6);
+}
+
+.philosophy-grid {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    gap: var(--spacing-6);
+}
+
+@media (min-width: 768px) {
+    .philosophy-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+.philosophy-item {
+    text-align: center;
+    color: white;
+}
+
+.philosophy-item__icon {
+    font-size: var(--font-size-4xl);
+    margin-bottom: var(--spacing-2);
+}
+
+.philosophy-item__title {
+    font-weight: 700;
+    margin-bottom: var(--spacing-2);
+    font-size: var(--font-size-lg);
+}
+
+.philosophy-item__description {
+    font-size: var(--font-size-sm);
+    opacity: 0.85;
+    line-height: 1.6;
+}
+
+/* ============================================================================
+   FOOTER
+   ============================================================================ */
+
+.page-footer {
+    text-align: center;
+    margin-top: var(--spacing-8);
+    color: rgba(255, 255, 255, 0.6);
+    font-size: var(--font-size-sm);
+}
+
+.page-footer__quote {
+    font-style: italic;
+    margin-bottom: var(--spacing-2);
+}
+
+.page-footer__credit {
+    opacity: 0.8;
+}
+
+/* ============================================================================
+   RESPONSIVE ADJUSTMENTS
+   ============================================================================ */
+
+@media (max-width: 768px) {
+    .philosophy-section {
+        padding: var(--spacing-6);
+    }
+    
+    .philosophy-section__title {
+        font-size: var(--font-size-xl);
+    }
+}
