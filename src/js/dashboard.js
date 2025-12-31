@@ -560,6 +560,14 @@ const Dashboard = (function() {
         updateDisplay('val-book-pts', bookPts + ' pts');
         extra += bookPts;
         
+        // 13.b Spark Exercises Extra
+        const sparkExercises = parseInt(document.getElementById('rng-spark-ex')?.value) || 0;
+        const sparkExercisesClamped = Math.max(0, Math.min(50, sparkExercises));
+        const sparkExercisesPts = sparkExercisesClamped * 0.2;
+        updateDisplay('val-spark-ex-pts', sparkExercisesPts.toFixed(1) + ' pts');
+        updateDisplay('val-spark-ex-curr', sparkExercisesClamped);
+        extra += sparkExercisesPts;
+        
         // 14. AWS
         const awsStudyPct = parseInt(document.getElementById('rng-aws-study').value) || 0;
         const awsStudyPts = (awsStudyPct / 100) * 2;
@@ -571,8 +579,11 @@ const Dashboard = (function() {
         if (awsCert) extra += parseInt(awsCert.value);
 
         // 15. Extra Savings
-        const savingsExtra = parseInt(document.getElementById('inp-savings-extra').value) || 0;
-        if (savingsExtra > 0) extra += Math.floor(savingsExtra / 2000);
+        let savingsExtra = parseInt(document.getElementById('inp-savings-extra').value) || 0;
+        savingsExtra = Math.max(0, savingsExtra);
+        const savingsExtraPts = Math.floor(savingsExtra / 2000);
+        updateDisplay('val-savings-extra-pts', savingsExtraPts + ' pts');
+        if (savingsExtraPts > 0) extra += savingsExtraPts;
 
         // ===== UPDATE UI =====
         const total = oro + plata + bronce + extra;
