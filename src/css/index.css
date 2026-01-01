@@ -7,9 +7,38 @@
  * This includes year card styles, hero section, and page-specific components.
  * 
  * @author Williams
- * @version 2.0.0
+ * @version 2.5.0
  * @since 2026
  */
+
+/* ============================================================================
+   ANIMATIONS
+   ============================================================================ */
+
+@keyframes gradient-shift {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+@keyframes shimmer {
+    0% { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
+}
+
+@keyframes pulse-border {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.4); }
+    50% { box-shadow: 0 0 0 10px rgba(16, 185, 129, 0); }
+}
+
+@keyframes bounce-subtle {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-5px); }
+}
 
 /* ============================================================================
    PAGE LAYOUT
@@ -17,8 +46,11 @@
 
 .page-index {
     min-height: 100vh;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(-45deg, #667eea, #764ba2, #6B73FF, #9b59b6);
+    background-size: 400% 400%;
     background-attachment: fixed;
+    animation: gradient-shift 15s ease infinite;
+    position: relative;
 }
 
 /* ============================================================================
@@ -29,7 +61,7 @@
     background: white;
     border-radius: var(--radius-xl);
     overflow: hidden;
-    transition: all var(--transition-slow);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     position: relative;
 }
 
@@ -41,32 +73,50 @@
     right: 0;
     height: 4px;
     background: transparent;
-    transition: background var(--transition-base);
+    transition: all 0.3s ease;
 }
 
 .year-card:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+    transform: translateY(-12px) scale(1.02);
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.25);
 }
 
 /* Active Year Card */
 .year-card--active {
     border: 3px solid var(--color-success);
+    background: linear-gradient(135deg, #ffffff 0%, #f0fdf4 100%);
+    animation: pulse-border 2s ease-in-out infinite;
 }
 
 .year-card--active::before {
-    background: linear-gradient(90deg, var(--color-success) 0%, #06b6d4 100%);
+    background: linear-gradient(90deg, #10b981 0%, #06d6a0 50%, #00c4cc 100%);
+    height: 5px;
+}
+
+.year-card--active::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(45deg, transparent 30%, rgba(16, 185, 129, 0.05) 50%, transparent 70%);
+    background-size: 200% 200%;
+    animation: shimmer 3s linear infinite;
+    pointer-events: none;
 }
 
 .year-card--active:hover {
-    border-color: var(--color-success-dark);
+    border-color: #059669;
+    box-shadow: 
+        0 30px 60px rgba(16, 185, 129, 0.2),
+        0 0 40px rgba(16, 185, 129, 0.1);
 }
 
 /* Upcoming/Locked Year Card */
 .year-card--upcoming {
-    opacity: 0.7;
+    opacity: 0.6;
     cursor: not-allowed;
     pointer-events: none;
+    background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+    filter: grayscale(30%);
 }
 
 .year-card--upcoming:hover {
@@ -77,6 +127,8 @@
 /* Card Content */
 .year-card__content {
     padding: var(--spacing-6);
+    position: relative;
+    z-index: 1;
 }
 
 .year-card__header {
@@ -87,16 +139,23 @@
 }
 
 .year-card__year {
-    font-size: var(--font-size-3xl);
-    font-weight: 800;
+    font-size: 2.5rem;
+    font-weight: 900;
     color: var(--color-slate-800);
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.05);
+    transition: all 0.3s ease;
+}
+
+.year-card--active:hover .year-card__year {
+    color: var(--color-success-dark);
+    transform: scale(1.05);
 }
 
 .year-card__description {
     color: var(--color-slate-600);
     margin-bottom: var(--spacing-4);
     font-size: var(--font-size-sm);
-    line-height: 1.6;
+    line-height: 1.7;
 }
 
 .year-card__stats {
@@ -106,6 +165,22 @@
     font-size: var(--font-size-sm);
     color: var(--color-slate-500);
     margin-bottom: var(--spacing-4);
+    flex-wrap: wrap;
+}
+
+.year-card__stats span {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.25rem 0.5rem;
+    background: var(--color-slate-50);
+    border-radius: var(--radius-md);
+    transition: all 0.2s ease;
+}
+
+.year-card--active .year-card__stats span:hover {
+    background: var(--color-slate-100);
+    transform: translateY(-2px);
 }
 
 .year-card__footer {
@@ -113,29 +188,39 @@
     align-items: center;
     justify-content: space-between;
     padding-top: var(--spacing-4);
-    border-top: 1px solid var(--color-slate-100);
+    border-top: 2px solid var(--color-slate-100);
 }
 
 .year-card__link {
     font-size: var(--font-size-sm);
-    font-weight: 600;
+    font-weight: 700;
     color: var(--color-slate-700);
     display: flex;
     align-items: center;
     gap: var(--spacing-2);
-    transition: color var(--transition-fast);
+    padding: 0.5rem 1rem;
+    background: var(--color-slate-50);
+    border-radius: var(--radius-full);
+    transition: all 0.3s ease;
 }
 
-.year-card__link:hover {
-    color: var(--color-primary);
+.year-card--active .year-card__link {
+    background: linear-gradient(135deg, var(--color-success) 0%, #059669 100%);
+    color: white;
+}
+
+.year-card--active .year-card__link:hover {
+    background: linear-gradient(135deg, #059669 0%, #047857 100%);
+    transform: scale(1.05);
+    box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
 }
 
 .year-card__link-icon {
-    transition: transform var(--transition-base);
+    transition: transform 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
 }
 
 .year-card:hover .year-card__link-icon {
-    transform: translateX(4px);
+    transform: translateX(6px);
 }
 
 /* ============================================================================
@@ -145,17 +230,29 @@
 .badge {
     display: inline-flex;
     align-items: center;
-    padding: var(--spacing-1) var(--spacing-3);
-    font-size: var(--font-size-xs);
-    font-weight: 700;
+    gap: 0.25rem;
+    padding: 0.35rem 0.75rem;
+    font-size: 0.7rem;
+    font-weight: 800;
     border-radius: var(--radius-full);
     text-transform: uppercase;
-    letter-spacing: 0.025em;
+    letter-spacing: 0.05em;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
 .badge--active {
-    background: linear-gradient(135deg, var(--color-success) 0%, var(--color-success-dark) 100%);
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
     color: white;
+    animation: bounce-subtle 2s ease-in-out infinite;
+}
+
+.badge--active::before {
+    content: '';
+    width: 8px;
+    height: 8px;
+    background: white;
+    border-radius: 50%;
+    animation: pulse 1.5s ease-in-out infinite;
 }
 
 .badge--upcoming {
@@ -168,19 +265,28 @@
    ============================================================================ */
 
 .philosophy-section {
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
     border-radius: var(--radius-2xl);
-    padding: var(--spacing-8);
+    padding: var(--spacing-10);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    box-shadow: 
+        0 8px 32px rgba(0, 0, 0, 0.1),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
 }
 
 .philosophy-section__title {
     font-size: var(--font-size-2xl);
-    font-weight: 700;
+    font-weight: 800;
     color: white;
     text-align: center;
-    margin-bottom: var(--spacing-6);
+    margin-bottom: var(--spacing-8);
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
 }
 
 .philosophy-grid {
@@ -198,23 +304,45 @@
 .philosophy-item {
     text-align: center;
     color: white;
+    padding: var(--spacing-6);
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: var(--radius-xl);
+    transition: all 0.3s ease;
+    border: 1px solid transparent;
+}
+
+.philosophy-item:hover {
+    background: rgba(255, 255, 255, 0.12);
+    transform: translateY(-5px);
+    border-color: rgba(255, 255, 255, 0.2);
 }
 
 .philosophy-item__icon {
-    font-size: var(--font-size-4xl);
-    margin-bottom: var(--spacing-2);
+    font-size: 3.5rem;
+    margin-bottom: var(--spacing-3);
+    display: block;
+    animation: float 4s ease-in-out infinite;
+}
+
+.philosophy-item:nth-child(2) .philosophy-item__icon {
+    animation-delay: 0.5s;
+}
+
+.philosophy-item:nth-child(3) .philosophy-item__icon {
+    animation-delay: 1s;
 }
 
 .philosophy-item__title {
-    font-weight: 700;
-    margin-bottom: var(--spacing-2);
+    font-weight: 800;
+    margin-bottom: var(--spacing-3);
     font-size: var(--font-size-lg);
+    text-shadow: 0 1px 5px rgba(0, 0, 0, 0.2);
 }
 
 .philosophy-item__description {
     font-size: var(--font-size-sm);
-    opacity: 0.85;
-    line-height: 1.6;
+    opacity: 0.9;
+    line-height: 1.7;
 }
 
 /* ============================================================================
@@ -223,18 +351,25 @@
 
 .page-footer {
     text-align: center;
-    margin-top: var(--spacing-8);
-    color: rgba(255, 255, 255, 0.6);
+    margin-top: var(--spacing-10);
+    padding: var(--spacing-6);
+    color: rgba(255, 255, 255, 0.8);
     font-size: var(--font-size-sm);
+    background: rgba(0, 0, 0, 0.1);
+    border-radius: var(--radius-xl);
+    backdrop-filter: blur(10px);
 }
 
 .page-footer__quote {
     font-style: italic;
-    margin-bottom: var(--spacing-2);
+    margin-bottom: var(--spacing-3);
+    font-size: 1rem;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
 }
 
 .page-footer__credit {
-    opacity: 0.8;
+    opacity: 0.7;
+    font-size: 0.8rem;
 }
 
 /* ============================================================================
@@ -248,5 +383,25 @@
     
     .philosophy-section__title {
         font-size: var(--font-size-xl);
+    }
+    
+    .year-card__year {
+        font-size: 2rem;
+    }
+    
+    .year-card__stats {
+        gap: var(--spacing-2);
+    }
+}
+
+@media (max-width: 480px) {
+    .year-card__header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+    
+    .badge {
+        font-size: 0.6rem;
     }
 }

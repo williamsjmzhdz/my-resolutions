@@ -32,41 +32,64 @@
 </head>
 <body class="page-index py-8 sm:py-12 px-4">
 
+    <!-- Animated Background Shapes -->
+    <div class="fixed inset-0 overflow-hidden pointer-events-none" aria-hidden="true">
+        <div class="absolute -top-40 -right-40 w-80 h-80 bg-white/5 rounded-full blur-3xl animate-pulse"></div>
+        <div class="absolute top-1/2 -left-40 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl animate-pulse" style="animation-delay: 1s;"></div>
+        <div class="absolute -bottom-40 right-1/4 w-72 h-72 bg-indigo-500/10 rounded-full blur-3xl animate-pulse" style="animation-delay: 2s;"></div>
+    </div>
+
     <!-- Skip to main content for accessibility -->
     <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 bg-white px-4 py-2 rounded-lg shadow-lg z-50">
         Saltar al contenido principal
     </a>
 
-    <div class="container mx-auto max-w-6xl" id="main-content">
+    <div class="container mx-auto max-w-6xl relative z-10" id="main-content">
         
         <!-- ================================================================
              HEADER SECTION
              ================================================================ -->
-        <header class="text-center mb-10 sm:mb-12 animate-fade-in">
+        <header class="text-center mb-12 sm:mb-16 animate-fade-in">
             <!-- Tag Badge -->
-            <div class="inline-block bg-white/10 backdrop-blur-md rounded-full px-4 sm:px-6 py-2 mb-4 border border-white/20">
-                <span class="text-white text-sm font-semibold">
-                    <i class="fa-solid fa-rocket mr-2" aria-hidden="true"></i>
-                    Transformación Continua
+            <div class="inline-block bg-white/10 backdrop-blur-md rounded-full px-5 sm:px-6 py-2.5 mb-6 border border-white/20 shadow-lg">
+                <span class="text-white text-sm font-semibold flex items-center gap-2">
+                    <i class="fa-solid fa-rocket text-amber-300" aria-hidden="true"></i>
+                    Transformación Continua 2026
                 </span>
             </div>
             
             <!-- Main Title -->
-            <h1 class="text-4xl sm:text-5xl md:text-6xl font-black text-white mb-4 leading-tight">
-                Mis Propósitos de <br class="sm:hidden">Año Nuevo
+            <h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black text-white mb-6 leading-tight drop-shadow-lg">
+                Mis Propósitos de <br class="sm:hidden"><span class="bg-gradient-to-r from-amber-300 via-yellow-200 to-amber-300 bg-clip-text text-transparent">Año Nuevo</span>
             </h1>
             
             <!-- Subtitle -->
-            <p class="text-lg sm:text-xl text-white/90 max-w-2xl mx-auto leading-relaxed">
-                Seguimiento de metas, hábitos y crecimiento personal año tras año.
+            <p class="text-lg sm:text-xl text-white/90 max-w-2xl mx-auto leading-relaxed mb-8">
+                Sistema personal de seguimiento de metas, hábitos y crecimiento. 
+                <span class="text-amber-200 font-medium">Cada paso cuenta.</span>
             </p>
+            
+            <!-- Quick CTA -->
+            <a href="2026.html" class="inline-flex items-center gap-3 bg-white text-indigo-700 font-bold px-8 py-4 rounded-full shadow-xl hover:shadow-2xl hover:scale-105 transition-all duration-300 group">
+                <i class="fa-solid fa-play text-indigo-500 group-hover:text-indigo-600" aria-hidden="true"></i>
+                Ir al Dashboard 2026
+                <i class="fa-solid fa-arrow-right group-hover:translate-x-1 transition-transform" aria-hidden="true"></i>
+            </a>
         </header>
 
         <!-- ================================================================
              YEARS GRID
              ================================================================ -->
         <main>
-            <section aria-label="Años disponibles" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-10 sm:mb-12">
+            <div class="text-center mb-8">
+                <span class="inline-flex items-center gap-2 text-white/60 text-sm font-semibold uppercase tracking-widest">
+                    <span class="w-8 h-px bg-white/30"></span>
+                    Selecciona tu año
+                    <span class="w-8 h-px bg-white/30"></span>
+                </span>
+            </div>
+            
+            <section aria-label="Años disponibles" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 mb-10 sm:mb-12">
                 
                 <!-- 2026 Card (Active) -->
                 <article class="year-card year-card--active group animate-fade-in-up" style="animation-delay: 0.1s">
@@ -74,13 +97,12 @@
                         <header class="year-card__header">
                             <h2 class="year-card__year">2026</h2>
                             <span class="badge badge--active">
-                                <i class="fa-solid fa-check mr-1" aria-hidden="true"></i>
                                 Activo
                             </span>
                         </header>
                         
                         <p class="year-card__description">
-                            Año de transformación personal. Enfoque en inglés, finanzas, salud y especialización técnica.
+                            <strong class="text-emerald-600">Año de transformación.</strong> Enfoque en inglés avanzado, finanzas sólidas, salud integral y especialización técnica en la nube.
                         </p>
                         
                         <div class="year-card__stats">
@@ -93,13 +115,18 @@
                                 4 Plata
                             </span>
                             <span>
-                                <i class="fa-solid fa-star text-orange-500" aria-hidden="true"></i>
+                                <i class="fa-solid fa-award text-orange-600" aria-hidden="true"></i>
+                                4 Bronce
+                            </span>
+                            <span>
+                                <i class="fa-solid fa-star text-purple-500" aria-hidden="true"></i>
                                 Extras
                             </span>
                         </div>
                         
                         <footer class="year-card__footer">
                             <span class="year-card__link">
+                                <i class="fa-solid fa-chart-line mr-1" aria-hidden="true"></i>
                                 Ver Dashboard
                                 <i class="fa-solid fa-arrow-right year-card__link-icon" aria-hidden="true"></i>
                             </span>
@@ -113,24 +140,27 @@
                         <header class="year-card__header">
                             <h2 class="year-card__year text-slate-400">2027</h2>
                             <span class="badge badge--upcoming">
-                                Próximamente
+                                <i class="fa-solid fa-lock text-xs mr-1" aria-hidden="true"></i>
+                                Próximo
                             </span>
                         </header>
                         
                         <p class="year-card__description text-slate-400">
-                            Las metas para 2027 se definirán una vez completado el ciclo 2026.
+                            Las metas para 2027 se definirán al finalizar el ciclo actual. ¡Mantén el enfoque en este año!
                         </p>
                         
                         <div class="year-card__stats text-slate-400">
                             <span>
-                                <i class="fa-solid fa-lock" aria-hidden="true"></i>
-                                Disponible en 2027
+                                <i class="fa-solid fa-hourglass-half" aria-hidden="true"></i>
+                                Disponible Ene 2027
                             </span>
                         </div>
                         
                         <footer class="year-card__footer">
-                            <span class="text-sm font-semibold text-slate-400">Bloqueado</span>
-                            <i class="fa-solid fa-hourglass-half text-slate-300" aria-hidden="true"></i>
+                            <span class="text-sm font-semibold text-slate-400">
+                                <i class="fa-solid fa-lock mr-2" aria-hidden="true"></i>
+                                Bloqueado
+                            </span>
                         </footer>
                     </div>
                 </article>
@@ -141,24 +171,27 @@
                         <header class="year-card__header">
                             <h2 class="year-card__year text-slate-400">2028</h2>
                             <span class="badge badge--upcoming">
-                                Próximamente
+                                <i class="fa-solid fa-lock text-xs mr-1" aria-hidden="true"></i>
+                                Futuro
                             </span>
                         </header>
                         
                         <p class="year-card__description text-slate-400">
-                            El viaje continúa. Cada año construye sobre los logros del anterior.
+                            El viaje continúa. Cada año construye sobre los logros del anterior. ¡Un paso a la vez!
                         </p>
                         
                         <div class="year-card__stats text-slate-400">
                             <span>
-                                <i class="fa-solid fa-lock" aria-hidden="true"></i>
-                                Disponible en 2028
+                                <i class="fa-solid fa-calendar-days" aria-hidden="true"></i>
+                                Disponible Ene 2028
                             </span>
                         </div>
                         
                         <footer class="year-card__footer">
-                            <span class="text-sm font-semibold text-slate-400">Bloqueado</span>
-                            <i class="fa-solid fa-hourglass-half text-slate-300" aria-hidden="true"></i>
+                            <span class="text-sm font-semibold text-slate-400">
+                                <i class="fa-solid fa-lock mr-2" aria-hidden="true"></i>
+                                Bloqueado
+                            </span>
                         </footer>
                     </div>
                 </article>
@@ -170,32 +203,35 @@
                  ================================================================ -->
             <section class="philosophy-section animate-fade-in-up" style="animation-delay: 0.4s" aria-labelledby="philosophy-title">
                 <h3 id="philosophy-title" class="philosophy-section__title">
-                    <i class="fa-solid fa-chart-pie mr-2" aria-hidden="true"></i>
-                    Filosofía del Sistema
+                    <i class="fa-solid fa-lightbulb text-amber-300" aria-hidden="true"></i>
+                    Filosofía del Sistema de Metas
                 </h3>
                 
                 <div class="philosophy-grid">
                     <div class="philosophy-item">
                         <div class="philosophy-item__icon">🏆</div>
-                        <h4 class="philosophy-item__title">Oro: Impacto Alto</h4>
+                        <h4 class="philosophy-item__title">Oro: Alto Impacto</h4>
                         <p class="philosophy-item__description">
-                            Objetivos que multiplican ingresos y abren oportunidades de crecimiento profesional.
+                            Metas estratégicas que multiplican ingresos, abren puertas profesionales y transforman tu carrera. 
+                            <strong class="text-amber-300">Prioridad máxima.</strong>
                         </p>
                     </div>
                     
                     <div class="philosophy-item">
                         <div class="philosophy-item__icon">🥈</div>
-                        <h4 class="philosophy-item__title">Plata: Hábitos</h4>
+                        <h4 class="philosophy-item__title">Plata: Hábitos Sólidos</h4>
                         <p class="philosophy-item__description">
-                            Consistencia en responsabilidades personales y mejora continua del entorno.
+                            Consistencia en responsabilidades personales, bienestar físico y mejora continua del entorno.
+                            <strong class="text-slate-200">Base del éxito.</strong>
                         </p>
                     </div>
                     
                     <div class="philosophy-item">
                         <div class="philosophy-item__icon">🥉</div>
-                        <h4 class="philosophy-item__title">Bronce: Balance</h4>
+                        <h4 class="philosophy-item__title">Bronce: Vida Equilibrada</h4>
                         <p class="philosophy-item__description">
-                            Entretenimiento, pasiones personales y vida equilibrada.
+                            Entretenimiento, pasiones, cultura y diversión. Porque la vida no es solo trabajo.
+                            <strong class="text-orange-300">Disfruta el camino.</strong>
                         </p>
                     </div>
                 </div>
@@ -207,10 +243,10 @@
              ================================================================ -->
         <footer class="page-footer animate-fade-in-up" style="animation-delay: 0.5s">
             <p class="page-footer__quote">
-                💡 "El éxito es la suma de pequeños esfuerzos repetidos día tras día."
+                💡 "El éxito es la suma de pequeños esfuerzos repetidos día tras día." — Robert Collier
             </p>
             <p class="page-footer__credit">
-                Hecho con <span class="text-pink-400">💜</span> por Williams | Sistema de Propósitos v2.0
+                Hecho con <span class="text-pink-300">💜</span> por Williams | Sistema de Propósitos v2.5
             </p>
         </footer>
 
