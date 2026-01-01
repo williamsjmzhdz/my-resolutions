@@ -30,7 +30,8 @@ const Dashboard = (function() {
     
     /** State for manual counters */
     let counters = {
-        img: 0  // Image/outfit counter
+        img: 0,  // Image/outfit counter
+        pizzaSessions: 0  // Pizza Lab sessions counter
     };
 
     /** Chart.js instance for finance chart */
@@ -325,11 +326,17 @@ const Dashboard = (function() {
         if (!confirmed) return;
 
         // Reset counters
-        counters = { img: 0 };
+        counters = { img: 0, pizzaSessions: 0 };
         Object.keys(counters).forEach(key => {
             const el = document.getElementById(`count-${key}`);
             if (el) el.innerText = 0;
         });
+        
+        // Reset pizza sessions display
+        updateDisplay('pizza-sessions-display', '0');
+        updateDisplay('val-pizza-sessions-curr', '0');
+        const pizzaFill = document.getElementById('pizza-progress-fill');
+        if (pizzaFill) pizzaFill.style.width = '0%';
 
         // Uncheck all checkboxes
         document.querySelectorAll('input[type="checkbox"]').forEach(chk => {
@@ -384,6 +391,39 @@ const Dashboard = (function() {
             }
             document.getElementById('val-img-pts').innerText = totalPts + ' pts';
         }
+        
+        calculateScore();
+        saveState();
+    }
+
+    /**
+     * Update Pizza Lab sessions counter
+     * @param {number} change - Amount to change (+1 or -1)
+     */
+    function updatePizzaSessions(change) {
+        const newValue = Math.max(0, Math.min(24, counters.pizzaSessions + change));
+        counters.pizzaSessions = newValue;
+        
+        // Update display
+        updateDisplay('pizza-sessions-display', newValue);
+        updateDisplay('val-pizza-sessions-curr', newValue);
+        
+        // Update progress bar
+        const progressPercent = (newValue / 24) * 100;
+        const progressFill = document.getElementById('pizza-progress-fill');
+        if (progressFill) {
+            progressFill.style.width = progressPercent + '%';
+        }
+        
+        // Update points
+        const sessionPts = newValue * 0.25;
+        updateDisplay('val-pizza-sessions-pts', sessionPts.toFixed(2) + ' pts');
+        
+        // Recalculate total pizza points
+        const ovenChecked = document.getElementById('chk-pizza-oven')?.checked || false;
+        const ovenPts = ovenChecked ? 4 : 0;
+        const totalPizzaPts = ovenPts + sessionPts;
+        updateDisplay('val-pizza-total-pts', totalPizzaPts.toFixed(2) + ' pts');
         
         calculateScore();
         saveState();
@@ -466,22 +506,22 @@ const Dashboard = (function() {
 
         // ===== PLATA CALCULATIONS =====
         
-        // 5. Work
+        // 5. Work (10 pts)
         const workCompleted = document.getElementById('chk-work')?.checked || false;
-        const workPts = workCompleted ? 8 : 0;
+        const workPts = workCompleted ? 10 : 0;
         updateDisplay('val-work-pts', workPts + ' pts');
         plata += workPts;
 
-        // 6. Family - Transfers
+        // 6. Family - Transfers (4 pts) + Meetings (4 pts) = 8 pts total
         const transfers = parseInt(document.getElementById('rng-transfers').value) || 0;
-        const transfersPts = (transfers / 12) * 3;
+        const transfersPts = (transfers / 12) * 4;
         updateDisplay('val-transfers-pts', transfersPts.toFixed(1) + ' pts');
         updateDisplay('val-transfers-curr', transfers);
         plata += transfersPts;
         
         // Family - Meetings
         const familyMeets = parseInt(document.getElementById('rng-family').value) || 0;
-        const familyPts = (familyMeets / 12) * 3;
+        const familyPts = (familyMeets / 12) * 4;
         updateDisplay('val-family-pts', familyPts.toFixed(1) + ' pts');
         updateDisplay('val-family-curr', familyMeets);
         plata += familyPts;
@@ -525,11 +565,11 @@ const Dashboard = (function() {
 
         // ===== BRONCE & EXTRAS =====
         
-        // 9. Games (slider)
+        // 9. Games - 4 pts base (2 games = 4 pts)
         const games = Math.max(0, parseInt(document.getElementById('rng-games')?.value) || 0);
         let gamesPts = 0;
-        if (games >= 1) { bronce += 1.5; gamesPts += 1.5; }
-        if (games >= 2) { bronce += 1.5; gamesPts += 1.5; }
+        if (games >= 1) { bronce += 2; gamesPts += 2; }
+        if (games >= 2) { bronce += 2; gamesPts += 2; }
         if (games > 2) {
             const extraGamesPts = (games - 2) * 1.5;
             extra += extraGamesPts;
@@ -538,27 +578,27 @@ const Dashboard = (function() {
         updateDisplay('val-games-pts', gamesPts.toFixed(1) + ' pts');
         updateDisplay('val-games-curr', games);
 
-        // 10. Entretenimiento (Anime, Manga & Más)
-        // Frieren manga (6 vols = 1pt)
+        // 10. Entretenimiento (Anime, Manga & Más) - 4 pts base
+        // Frieren manga (6 vols = 1.33pt)
         const frieren = Math.max(0, parseInt(document.getElementById('rng-frieren')?.value) || 0);
-        const frierenPts = frieren >= 6 ? 1 : (frieren / 6);
+        const frierenPts = frieren >= 6 ? 1.33 : (frieren / 6) * 1.33;
         bronce += frierenPts;
         updateDisplay('val-frieren-curr', frieren);
-        updateDisplay('val-frieren-pts', frierenPts.toFixed(1) + ' pts');
+        updateDisplay('val-frieren-pts', frierenPts.toFixed(2) + ' pts');
         
-        // Berserk manga (5 vols = 1pt)
+        // Berserk manga (5 vols = 1.33pt)
         const berserk = Math.max(0, parseInt(document.getElementById('rng-berserk')?.value) || 0);
-        const berserkPts = berserk >= 5 ? 1 : (berserk / 5);
+        const berserkPts = berserk >= 5 ? 1.33 : (berserk / 5) * 1.33;
         bronce += berserkPts;
         updateDisplay('val-berserk-curr', berserk);
-        updateDisplay('val-berserk-pts', berserkPts.toFixed(1) + ' pts');
+        updateDisplay('val-berserk-pts', berserkPts.toFixed(2) + ' pts');
         
-        // Anime/series/películas (4 = 1pt)
+        // Anime/series/películas (4 = 1.34pt)
         const anime = Math.max(0, parseInt(document.getElementById('rng-anime')?.value) || 0);
-        const animePts = anime >= 4 ? 1 : (anime / 4);
+        const animePts = anime >= 4 ? 1.34 : (anime / 4) * 1.34;
         bronce += animePts;
         updateDisplay('val-anime-curr', anime);
-        updateDisplay('val-anime-pts', animePts.toFixed(1) + ' pts');
+        updateDisplay('val-anime-pts', animePts.toFixed(2) + ' pts');
         
         // Extras
         const extraAnime = Math.max(0, parseInt(document.getElementById('rng-anime-extra')?.value) || 0);
@@ -579,10 +619,10 @@ const Dashboard = (function() {
         updateDisplay('val-books-extra-curr', extraBooks);
         updateDisplay('val-books-extra-pts', extraBooksPts + ' pts');
 
-        // 11. Cinema (slider)
+        // 11. Cinema - 4 pts base (6 visits = 4 pts)
         const cinema = Math.max(0, parseInt(document.getElementById('rng-cinema')?.value) || 0);
         const cineBaseVisits = Math.min(6, cinema);
-        const cinemaPts = (cineBaseVisits / 3);
+        const cinemaPts = (cineBaseVisits / 6) * 4;
         bronce += cinemaPts;
         let cinemaExtraPts = 0;
         if (cinema > 6) {
@@ -592,13 +632,13 @@ const Dashboard = (function() {
         updateDisplay('val-cinema-pts', (cinemaPts + cinemaExtraPts).toFixed(1) + ' pts');
         updateDisplay('val-cinema-curr', cinema);
 
-        // 12. LoL Ranking
+        // 12. LoL Ranking - 3 pts base
         const lolRank = parseInt(document.getElementById('rng-lol').value) || 0;
         let lolPts = 0;
         if (lolRank >= 1) {
-            bronce += 2;
+            bronce += 3;
             if (lolRank > 1) extra += (lolRank - 1);
-            lolPts = 2 + Math.max(0, lolRank - 1);
+            lolPts = 3 + Math.max(0, lolRank - 1);
         }
         updateDisplay('val-lol-pts', lolPts.toFixed(1) + ' pts');
         updateDisplay('val-lol-rank', LOL_RANKS[lolRank]);
@@ -642,6 +682,28 @@ const Dashboard = (function() {
         const savingsExtraPts = Math.floor(savingsExtra / 2000);
         updateDisplay('val-savings-extra-pts', savingsExtraPts + ' pts');
         if (savingsExtraPts > 0) extra += savingsExtraPts;
+
+        // 18. Pizza Lab Project (10 pts max)
+        const pizzaOvenChecked = document.getElementById('chk-pizza-oven')?.checked || false;
+        const pizzaOvenPts = pizzaOvenChecked ? 4 : 0;
+        updateDisplay('val-pizza-oven-pts', pizzaOvenPts + ' pts');
+        
+        const pizzaSessions = counters.pizzaSessions || 0;
+        const pizzaSessionsPts = Math.min(6, pizzaSessions * 0.25);
+        updateDisplay('val-pizza-sessions-pts', pizzaSessionsPts.toFixed(2) + ' pts');
+        updateDisplay('val-pizza-sessions-curr', pizzaSessions);
+        updateDisplay('pizza-sessions-display', pizzaSessions);
+        
+        // Update progress bar
+        const pizzaProgressPercent = (pizzaSessions / 24) * 100;
+        const pizzaProgressFill = document.getElementById('pizza-progress-fill');
+        if (pizzaProgressFill) {
+            pizzaProgressFill.style.width = pizzaProgressPercent + '%';
+        }
+        
+        const pizzaTotalPts = pizzaOvenPts + pizzaSessionsPts;
+        updateDisplay('val-pizza-total-pts', pizzaTotalPts.toFixed(2) + ' pts');
+        extra += pizzaTotalPts;
 
         // ===== UPDATE UI =====
         const total = oro + plata + bronce + extra;
@@ -900,6 +962,7 @@ const Dashboard = (function() {
         importProgress,
         resetProgress,
         updateCounter,
+        updatePizzaSessions,
         toggleMobileMenu,
         calculateScore
     };
