@@ -110,7 +110,7 @@
             <!-- Branding -->
             <div class="nav-main__brand">
                 <i class="fa-solid fa-rocket nav-main__icon" aria-hidden="true"></i>
-                <h1 class="nav-main__title">MIS PROPÓSITOS 2026</h1>
+                <h1 class="nav-main__title text-white drop-shadow-lg">MIS PROPÓSITOS 2026</h1>
             </div>
             
             <!-- Mobile: Score + Hamburger -->
@@ -396,13 +396,13 @@
                         <article class="goal-card goal-card--compact goal-card--silver" aria-labelledby="obj7-title">
                             <h5 id="obj7-title" class="font-bold text-sm text-slate-700 mb-2">7. Imagen Personal (6pts)</h5>
                             <div class="space-y-2">
-                                <p class="text-xs text-slate-400 mb-1">Adquisición de conjuntos (Smart Casual)</p>
-                                <div class="flex justify-between items-center text-xs">
-                                    <button onclick="updateCounter('img', -1)" class="counter-btn" aria-label="Disminuir conjuntos">-</button>
-                                    <span id="count-img" class="font-bold text-lg">0</span>
-                                    <button onclick="updateCounter('img', 1)" class="counter-btn" aria-label="Aumentar conjuntos">+</button>
+                                <div class="flex justify-between items-center text-xs mb-1">
+                                    <span class="text-slate-600">Conjuntos Smart Casual</span>
+                                    <span class="font-bold text-blue-600" id="val-img-pts">0 pts</span>
                                 </div>
-                                <p class="text-right text-xs font-bold text-blue-600" id="val-img-pts">0 pts</p>
+                                <input type="range" id="rng-img" min="0" max="10" step="1" value="0"
+                                       aria-label="Conjuntos adquiridos">
+                                <p class="input-hint"><span id="val-img-curr">0</span> conjuntos · 1.5pts c/u (máx 6pts) + extra</p>
                             </div>
                         </article>
 
@@ -456,16 +456,15 @@
                                     <span class="text-xs text-slate-600">Completados (2 base)</span>
                                     <span class="font-bold text-orange-600 text-sm" id="val-games-pts">0 pts</span>
                                 </div>
-                                <input type="number" id="inp-games" value="0" min="0" max="10" 
-                                       class="w-full text-center border rounded py-1"
+                                <input type="range" id="rng-games" min="0" max="10" step="1" value="0"
                                        aria-label="Videojuegos completados">
-                                <p class="input-hint text-center">1.5 pts c/u (base) · Extra: +1.5 pts c/u adicional</p>
+                                <p class="input-hint"><span id="val-games-curr">0</span>/10 juegos · 1.5pts c/u (base) + extra</p>
                             </div>
                         </article>
 
-                        <!-- Objective 10: Anime & Manga -->
+                        <!-- Objective 10: Anime, Manga & Más -->
                         <article class="goal-card goal-card--compact goal-card--bronze" aria-labelledby="obj10-title">
-                            <h5 id="obj10-title" class="font-bold text-sm text-slate-700 mb-3">10. Anime & Manga (3pts)</h5>
+                            <h5 id="obj10-title" class="font-bold text-sm text-slate-700 mb-3">10. Anime, Manga & Más (3pts)</h5>
                             <div class="space-y-2 text-xs">
                                 <div class="flex justify-between items-center">
                                     <label class="flex items-center gap-1 cursor-pointer">
@@ -488,17 +487,31 @@
                                     </label>
                                     <span class="text-slate-500">1pt</span>
                                 </div>
-                                <div class="flex justify-between items-center pt-1 border-t border-slate-100">
-                                    <span class="text-slate-500">Extra anime/series:</span>
-                                    <input type="number" id="inp-anime-extra" value="0" min="0" max="20" 
-                                           class="w-12 text-center border rounded"
-                                           aria-label="Anime extra visto">
-                                </div>
-                                <div class="flex justify-between items-center">
-                                    <span class="text-slate-500">Extra manga (vols):</span>
-                                    <input type="number" id="inp-manga-extra" value="0" min="0" max="50" 
-                                           class="w-12 text-center border rounded"
-                                           aria-label="Volúmenes de manga extra">
+                                <div class="pt-2 border-t border-slate-100 space-y-2">
+                                    <div>
+                                        <div class="flex justify-between items-center mb-1">
+                                            <span class="text-slate-500">Extra anime/series:</span>
+                                            <span class="text-slate-400" id="val-anime-extra-curr">0</span>
+                                        </div>
+                                        <input type="range" id="rng-anime-extra" min="0" max="20" step="1" value="0"
+                                               aria-label="Anime extra visto">
+                                    </div>
+                                    <div>
+                                        <div class="flex justify-between items-center mb-1">
+                                            <span class="text-slate-500">Extra manga (vols):</span>
+                                            <span class="text-slate-400" id="val-manga-extra-curr">0</span>
+                                        </div>
+                                        <input type="range" id="rng-manga-extra" min="0" max="50" step="1" value="0"
+                                               aria-label="Volúmenes de manga extra">
+                                    </div>
+                                    <div>
+                                        <div class="flex justify-between items-center mb-1">
+                                            <span class="text-slate-500">Extra libros:</span>
+                                            <span class="text-slate-400" id="val-books-extra-curr">0</span>
+                                        </div>
+                                        <input type="range" id="rng-books-extra" min="0" max="10" step="1" value="0"
+                                               aria-label="Libros extra leídos">
+                                    </div>
                                 </div>
                             </div>
                         </article>
@@ -511,10 +524,9 @@
                                     <span class="text-xs text-slate-600">Visitas (6 base)</span>
                                     <span class="font-bold text-orange-600 text-sm" id="val-cinema-pts">0 pts</span>
                                 </div>
-                                <input type="number" id="inp-cinema" value="0" min="0" max="30" 
-                                       class="w-full text-center border rounded py-1"
+                                <input type="range" id="rng-cinema" min="0" max="30" step="1" value="0"
                                        aria-label="Visitas al cine">
-                                <p class="input-hint text-center">6 visitas = 2pts · Extra: +0.5 pts c/u adicional</p>
+                                <p class="input-hint"><span id="val-cinema-curr">0</span>/30 visitas · 6 base = 2pts + extra</p>
                             </div>
                         </article>
 
@@ -554,16 +566,17 @@
                     <article class="goal-card goal-card--extra">
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                             
-                            <!-- Book Extra -->
+                            <!-- Book Extra: Fundamentals of DE -->
                             <div class="p-3 rounded-lg bg-indigo-50/50 border border-indigo-100">
                                 <div class="flex justify-between items-center text-sm mb-2">
-                                    <label class="flex items-center gap-2 cursor-pointer">
-                                        <input type="checkbox" id="chk-book" class="w-4 h-4 cursor-pointer accent-indigo-500">
-                                        <span class="text-indigo-700 font-bold">Libro "Fundamentals of DE"</span>
-                                    </label>
+                                    <span class="text-indigo-700 font-bold">Libro "Fundamentals of DE"</span>
                                     <span class="font-bold text-indigo-600" id="val-book-pts">0 pts</span>
                                 </div>
-                                <p class="text-xs text-slate-500 ml-6">+3 pts al estudiar/leer el libro</p>
+                                <input type="range" id="rng-book" min="0" max="394" step="1" value="0"
+                                       class="w-full" aria-label="Páginas leídas del libro">
+                                <p class="input-hint">
+                                    <span id="val-book-curr">0</span>/394 págs · +3 pts al completar
+                                </p>
                             </div>
                             
                             <!-- Spark Exercises Extra -->
@@ -627,9 +640,9 @@
                             <!-- Extra Savings -->
                             <div class="p-3 rounded-lg bg-emerald-50/50 border border-emerald-100 md:col-span-2">
                                 <div class="flex flex-wrap items-center gap-3">
-                                    <span class="text-sm text-emerald-700 font-bold">Ahorro Extra Discrecional:</span>
+                                    <span class="text-sm text-emerald-700 font-bold">Ahorros Extras:</span>
                                     <input type="number" id="inp-savings-extra" value="0" min="0" max="100000" step="1000"
-                                           class="w-28 text-center border border-emerald-200 rounded py-1" placeholder="$"
+                                           class="w-36 px-2 text-center border border-emerald-200 rounded py-1" placeholder="$0"
                                            aria-label="Ahorro extra en pesos">
                                     <span class="font-bold text-emerald-600" id="val-savings-extra-pts">0 pts</span>
                                     <span class="text-xs text-slate-500">(+$2k = +1pt)</span>

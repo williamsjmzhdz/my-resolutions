@@ -486,13 +486,18 @@ const Dashboard = (function() {
         updateDisplay('val-family-curr', familyMeets);
         plata += familyPts;
 
-        // 7. Image
-        const imageSets = counters['img'] || 0;
+        // 7. Image (slider)
+        const imageSets = Math.max(0, parseInt(document.getElementById('rng-img')?.value) || 0);
         const imagePts = Math.min(6, imageSets * 1.5);
+        let imageTotalPts = imagePts;
         plata += imagePts;
         if (imageSets > 4) {
-            extra += (imageSets - 4);
+            const imageExtra = imageSets - 4;
+            extra += imageExtra;
+            imageTotalPts += imageExtra;
         }
+        updateDisplay('val-img-pts', imageTotalPts.toFixed(1) + ' pts');
+        updateDisplay('val-img-curr', imageSets);
         
         // 8. Space - Savings
         const spaceSavings = parseInt(document.getElementById('rng-space-savings').value) || 0;
@@ -520,8 +525,8 @@ const Dashboard = (function() {
 
         // ===== BRONCE & EXTRAS =====
         
-        // 9. Games
-        const games = parseInt(document.getElementById('inp-games').value) || 0;
+        // 9. Games (slider)
+        const games = Math.max(0, parseInt(document.getElementById('rng-games')?.value) || 0);
         let gamesPts = 0;
         if (games >= 1) { bronce += 1.5; gamesPts += 1.5; }
         if (games >= 2) { bronce += 1.5; gamesPts += 1.5; }
@@ -531,20 +536,27 @@ const Dashboard = (function() {
             gamesPts += extraGamesPts;
         }
         updateDisplay('val-games-pts', gamesPts.toFixed(1) + ' pts');
+        updateDisplay('val-games-curr', games);
 
-        // 10. Anime & Manga
+        // 10. Anime, Manga & Más
         if (document.getElementById('chk-frieren')?.checked) bronce += 1;
         if (document.getElementById('chk-berserk')?.checked) bronce += 1;
         if (document.getElementById('chk-anime')?.checked) bronce += 1;
         
-        const extraAnime = parseInt(document.getElementById('inp-anime-extra').value) || 0;
+        const extraAnime = Math.max(0, parseInt(document.getElementById('rng-anime-extra')?.value) || 0);
         if (extraAnime > 0) extra += extraAnime;
+        updateDisplay('val-anime-extra-curr', extraAnime);
         
-        const extraManga = parseInt(document.getElementById('inp-manga-extra').value) || 0;
+        const extraManga = Math.max(0, parseInt(document.getElementById('rng-manga-extra')?.value) || 0);
         if (extraManga > 0) extra += extraManga * 0.2;
+        updateDisplay('val-manga-extra-curr', extraManga);
+        
+        const extraBooks = Math.max(0, parseInt(document.getElementById('rng-books-extra')?.value) || 0);
+        if (extraBooks > 0) extra += extraBooks;
+        updateDisplay('val-books-extra-curr', extraBooks);
 
-        // 11. Cinema
-        const cinema = parseInt(document.getElementById('inp-cinema').value) || 0;
+        // 11. Cinema (slider)
+        const cinema = Math.max(0, parseInt(document.getElementById('rng-cinema')?.value) || 0);
         const cineBaseVisits = Math.min(6, cinema);
         const cinemaPts = (cineBaseVisits / 3);
         bronce += cinemaPts;
@@ -554,6 +566,7 @@ const Dashboard = (function() {
             extra += cinemaExtraPts;
         }
         updateDisplay('val-cinema-pts', (cinemaPts + cinemaExtraPts).toFixed(1) + ' pts');
+        updateDisplay('val-cinema-curr', cinema);
 
         // 12. LoL Ranking
         const lolRank = parseInt(document.getElementById('rng-lol').value) || 0;
@@ -566,10 +579,11 @@ const Dashboard = (function() {
         updateDisplay('val-lol-pts', lolPts.toFixed(1) + ' pts');
         updateDisplay('val-lol-rank', LOL_RANKS[lolRank]);
 
-        // 13. Book
-        const bookDone = document.getElementById('chk-book')?.checked || false;
-        const bookPts = bookDone ? 3 : 0;
-        updateDisplay('val-book-pts', bookPts + ' pts');
+        // 13. Book: Fundamentals of DE (slider - 394 pages)
+        const bookPages = Math.max(0, parseInt(document.getElementById('rng-book')?.value) || 0);
+        const bookPts = bookPages >= 394 ? 3 : (bookPages / 394) * 3;
+        updateDisplay('val-book-pts', bookPts.toFixed(1) + ' pts');
+        updateDisplay('val-book-curr', Math.min(394, bookPages));
         extra += bookPts;
         
         // 14. Spark Exercises Extra
