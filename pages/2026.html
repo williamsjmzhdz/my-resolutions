@@ -434,7 +434,7 @@
                 </section>
 
                 <!-- ========================================================
-                     BRONZE & EXTRAS SECTION
+                     BRONZE SECTION - VIDA & BALANCE
                      ======================================================== -->
                 <section aria-labelledby="bronze-section-title" class="space-y-4">
                     <header class="section-header section-header--bronze pt-6">
@@ -443,142 +443,179 @@
                         </span>
                         <div>
                             <h3 id="bronze-section-title" class="section-header__title">🥉 Vida & Balance</h3>
-                            <p class="section-header__subtitle">Entretenimiento y extras · 10+ puntos</p>
+                            <p class="section-header__subtitle">Entretenimiento personal · 10 puntos</p>
                         </div>
                     </header>
 
-                    <article class="goal-card goal-card--bronze">
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-4">
-                            <!-- Gaming -->
-                            <div class="flex justify-between items-center border-b border-slate-100 pb-2">
-                                <span class="text-sm text-slate-700">Videojuegos AAA (2 base)</span>
-                                <div class="flex items-center gap-2">
-                                    <span class="text-xs text-slate-400">Completados:</span>
-                                    <input type="number" id="inp-games" value="0" min="0" max="10" 
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <!-- Objective 9: Gaming -->
+                        <article class="goal-card goal-card--compact goal-card--bronze" aria-labelledby="obj9-title">
+                            <h5 id="obj9-title" class="font-bold text-sm text-slate-700 mb-3">9. Videojuegos AAA (3pts)</h5>
+                            <div class="space-y-2">
+                                <div class="flex justify-between items-center">
+                                    <span class="text-xs text-slate-600">Completados (2 base)</span>
+                                    <span class="font-bold text-orange-600 text-sm" id="val-games-pts">0 pts</span>
+                                </div>
+                                <input type="number" id="inp-games" value="0" min="0" max="10" 
+                                       class="w-full text-center border rounded py-1"
+                                       aria-label="Videojuegos completados">
+                                <p class="input-hint text-center">1.5 pts c/u (base) · Extra: +1.5 pts c/u adicional</p>
+                            </div>
+                        </article>
+
+                        <!-- Objective 10: Anime & Manga -->
+                        <article class="goal-card goal-card--compact goal-card--bronze" aria-labelledby="obj10-title">
+                            <h5 id="obj10-title" class="font-bold text-sm text-slate-700 mb-3">10. Anime & Manga (3pts)</h5>
+                            <div class="space-y-2 text-xs">
+                                <div class="flex justify-between items-center">
+                                    <label class="flex items-center gap-1 cursor-pointer">
+                                        <input type="checkbox" id="chk-frieren" class="cursor-pointer">
+                                        <span class="text-slate-600">Frieren (Vol 7+)</span>
+                                    </label>
+                                    <span class="text-slate-500">1pt</span>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <label class="flex items-center gap-1 cursor-pointer">
+                                        <input type="checkbox" id="chk-berserk" class="cursor-pointer">
+                                        <span class="text-slate-600">Berserk (5 vols)</span>
+                                    </label>
+                                    <span class="text-slate-500">1pt</span>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <label class="flex items-center gap-1 cursor-pointer">
+                                        <input type="checkbox" id="chk-anime" class="cursor-pointer">
+                                        <span class="text-slate-600">Animes/series/películas (4)</span>
+                                    </label>
+                                    <span class="text-slate-500">1pt</span>
+                                </div>
+                                <div class="flex justify-between items-center pt-1 border-t border-slate-100">
+                                    <span class="text-slate-500">Extra anime/series:</span>
+                                    <input type="number" id="inp-anime-extra" value="0" min="0" max="20" 
                                            class="w-12 text-center border rounded"
-                                           aria-label="Videojuegos completados">
+                                           aria-label="Anime extra visto">
                                 </div>
-                            </div>
-                            
-                            <!-- Anime & Manga Section -->
-                            <div class="border-b border-slate-100 pb-2">
-                                <div class="text-sm text-slate-700 font-bold mb-2">Anime & Manga (3pts base)</div>
-                                <div class="space-y-2 text-xs">
-                                    <div class="flex justify-between items-center">
-                                        <label class="flex items-center gap-1 cursor-pointer">
-                                            <input type="checkbox" id="chk-frieren" class="cursor-pointer">
-                                            <span class="text-slate-600">Frieren (Vol 7+)</span>
-                                        </label>
-                                        <span class="text-slate-500">1pt</span>
-                                    </div>
-                                    <div class="flex justify-between items-center">
-                                        <label class="flex items-center gap-1 cursor-pointer">
-                                            <input type="checkbox" id="chk-berserk" class="cursor-pointer">
-                                            <span class="text-slate-600">Berserk (5 vols)</span>
-                                        </label>
-                                        <span class="text-slate-500">1pt</span>
-                                    </div>
-                                    <div class="flex justify-between items-center">
-                                        <label class="flex items-center gap-1 cursor-pointer">
-                                            <input type="checkbox" id="chk-anime" class="cursor-pointer">
-                                            <span class="text-slate-600">Animes, series y/o películas (4)</span>
-                                        </label>
-                                        <span class="text-slate-500">1pt</span>
-                                    </div>
-                                    <div class="flex justify-between items-center">
-                                        <span class="text-slate-600">Animes, series y/o películas extra:</span>
-                                        <input type="number" id="inp-anime-extra" value="0" min="0" max="20" 
-                                               class="w-10 text-center border rounded"
-                                               aria-label="Anime extra visto">
-                                    </div>
-                                    <div class="flex justify-between items-center">
-                                        <span class="text-slate-600">Tomos de manga extra (vols):</span>
-                                        <input type="number" id="inp-manga-extra" value="0" min="0" max="50" 
-                                               class="w-10 text-center border rounded"
-                                               aria-label="Volúmenes de manga extra">
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <!-- Cinema -->
-                            <div class="flex justify-between items-center border-b border-slate-100 pb-2">
-                                <span class="text-sm text-slate-700">Cine (6 visitas base)</span>
-                                <div class="flex items-center gap-2">
-                                    <span class="text-xs text-slate-400">Visitas:</span>
-                                    <input type="number" id="inp-cinema" value="0" min="0" max="30" 
+                                <div class="flex justify-between items-center">
+                                    <span class="text-slate-500">Extra manga (vols):</span>
+                                    <input type="number" id="inp-manga-extra" value="0" min="0" max="50" 
                                            class="w-12 text-center border rounded"
-                                           aria-label="Visitas al cine">
+                                           aria-label="Volúmenes de manga extra">
                                 </div>
                             </div>
-                            
-                            <!-- LoL Ranking (moved to main grid) -->
-                            <div class="border-b border-slate-100 pb-2">
-                                <div class="input-row">
-                                    <span class="input-row__label text-slate-700">LoL: Ranking (Base: Esmeralda IV)</span>
-                                    <span class="input-row__value" id="val-lol-pts">0 pts</span>
+                        </article>
+
+                        <!-- Objective 11: Cinema -->
+                        <article class="goal-card goal-card--compact goal-card--bronze" aria-labelledby="obj11-title">
+                            <h5 id="obj11-title" class="font-bold text-sm text-slate-700 mb-3">11. Cine (2pts)</h5>
+                            <div class="space-y-2">
+                                <div class="flex justify-between items-center">
+                                    <span class="text-xs text-slate-600">Visitas (6 base)</span>
+                                    <span class="font-bold text-orange-600 text-sm" id="val-cinema-pts">0 pts</span>
+                                </div>
+                                <input type="number" id="inp-cinema" value="0" min="0" max="30" 
+                                       class="w-full text-center border rounded py-1"
+                                       aria-label="Visitas al cine">
+                                <p class="input-hint text-center">6 visitas = 2pts · Extra: +0.5 pts c/u adicional</p>
+                            </div>
+                        </article>
+
+                        <!-- Objective 12: LoL Ranking -->
+                        <article class="goal-card goal-card--compact goal-card--bronze" aria-labelledby="obj12-title">
+                            <h5 id="obj12-title" class="font-bold text-sm text-slate-700 mb-3">12. LoL: Ranking (2pts)</h5>
+                            <div class="space-y-2">
+                                <div class="flex justify-between items-center">
+                                    <span class="text-xs text-slate-600">Base: Esmeralda IV</span>
+                                    <span class="font-bold text-orange-600 text-sm" id="val-lol-pts">0 pts</span>
                                 </div>
                                 <input type="range" id="rng-lol" min="0" max="8" step="1" value="0"
                                        aria-label="Rango en League of Legends">
-                                <p class="input-hint">
+                                <p class="input-hint text-center">
                                     <span id="val-lol-rank">Sin clasificar</span>
-                                    <span class="text-slate-500">(2pts base + 1pt/división extra)</span>
+                                    <span class="text-slate-400">· 2pts base + 1pt/div extra</span>
                                 </p>
                             </div>
+                        </article>
+                    </div>
+                </section>
+
+                <!-- ========================================================
+                     EXTRAS SECTION
+                     ======================================================== -->
+                <section aria-labelledby="extras-section-title" class="space-y-4">
+                    <header class="section-header section-header--extra pt-6">
+                        <span class="section-header__icon section-header__icon--extra">
+                            <i class="fa-solid fa-star text-xl" aria-hidden="true"></i>
+                        </span>
+                        <div>
+                            <h3 id="extras-section-title" class="section-header__title">⭐ Objetivos Extra</h3>
+                            <p class="section-header__subtitle">Bonificaciones adicionales · Puntos ilimitados</p>
                         </div>
-                        
-                        <!-- Extras Section -->
-                        <div class="mt-4 pt-4 border-t border-slate-200 space-y-3">
+                    </header>
+
+                    <article class="goal-card goal-card--extra">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                             
                             <!-- Book Extra -->
-                            <div class="mt-3">
+                            <div class="p-3 rounded-lg bg-indigo-50/50 border border-indigo-100">
                                 <div class="flex justify-between items-center text-sm mb-2">
                                     <label class="flex items-center gap-2 cursor-pointer">
-                                        <input type="checkbox" id="chk-book" class="w-4 h-4 cursor-pointer">
-                                        <span class="text-indigo-700 font-bold">Extra: Libro "Fundamentals of Data Engineering"</span>
+                                        <input type="checkbox" id="chk-book" class="w-4 h-4 cursor-pointer accent-indigo-500">
+                                        <span class="text-indigo-700 font-bold">Libro "Fundamentals of DE"</span>
                                     </label>
                                     <span class="font-bold text-indigo-600" id="val-book-pts">0 pts</span>
                                 </div>
-                                <p class="text-xs text-slate-400 ml-6">+3 pts al estudiar/leer el libro</p>
+                                <p class="text-xs text-slate-500 ml-6">+3 pts al estudiar/leer el libro</p>
                             </div>
                             
-                            <!-- Spark Exercises Extra (NEW) -->
-                            <div class="mt-3">
+                            <!-- Spark Exercises Extra -->
+                            <div class="p-3 rounded-lg bg-indigo-50/50 border border-indigo-100">
                                 <div class="flex justify-between items-center text-sm mb-2">
-                                    <label class="flex items-center gap-2 cursor-pointer">
-                                        <span class="text-indigo-700 font-bold">Extra: Ejercicios Apache Spark</span>
-                                    </label>
+                                    <span class="text-indigo-700 font-bold">Ejercicios Apache Spark</span>
                                     <span class="font-bold text-indigo-600" id="val-spark-ex-pts">0 pts</span>
                                 </div>
-                                <input type="range" id="rng-spark-ex" min="0" max="50" step="1" value="0" aria-label="Ejercicios Spark completados">
+                                <input type="range" id="rng-spark-ex" min="0" max="50" step="1" value="0" 
+                                       class="w-full" aria-label="Ejercicios Spark completados">
                                 <p class="input-hint">
-                                    Completados: <span id="val-spark-ex-curr">0</span> / 50 ejercicios — +0.2 pts por ejercicio (máx 10 pts)
+                                    <span id="val-spark-ex-curr">0</span>/50 ejercicios · +0.2 pts c/u (máx 10 pts)
+                                </p>
+                            </div>
+                            
+                            <!-- YouTube/TikTok Videos Extra -->
+                            <div class="p-3 rounded-lg bg-rose-50/50 border border-rose-100">
+                                <div class="flex justify-between items-center text-sm mb-2">
+                                    <span class="text-rose-700 font-bold">Videos YT & TikTok</span>
+                                    <span class="font-bold text-rose-600" id="val-videos-pts">0 pts</span>
+                                </div>
+                                <input type="range" id="rng-videos" min="0" max="50" step="1" value="0" 
+                                       class="w-full" aria-label="Videos subidos">
+                                <p class="input-hint">
+                                    <span id="val-videos-curr">0</span>/50 videos · +0.2 pts c/u (máx 10 pts)
                                 </p>
                             </div>
                             
                             <!-- AWS Study -->
-                            <div class="mt-3">
-                                <div class="input-row">
-                                    <span class="text-indigo-700 font-bold text-sm">Extra: AWS - Estudio</span>
-                                    <span class="font-bold text-indigo-600 text-sm" id="val-aws-study-pts">0 pts</span>
+                            <div class="p-3 rounded-lg bg-amber-50/50 border border-amber-100">
+                                <div class="flex justify-between items-center text-sm mb-2">
+                                    <span class="text-amber-700 font-bold">AWS - Estudio</span>
+                                    <span class="font-bold text-amber-600" id="val-aws-study-pts">0 pts</span>
                                 </div>
                                 <input type="range" id="rng-aws-study" min="0" max="100" step="10" value="0"
-                                       aria-label="Progreso de estudio AWS">
+                                       class="w-full" aria-label="Progreso de estudio AWS">
                                 <p class="input-hint">
-                                    <span id="val-aws-study-curr">0</span>% completado
+                                    <span id="val-aws-study-curr">0</span>% completado · +2 pts al 100%
                                 </p>
                             </div>
                             
                             <!-- AWS Certification -->
-                            <div class="p-3 rounded-lg bg-indigo-50">
-                                <p class="text-sm font-bold text-indigo-700 mb-2">Certificación AWS (Hands On! + Material):</p>
+                            <div class="p-3 rounded-lg bg-amber-50/50 border border-amber-100 md:col-span-2">
+                                <p class="text-sm font-bold text-amber-700 mb-2">Certificación AWS (Hands On! + Material):</p>
                                 <div class="flex flex-wrap gap-4">
                                     <label class="radio-option">
-                                        <input type="radio" name="aws-cert" value="10" class="accent-indigo-500">
-                                        <span class="text-sm text-indigo-700">Aprobar (+10)</span>
+                                        <input type="radio" name="aws-cert" value="10" class="accent-amber-500">
+                                        <span class="text-sm text-amber-700">Aprobar (+10)</span>
                                     </label>
                                     <label class="radio-option">
-                                        <input type="radio" name="aws-cert" value="4" class="accent-indigo-500">
-                                        <span class="text-sm text-indigo-700">Curso + Presentar (+4)</span>
+                                        <input type="radio" name="aws-cert" value="4" class="accent-amber-500">
+                                        <span class="text-sm text-amber-700">Curso + Presentar (+4)</span>
                                     </label>
                                     <label class="radio-option">
                                         <input type="radio" name="aws-cert" value="0" class="accent-slate-500" checked>
@@ -588,12 +625,15 @@
                             </div>
                             
                             <!-- Extra Savings -->
-                            <div class="flex items-center gap-2 mt-2 flex-wrap">
-                                <span class="text-sm text-emerald-700 font-bold">Ahorro Extra Discrecional (+$2k = +1pt):</span>
-                                <span class="font-bold text-emerald-700" id="val-savings-extra-pts">0 pts</span>
-                                <input type="number" id="inp-savings-extra" value="0" min="0" max="100000" step="1000"
-                                       class="w-28 text-center border rounded" placeholder="$"
-                                       aria-label="Ahorro extra en pesos">
+                            <div class="p-3 rounded-lg bg-emerald-50/50 border border-emerald-100 md:col-span-2">
+                                <div class="flex flex-wrap items-center gap-3">
+                                    <span class="text-sm text-emerald-700 font-bold">Ahorro Extra Discrecional:</span>
+                                    <input type="number" id="inp-savings-extra" value="0" min="0" max="100000" step="1000"
+                                           class="w-28 text-center border border-emerald-200 rounded py-1" placeholder="$"
+                                           aria-label="Ahorro extra en pesos">
+                                    <span class="font-bold text-emerald-600" id="val-savings-extra-pts">0 pts</span>
+                                    <span class="text-xs text-slate-500">(+$2k = +1pt)</span>
+                                </div>
                             </div>
                         </div>
                     </article>

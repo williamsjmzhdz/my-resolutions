@@ -522,9 +522,15 @@ const Dashboard = (function() {
         
         // 9. Games
         const games = parseInt(document.getElementById('inp-games').value) || 0;
-        if (games >= 1) bronce += 1.5;
-        if (games >= 2) bronce += 1.5;
-        if (games > 2) extra += (games - 2) * 1.5;
+        let gamesPts = 0;
+        if (games >= 1) { bronce += 1.5; gamesPts += 1.5; }
+        if (games >= 2) { bronce += 1.5; gamesPts += 1.5; }
+        if (games > 2) {
+            const extraGamesPts = (games - 2) * 1.5;
+            extra += extraGamesPts;
+            gamesPts += extraGamesPts;
+        }
+        updateDisplay('val-games-pts', gamesPts.toFixed(1) + ' pts');
 
         // 10. Anime & Manga
         if (document.getElementById('chk-frieren')?.checked) bronce += 1;
@@ -537,7 +543,19 @@ const Dashboard = (function() {
         const extraManga = parseInt(document.getElementById('inp-manga-extra').value) || 0;
         if (extraManga > 0) extra += extraManga * 0.2;
 
-        // 11. LoL Ranking
+        // 11. Cinema
+        const cinema = parseInt(document.getElementById('inp-cinema').value) || 0;
+        const cineBaseVisits = Math.min(6, cinema);
+        const cinemaPts = (cineBaseVisits / 3);
+        bronce += cinemaPts;
+        let cinemaExtraPts = 0;
+        if (cinema > 6) {
+            cinemaExtraPts = (cinema - 6) * 0.5;
+            extra += cinemaExtraPts;
+        }
+        updateDisplay('val-cinema-pts', (cinemaPts + cinemaExtraPts).toFixed(1) + ' pts');
+
+        // 12. LoL Ranking
         const lolRank = parseInt(document.getElementById('rng-lol').value) || 0;
         let lolPts = 0;
         if (lolRank >= 1) {
@@ -548,19 +566,13 @@ const Dashboard = (function() {
         updateDisplay('val-lol-pts', lolPts.toFixed(1) + ' pts');
         updateDisplay('val-lol-rank', LOL_RANKS[lolRank]);
 
-        // 12. Cinema
-        const cinema = parseInt(document.getElementById('inp-cinema').value) || 0;
-        const cineBaseVisits = Math.min(6, cinema);
-        bronce += (cineBaseVisits / 3);
-        if (cinema > 6) extra += (cinema - 6) * 0.5;
-
         // 13. Book
         const bookDone = document.getElementById('chk-book')?.checked || false;
         const bookPts = bookDone ? 3 : 0;
         updateDisplay('val-book-pts', bookPts + ' pts');
         extra += bookPts;
         
-        // 13.b Spark Exercises Extra
+        // 14. Spark Exercises Extra
         const sparkExercises = parseInt(document.getElementById('rng-spark-ex')?.value) || 0;
         const sparkExercisesClamped = Math.max(0, Math.min(50, sparkExercises));
         const sparkExercisesPts = sparkExercisesClamped * 0.2;
@@ -568,7 +580,15 @@ const Dashboard = (function() {
         updateDisplay('val-spark-ex-curr', sparkExercisesClamped);
         extra += sparkExercisesPts;
         
-        // 14. AWS
+        // 15. YouTube/TikTok Videos Extra
+        const videos = parseInt(document.getElementById('rng-videos')?.value) || 0;
+        const videosClamped = Math.max(0, Math.min(50, videos));
+        const videosPts = videosClamped * 0.2;
+        updateDisplay('val-videos-pts', videosPts.toFixed(1) + ' pts');
+        updateDisplay('val-videos-curr', videosClamped);
+        extra += videosPts;
+        
+        // 16. AWS
         const awsStudyPct = parseInt(document.getElementById('rng-aws-study').value) || 0;
         const awsStudyPts = (awsStudyPct / 100) * 2;
         updateDisplay('val-aws-study-pts', awsStudyPts.toFixed(1) + ' pts');
@@ -578,7 +598,7 @@ const Dashboard = (function() {
         const awsCert = document.querySelector('input[name="aws-cert"]:checked');
         if (awsCert) extra += parseInt(awsCert.value);
 
-        // 15. Extra Savings
+        // 17. Extra Savings
         let savingsExtra = parseInt(document.getElementById('inp-savings-extra').value) || 0;
         savingsExtra = Math.max(0, savingsExtra);
         const savingsExtraPts = Math.floor(savingsExtra / 2000);

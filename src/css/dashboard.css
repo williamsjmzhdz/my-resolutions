@@ -408,6 +408,29 @@
     border-left: 4px solid var(--color-bronze);
 }
 
+.goal-card--extra {
+    border-left: 4px solid #8b5cf6;
+    background: linear-gradient(135deg, #faf5ff 0%, #f5f3ff 100%);
+}
+
+/* Section Header for Extras */
+.section-header--extra {
+    border-left: 4px solid #8b5cf6;
+    padding-left: var(--spacing-4);
+}
+
+.section-header__icon--extra {
+    background: linear-gradient(135deg, #a855f7, #7c3aed);
+    color: white;
+    width: 48px;
+    height: 48px;
+    border-radius: var(--radius-xl);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
+}
+
 .goal-card__header {
     display: flex;
     justify-content: space-between;
