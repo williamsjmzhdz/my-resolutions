@@ -31,7 +31,8 @@ const Dashboard = (function() {
     /** State for manual counters */
     let counters = {
         img: 0,  // Image/outfit counter
-        pizzaSessions: 0  // Pizza Lab sessions counter
+        pizzaSessions: 0,  // Pizza Lab sessions counter
+        nexusfiProgress: 0  // NexusFi frontend progress percentage
     };
 
     /** Chart.js instance for finance chart */
@@ -326,7 +327,7 @@ const Dashboard = (function() {
         if (!confirmed) return;
 
         // Reset counters
-        counters = { img: 0, pizzaSessions: 0 };
+        counters = { img: 0, pizzaSessions: 0, nexusfiProgress: 0 };
         Object.keys(counters).forEach(key => {
             const el = document.getElementById(`count-${key}`);
             if (el) el.innerText = 0;
@@ -337,6 +338,12 @@ const Dashboard = (function() {
         updateDisplay('val-pizza-sessions-curr', '0');
         const pizzaFill = document.getElementById('pizza-progress-fill');
         if (pizzaFill) pizzaFill.style.width = '0%';
+        
+        // Reset NexusFi progress display
+        updateDisplay('nexusfi-progress-display', '0%');
+        updateDisplay('val-nexusfi-progress-curr', '0');
+        const nexusfiFill = document.getElementById('nexusfi-progress-fill');
+        if (nexusfiFill) nexusfiFill.style.width = '0%';
 
         // Uncheck all checkboxes
         document.querySelectorAll('input[type="checkbox"]').forEach(chk => {
@@ -424,6 +431,38 @@ const Dashboard = (function() {
         const ovenPts = ovenChecked ? 4 : 0;
         const totalPizzaPts = ovenPts + sessionPts;
         updateDisplay('val-pizza-total-pts', totalPizzaPts.toFixed(2) + ' pts');
+        
+        calculateScore();
+        saveState();
+    }
+
+    /**
+     * Update NexusFi frontend progress
+     * @param {number} change - Amount to change (+10 or -10)
+     */
+    function updateNexusFiProgress(change) {
+        const newValue = Math.max(0, Math.min(100, counters.nexusfiProgress + change));
+        counters.nexusfiProgress = newValue;
+        
+        // Update display
+        updateDisplay('nexusfi-progress-display', newValue + '%');
+        updateDisplay('val-nexusfi-progress-curr', newValue);
+        
+        // Update progress bar
+        const progressFill = document.getElementById('nexusfi-progress-fill');
+        if (progressFill) {
+            progressFill.style.width = newValue + '%';
+        }
+        
+        // Update points
+        const frontendPts = newValue * 0.06;
+        updateDisplay('val-nexusfi-frontend-pts', frontendPts.toFixed(2) + ' pts');
+        
+        // Recalculate total NexusFi points
+        const deployChecked = document.getElementById('chk-nexusfi-deploy')?.checked || false;
+        const deployPts = deployChecked ? 4 : 0;
+        const totalNexusFiPts = frontendPts + deployPts;
+        updateDisplay('val-nexusfi-total-pts', totalNexusFiPts.toFixed(2) + ' pts');
         
         calculateScore();
         saveState();
@@ -705,6 +744,27 @@ const Dashboard = (function() {
         updateDisplay('val-pizza-total-pts', pizzaTotalPts.toFixed(2) + ' pts');
         extra += pizzaTotalPts;
 
+        // 19. NexusFi Project (10 pts max)
+        const nexusfiFrontendProgress = counters.nexusfiProgress || 0;
+        const nexusfiFrontendPts = Math.min(6, nexusfiFrontendProgress * 0.06);
+        updateDisplay('val-nexusfi-frontend-pts', nexusfiFrontendPts.toFixed(2) + ' pts');
+        updateDisplay('val-nexusfi-progress-curr', nexusfiFrontendProgress);
+        updateDisplay('nexusfi-progress-display', nexusfiFrontendProgress + '%');
+        
+        // Update progress bar
+        const nexusfiProgressFill = document.getElementById('nexusfi-progress-fill');
+        if (nexusfiProgressFill) {
+            nexusfiProgressFill.style.width = nexusfiFrontendProgress + '%';
+        }
+        
+        const nexusfiDeployChecked = document.getElementById('chk-nexusfi-deploy')?.checked || false;
+        const nexusfiDeployPts = nexusfiDeployChecked ? 4 : 0;
+        updateDisplay('val-nexusfi-deploy-pts', nexusfiDeployPts + ' pts');
+        
+        const nexusfiTotalPts = nexusfiFrontendPts + nexusfiDeployPts;
+        updateDisplay('val-nexusfi-total-pts', nexusfiTotalPts.toFixed(2) + ' pts');
+        extra += nexusfiTotalPts;
+
         // ===== UPDATE UI =====
         const total = oro + plata + bronce + extra;
         updateScoreUI(total, oro, plata, bronce, extra);
@@ -963,6 +1023,7 @@ const Dashboard = (function() {
         resetProgress,
         updateCounter,
         updatePizzaSessions,
+        updateNexusFiProgress,
         toggleMobileMenu,
         calculateScore
     };

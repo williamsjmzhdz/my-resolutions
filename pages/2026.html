@@ -731,6 +731,59 @@
                                     <p class="input-hint text-center">+0.25 pts por sesión (máx 6 pts)</p>
                                 </div>
                             </div>
+                            
+                            <!-- NexusFi Project -->
+                            <div class="p-4 rounded-lg bg-purple-50/50 border border-purple-200 md:col-span-2">
+                                <div class="flex items-center gap-2 mb-4">
+                                    <span class="text-lg">💻</span>
+                                    <span class="text-sm text-purple-800 font-bold">Proyecto NexusFi (App Finanzas)</span>
+                                    <span class="ml-auto font-bold text-purple-600" id="val-nexusfi-total-pts">0 pts</span>
+                                </div>
+                                
+                                <!-- Desarrollo Frontend -->
+                                <div class="space-y-2 mb-4 pb-3 border-b border-purple-200">
+                                    <div class="flex justify-between items-center text-sm">
+                                        <span class="text-purple-700">Desarrollo Frontend (UI/UX)</span>
+                                        <span class="font-bold text-purple-600" id="val-nexusfi-frontend-pts">0 pts</span>
+                                    </div>
+                                    
+                                    <!-- Barra de Progreso Visual -->
+                                    <div class="progress-bar-container">
+                                        <div class="progress-bar-track">
+                                            <div class="progress-bar-fill bg-gradient-to-r from-purple-400 to-purple-600" id="nexusfi-progress-fill" style="width: 0%"></div>
+                                        </div>
+                                        <div class="progress-bar-labels">
+                                            <span id="val-nexusfi-progress-curr">0</span>
+                                            <span class="text-slate-400">%</span>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Botones +/- -->
+                                    <div class="flex items-center justify-center gap-4 mt-3">
+                                        <button type="button" onclick="Dashboard.updateNexusFiProgress(-10)" 
+                                                class="progress-btn progress-btn--minus" aria-label="Reducir progreso">
+                                            <i class="fa-solid fa-minus"></i>
+                                        </button>
+                                        <span class="text-lg font-bold text-purple-700 min-w-[3rem] text-center" id="nexusfi-progress-display">0%</span>
+                                        <button type="button" onclick="Dashboard.updateNexusFiProgress(10)" 
+                                                class="progress-btn progress-btn--plus" aria-label="Aumentar progreso">
+                                            <i class="fa-solid fa-plus"></i>
+                                        </button>
+                                    </div>
+                                    
+                                    <p class="input-hint text-center">+0.06 pts por cada 1% (máx 6 pts)</p>
+                                </div>
+                                
+                                <!-- Deploy en Producción -->
+                                <div class="flex items-center justify-between">
+                                    <label class="flex items-center gap-2 cursor-pointer">
+                                        <input type="checkbox" id="chk-nexusfi-deploy" class="w-5 h-5 cursor-pointer accent-purple-500">
+                                        <span class="text-sm text-purple-700">Deploy en Producción y Migración</span>
+                                    </label>
+                                    <span class="font-bold text-purple-600 text-sm" id="val-nexusfi-deploy-pts">0 pts</span>
+                                </div>
+                                <p class="text-xs text-purple-600 mt-1 ml-7 italic">Cuando reemplace oficialmente al Google Sheet</p>
+                            </div>
                         </div>
                     </article>
                 </section>
