@@ -538,22 +538,46 @@ const Dashboard = (function() {
         updateDisplay('val-games-pts', gamesPts.toFixed(1) + ' pts');
         updateDisplay('val-games-curr', games);
 
-        // 10. Anime, Manga & Más
-        if (document.getElementById('chk-frieren')?.checked) bronce += 1;
-        if (document.getElementById('chk-berserk')?.checked) bronce += 1;
-        if (document.getElementById('chk-anime')?.checked) bronce += 1;
+        // 10. Entretenimiento (Anime, Manga & Más)
+        // Frieren manga (6 vols = 1pt)
+        const frieren = Math.max(0, parseInt(document.getElementById('rng-frieren')?.value) || 0);
+        const frierenPts = frieren >= 6 ? 1 : (frieren / 6);
+        bronce += frierenPts;
+        updateDisplay('val-frieren-curr', frieren);
+        updateDisplay('val-frieren-pts', frierenPts.toFixed(1) + ' pts');
         
+        // Berserk manga (5 vols = 1pt)
+        const berserk = Math.max(0, parseInt(document.getElementById('rng-berserk')?.value) || 0);
+        const berserkPts = berserk >= 5 ? 1 : (berserk / 5);
+        bronce += berserkPts;
+        updateDisplay('val-berserk-curr', berserk);
+        updateDisplay('val-berserk-pts', berserkPts.toFixed(1) + ' pts');
+        
+        // Anime/series/películas (4 = 1pt)
+        const anime = Math.max(0, parseInt(document.getElementById('rng-anime')?.value) || 0);
+        const animePts = anime >= 4 ? 1 : (anime / 4);
+        bronce += animePts;
+        updateDisplay('val-anime-curr', anime);
+        updateDisplay('val-anime-pts', animePts.toFixed(1) + ' pts');
+        
+        // Extras
         const extraAnime = Math.max(0, parseInt(document.getElementById('rng-anime-extra')?.value) || 0);
+        const extraAnimePts = extraAnime;
         if (extraAnime > 0) extra += extraAnime;
         updateDisplay('val-anime-extra-curr', extraAnime);
+        updateDisplay('val-anime-extra-pts', extraAnimePts + ' pts');
         
         const extraManga = Math.max(0, parseInt(document.getElementById('rng-manga-extra')?.value) || 0);
-        if (extraManga > 0) extra += extraManga * 0.2;
+        const extraMangaPts = extraManga * 0.2;
+        if (extraManga > 0) extra += extraMangaPts;
         updateDisplay('val-manga-extra-curr', extraManga);
+        updateDisplay('val-manga-extra-pts', extraMangaPts.toFixed(1) + ' pts');
         
         const extraBooks = Math.max(0, parseInt(document.getElementById('rng-books-extra')?.value) || 0);
+        const extraBooksPts = extraBooks;
         if (extraBooks > 0) extra += extraBooks;
         updateDisplay('val-books-extra-curr', extraBooks);
+        updateDisplay('val-books-extra-pts', extraBooksPts + ' pts');
 
         // 11. Cinema (slider)
         const cinema = Math.max(0, parseInt(document.getElementById('rng-cinema')?.value) || 0);

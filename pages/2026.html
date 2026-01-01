@@ -464,50 +464,76 @@
 
                         <!-- Objective 10: Anime, Manga & Más -->
                         <article class="goal-card goal-card--compact goal-card--bronze" aria-labelledby="obj10-title">
-                            <h5 id="obj10-title" class="font-bold text-sm text-slate-700 mb-3">10. Anime, Manga & Más (3pts)</h5>
-                            <div class="space-y-2 text-xs">
-                                <div class="flex justify-between items-center">
-                                    <label class="flex items-center gap-1 cursor-pointer">
-                                        <input type="checkbox" id="chk-frieren" class="cursor-pointer">
-                                        <span class="text-slate-600">Frieren (Vol 7+)</span>
-                                    </label>
-                                    <span class="text-slate-500">1pt</span>
-                                </div>
-                                <div class="flex justify-between items-center">
-                                    <label class="flex items-center gap-1 cursor-pointer">
-                                        <input type="checkbox" id="chk-berserk" class="cursor-pointer">
-                                        <span class="text-slate-600">Berserk (5 vols)</span>
-                                    </label>
-                                    <span class="text-slate-500">1pt</span>
-                                </div>
-                                <div class="flex justify-between items-center">
-                                    <label class="flex items-center gap-1 cursor-pointer">
-                                        <input type="checkbox" id="chk-anime" class="cursor-pointer">
-                                        <span class="text-slate-600">Animes/series/películas (4)</span>
-                                    </label>
-                                    <span class="text-slate-500">1pt</span>
-                                </div>
-                                <div class="pt-2 border-t border-slate-100 space-y-2">
+                            <h5 id="obj10-title" class="font-bold text-sm text-slate-700 mb-3">10. Entretenimiento (3pts base)</h5>
+                            <div class="space-y-3 text-xs">
+                                <!-- Base Goals -->
+                                <div class="space-y-2">
                                     <div>
                                         <div class="flex justify-between items-center mb-1">
-                                            <span class="text-slate-500">Extra anime/series:</span>
-                                            <span class="text-slate-400" id="val-anime-extra-curr">0</span>
+                                            <span class="text-slate-600">Frieren manga (Vol 7+)</span>
+                                            <div class="flex items-center gap-2">
+                                                <span class="text-slate-400" id="val-frieren-curr">0</span>/6
+                                                <span class="text-orange-500 font-bold" id="val-frieren-pts">0 pts</span>
+                                            </div>
+                                        </div>
+                                        <input type="range" id="rng-frieren" min="0" max="6" step="1" value="0"
+                                               aria-label="Volúmenes de Frieren leídos">
+                                    </div>
+                                    <div>
+                                        <div class="flex justify-between items-center mb-1">
+                                            <span class="text-slate-600">Berserk manga (5 vols)</span>
+                                            <div class="flex items-center gap-2">
+                                                <span class="text-slate-400" id="val-berserk-curr">0</span>/5
+                                                <span class="text-orange-500 font-bold" id="val-berserk-pts">0 pts</span>
+                                            </div>
+                                        </div>
+                                        <input type="range" id="rng-berserk" min="0" max="5" step="1" value="0"
+                                               aria-label="Volúmenes de Berserk leídos">
+                                    </div>
+                                    <div>
+                                        <div class="flex justify-between items-center mb-1">
+                                            <span class="text-slate-600">Animes/series/películas</span>
+                                            <div class="flex items-center gap-2">
+                                                <span class="text-slate-400" id="val-anime-curr">0</span>/4
+                                                <span class="text-orange-500 font-bold" id="val-anime-pts">0 pts</span>
+                                            </div>
+                                        </div>
+                                        <input type="range" id="rng-anime" min="0" max="4" step="1" value="0"
+                                               aria-label="Animes/series/películas vistas">
+                                    </div>
+                                </div>
+                                <!-- Extra Goals -->
+                                <div class="pt-2 border-t border-slate-100 space-y-2">
+                                    <p class="text-slate-400 font-semibold">Extras:</p>
+                                    <div>
+                                        <div class="flex justify-between items-center mb-1">
+                                            <span class="text-slate-500">Anime/series adicionales:</span>
+                                            <div class="flex items-center gap-2">
+                                                <span class="text-slate-400" id="val-anime-extra-curr">0</span>
+                                                <span class="text-orange-500 font-bold" id="val-anime-extra-pts">0 pts</span>
+                                            </div>
                                         </div>
                                         <input type="range" id="rng-anime-extra" min="0" max="20" step="1" value="0"
                                                aria-label="Anime extra visto">
                                     </div>
                                     <div>
                                         <div class="flex justify-between items-center mb-1">
-                                            <span class="text-slate-500">Extra manga (vols):</span>
-                                            <span class="text-slate-400" id="val-manga-extra-curr">0</span>
+                                            <span class="text-slate-500">Manga adicional (vols):</span>
+                                            <div class="flex items-center gap-2">
+                                                <span class="text-slate-400" id="val-manga-extra-curr">0</span>
+                                                <span class="text-orange-500 font-bold" id="val-manga-extra-pts">0 pts</span>
+                                            </div>
                                         </div>
                                         <input type="range" id="rng-manga-extra" min="0" max="50" step="1" value="0"
                                                aria-label="Volúmenes de manga extra">
                                     </div>
                                     <div>
                                         <div class="flex justify-between items-center mb-1">
-                                            <span class="text-slate-500">Extra libros:</span>
-                                            <span class="text-slate-400" id="val-books-extra-curr">0</span>
+                                            <span class="text-slate-500">Libros adicionales:</span>
+                                            <div class="flex items-center gap-2">
+                                                <span class="text-slate-400" id="val-books-extra-curr">0</span>
+                                                <span class="text-orange-500 font-bold" id="val-books-extra-pts">0 pts</span>
+                                            </div>
                                         </div>
                                         <input type="range" id="rng-books-extra" min="0" max="10" step="1" value="0"
                                                aria-label="Libros extra leídos">
