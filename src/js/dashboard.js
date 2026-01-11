@@ -910,7 +910,7 @@ const Dashboard = (function() {
         updateDisplay('val-lol-rank', LOL_RANKS[lolRank]);
 
         // 13. Book: Fundamentals of DE (visual progress bar - 394 pages)
-        const bookPages = Math.max(0, Math.min(394, counters.book * 10)); // counter is in 10-page increments
+        const bookPages = Math.max(0, Math.min(394, counters.book)); // counter is page count directly
         const bookPts = bookPages >= 394 ? 3 : (bookPages / 394) * 3;
         updateDisplay('val-book-pts', bookPts.toFixed(1) + ' pts');
         updateDisplay('val-book-curr', bookPages);
@@ -919,7 +919,7 @@ const Dashboard = (function() {
         extra += bookPts;
         
         // 14. Spark Exercises Extra (visual progress bar)
-        const sparkExercises = Math.max(0, Math.min(50, counters.sparkEx * 5)); // counter is in 5-exercise increments
+        const sparkExercises = Math.max(0, Math.min(50, counters.sparkEx)); // counter is exercise count directly
         const sparkExercisesPts = sparkExercises * 0.2;
         updateDisplay('val-spark-ex-pts', sparkExercisesPts.toFixed(1) + ' pts');
         updateDisplay('val-spark-ex-curr', sparkExercises);
@@ -937,7 +937,7 @@ const Dashboard = (function() {
         extra += videosPts;
         
         // 16. AWS Study (visual progress bar)
-        const awsStudyPct = Math.max(0, Math.min(100, counters.awsStudy * 10)); // counter is in 10% increments
+        const awsStudyPct = Math.max(0, Math.min(100, counters.awsStudy)); // counter is percentage directly (increment 5)
         const awsStudyPts = (awsStudyPct / 100) * 2;
         updateDisplay('val-aws-study-pts', awsStudyPts.toFixed(1) + ' pts');
         updateDisplay('val-aws-study-curr', awsStudyPct);
