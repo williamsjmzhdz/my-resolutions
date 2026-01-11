@@ -216,36 +216,56 @@
                                         <span class="input-row__label">Plataforma GoFluent</span>
                                         <span class="input-row__value" id="val-gofluent-pts">0 pts</span>
                                     </div>
-                                    <input type="range" id="rng-gofluent" min="0" max="50" step="1" value="0" 
-                                           aria-label="Horas en GoFluent">
-                                    <p class="input-hint">
+                                    
+                                    <!-- Barra de Progreso Visual -->
+                                    <div class="progress-bar-container">
+                                        <div class="progress-bar-track bg-gradient-to-r from-blue-100 to-blue-200">
+                                            <div class="progress-bar-fill bg-gradient-to-r from-blue-400 to-blue-600" id="gofluent-progress-fill" style="width: 0%"></div>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Botones +/- -->
+                                    <div class="flex items-center justify-center gap-4 mt-3">
+                                        <button type="button" onclick="Dashboard.updateVisualProgress('gofluent', -5, 0, 50, 'gofluent-progress-fill', 'gofluent-display', 'hrs')" 
+                                                class="progress-btn progress-btn--minus !border-blue-300 !text-blue-600 !bg-blue-50 hover:!bg-blue-100" aria-label="Reducir horas">
+                                            <i class="fa-solid fa-minus"></i>
+                                        </button>
+                                        <span class="text-lg font-bold text-blue-700 min-w-[4rem] text-center" id="gofluent-display">0 hrs</span>
+                                        <button type="button" onclick="Dashboard.updateVisualProgress('gofluent', 5, 0, 50, 'gofluent-progress-fill', 'gofluent-display', 'hrs')" 
+                                                class="progress-btn progress-btn--plus !bg-gradient-to-r !from-blue-500 !to-blue-600 !border-blue-600" aria-label="Aumentar horas">
+                                            <i class="fa-solid fa-plus"></i>
+                                        </button>
+                                    </div>
+                                    
+                                    <p class="input-hint text-center">
                                         <span id="val-gofluent-curr">0</span> / 50 horas 
                                         <span class="text-slate-500">(≈3 niveles)</span>
                                     </p>
                                 </div>
                                 
-                                <div class="radio-panel">
-                                    <p class="radio-panel__title">Estudio Constante (segunda mitad del año):</p>
-                                    <div class="radio-panel__options">
+                                <!-- Primera mitad del año: Mantenimiento -->
+                                <div class="p-3 rounded-lg bg-blue-50/50 border border-blue-100">
+                                    <div class="flex items-center justify-between mb-2">
                                         <label class="flex items-center gap-2 cursor-pointer">
-                                            <input type="checkbox" name="english-cert" id="chk-english-consistent" value="15" class="w-5 h-5 cursor-pointer">
-                                            <span class="radio-option__text">Estudié de manera constante (+15)</span>
+                                            <input type="checkbox" id="chk-english-maintenance" class="w-5 h-5 cursor-pointer accent-blue-500">
+                                            <span class="text-sm text-blue-700 font-medium">Mantenimiento (1ra mitad del año)</span>
                                         </label>
-                                        <label class="flex items-center gap-2 cursor-pointer">
-                                            <input type="checkbox" name="english-cert" id="chk-english-not" value="0" class="w-5 h-5 cursor-pointer" checked>
-                                            <span class="radio-option__text radio-option__text--muted">No estudié de manera constante (+0)</span>
-                                        </label>
+                                        <span class="font-bold text-blue-600 text-sm" id="val-english-maintenance-pts">0 pts</span>
                                     </div>
+                                    <p class="text-xs text-blue-600 ml-7 italic">Series, podcasts, música, escritura, traducciones (+5 pts)</p>
                                 </div>
-                                <script>
-                                    (function(){
-                                        const cbs = document.querySelectorAll('input[name="english-cert"]');
-                                        cbs.forEach(cb => cb.addEventListener('change', function(e){
-                                            if (!e.target.checked) return;
-                                            cbs.forEach(other => { if (other !== e.target) other.checked = false; });
-                                        }));
-                                    })();
-                                </script>
+                                
+                                <!-- Segunda mitad del año: Estudio constante -->
+                                <div class="p-3 rounded-lg bg-amber-50/50 border border-amber-100">
+                                    <div class="flex items-center justify-between mb-2">
+                                        <label class="flex items-center gap-2 cursor-pointer">
+                                            <input type="checkbox" id="chk-english-consistent" class="w-5 h-5 cursor-pointer accent-amber-500">
+                                            <span class="text-sm text-amber-700 font-medium">Estudio Constante (2da mitad del año)</span>
+                                        </label>
+                                        <span class="font-bold text-amber-600 text-sm" id="val-english-consistent-pts">0 pts</span>
+                                    </div>
+                                    <p class="text-xs text-amber-600 ml-7 italic">Preparación formal para Cambridge (+10 pts)</p>
+                                </div>
                             </div>
                             <!-- Context -->
                             <div class="bg-amber-50 p-3 sm:p-4 rounded-lg text-xs sm:text-sm text-amber-900 flex flex-col justify-center">
@@ -267,10 +287,36 @@
                                     <span class="input-row__label">Saldo en Inversión (Base + Ahorro)</span>
                                     <span class="input-row__value" id="val-finance-pts">0 pts</span>
                                 </div>
-                                <input type="range" id="rng-finance" min="80000" max="170000" step="1000" value="80873"
-                                       aria-label="Saldo en inversión">
-                                <p class="input-hint">
-                                    Saldo Actual: <span id="val-finance-curr" class="font-mono text-slate-800 font-bold">$80,873</span>
+                                
+                                <!-- Barra de Progreso Visual -->
+                                <div class="progress-bar-container">
+                                    <div class="progress-bar-track bg-gradient-to-r from-emerald-100 to-emerald-200">
+                                        <div class="progress-bar-fill bg-gradient-to-r from-emerald-400 to-emerald-600" id="finance-progress-fill" style="width: 0%"></div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Incremento personalizable -->
+                                <div class="flex items-center justify-center gap-2 mt-3 mb-2">
+                                    <span class="text-xs text-emerald-600">Incremento: $</span>
+                                    <input type="number" id="finance-increment" value="5000" min="100" max="50000" step="100"
+                                           class="w-20 px-2 py-1 text-sm font-mono text-center border border-emerald-300 rounded-lg focus:ring-2 focus:ring-emerald-400 focus:border-emerald-400">
+                                </div>
+                                
+                                <!-- Botones +/- -->
+                                <div class="flex items-center justify-center gap-4">
+                                    <button type="button" onclick="Dashboard.updateFinanceProgress(-1)" 
+                                            class="progress-btn progress-btn--minus !border-emerald-300 !text-emerald-600 !bg-emerald-50 hover:!bg-emerald-100" aria-label="Reducir saldo">
+                                        <i class="fa-solid fa-minus"></i>
+                                    </button>
+                                    <span class="text-lg font-bold text-emerald-700 min-w-[6rem] text-center font-mono" id="finance-display">$80,873</span>
+                                    <button type="button" onclick="Dashboard.updateFinanceProgress(1)" 
+                                            class="progress-btn progress-btn--plus !bg-gradient-to-r !from-emerald-500 !to-emerald-600 !border-emerald-600" aria-label="Aumentar saldo">
+                                        <i class="fa-solid fa-plus"></i>
+                                    </button>
+                                </div>
+                                
+                                <p class="input-hint text-center">
+                                    Meta: <span class="font-mono text-slate-800 font-bold">$170,000</span>
                                 </p>
                             </div>
                             <div>
@@ -278,9 +324,28 @@
                                     <span class="input-row__label">Disciplina del 36%</span>
                                     <span class="input-row__value" id="val-savings-habit-pts">0 pts</span>
                                 </div>
-                                <input type="range" id="rng-savings-habit" min="0" max="12" step="1" value="0"
-                                       aria-label="Meses con ahorro del 36%">
-                                <p class="input-hint">
+                                
+                                <!-- Barra de Progreso Visual -->
+                                <div class="progress-bar-container">
+                                    <div class="progress-bar-track bg-gradient-to-r from-emerald-100 to-emerald-200">
+                                        <div class="progress-bar-fill bg-gradient-to-r from-emerald-400 to-emerald-600" id="savings-habit-progress-fill" style="width: 0%"></div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Botones +/- -->
+                                <div class="flex items-center justify-center gap-4 mt-3">
+                                    <button type="button" onclick="Dashboard.updateVisualProgress('savingsHabit', -1, 0, 12, 'savings-habit-progress-fill', 'savings-habit-display', 'meses')" 
+                                            class="progress-btn progress-btn--minus !border-emerald-300 !text-emerald-600 !bg-emerald-50 hover:!bg-emerald-100" aria-label="Reducir meses">
+                                        <i class="fa-solid fa-minus"></i>
+                                    </button>
+                                    <span class="text-lg font-bold text-emerald-700 min-w-[5rem] text-center" id="savings-habit-display">0 meses</span>
+                                    <button type="button" onclick="Dashboard.updateVisualProgress('savingsHabit', 1, 0, 12, 'savings-habit-progress-fill', 'savings-habit-display', 'meses')" 
+                                            class="progress-btn progress-btn--plus !bg-gradient-to-r !from-emerald-500 !to-emerald-600 !border-emerald-600" aria-label="Aumentar meses">
+                                        <i class="fa-solid fa-plus"></i>
+                                    </button>
+                                </div>
+                                
+                                <p class="input-hint text-center">
                                     <span id="val-savings-habit-curr">0</span> / 12 meses con ahorro del 36%
                                 </p>
                             </div>
@@ -294,17 +359,48 @@
                             <span class="goal-card__points">10 Pts Max</span>
                         </header>
                         <div class="space-y-4">
-                            <!-- Curso Apache Spark -->
+                            <!-- Estudio de Temas para Certificación -->
                             <div>
                                 <div class="input-row">
-                                    <span class="input-row__label">Apache Spark Training Course</span>
-                                    <span class="input-row__value" id="val-spark-course-pts">0 pts</span>
+                                    <span class="input-row__label">Temas Estudiados (Exam Outline)</span>
+                                    <span class="input-row__value" id="val-spark-topics-pts">0 pts</span>
                                 </div>
-                                <input type="range" id="rng-spark-course" min="0" max="8" step="0.5" value="0"
-                                       class="w-full" aria-label="Horas del curso de Apache Spark completadas">
-                                <p class="input-hint">
-                                    <span id="val-spark-course-curr">0</span> / 8 horas · +2 pts al completar
+                                
+                                <!-- Barra de Progreso Visual -->
+                                <div class="progress-bar-container">
+                                    <div class="progress-bar-track bg-gradient-to-r from-amber-100 to-amber-200">
+                                        <div class="progress-bar-fill bg-gradient-to-r from-amber-400 to-amber-600" id="spark-topics-progress-fill" style="width: 0%"></div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Botones +/- -->
+                                <div class="flex items-center justify-center gap-4 mt-3">
+                                    <button type="button" onclick="Dashboard.updateVisualProgress('sparkTopics', -1, 0, 32, 'spark-topics-progress-fill', 'spark-topics-display', 'temas')" 
+                                            class="progress-btn progress-btn--minus !border-amber-300 !text-amber-600 !bg-amber-50 hover:!bg-amber-100" aria-label="Reducir temas">
+                                        <i class="fa-solid fa-minus"></i>
+                                    </button>
+                                    <span class="text-lg font-bold text-amber-700 min-w-[5rem] text-center" id="spark-topics-display">0 temas</span>
+                                    <button type="button" onclick="Dashboard.updateVisualProgress('sparkTopics', 1, 0, 32, 'spark-topics-progress-fill', 'spark-topics-display', 'temas')" 
+                                            class="progress-btn progress-btn--plus !bg-gradient-to-r !from-amber-500 !to-amber-600 !border-amber-600" aria-label="Aumentar temas">
+                                        <i class="fa-solid fa-plus"></i>
+                                    </button>
+                                </div>
+                                
+                                <p class="input-hint text-center">
+                                    <span id="val-spark-topics-curr">0</span> / 32 subtemas · +2 pts al completar todos
                                 </p>
+                                <details class="mt-2 text-xs text-amber-700">
+                                    <summary class="cursor-pointer font-medium hover:text-amber-800">Ver desglose de temas (7 secciones)</summary>
+                                    <ul class="mt-2 ml-4 space-y-1 text-amber-600">
+                                        <li>§1 Architecture & Components (7 subtemas)</li>
+                                        <li>§2 Using Spark SQL (4 subtemas)</li>
+                                        <li>§3 DataFrame/DataSet API (10 subtemas)</li>
+                                        <li>§4 Troubleshooting & Tuning (3 subtemas)</li>
+                                        <li>§5 Structured Streaming (4 subtemas)</li>
+                                        <li>§6 Spark Connect (2 subtemas)</li>
+                                        <li>§7 Pandas API on Spark (2 subtemas)</li>
+                                    </ul>
+                                </details>
                             </div>
                             
                             <!-- Checkboxes del examen -->
@@ -333,18 +429,56 @@
                                     <span class="input-row__label">Visitas al Gym (Acumulado Anual)</span>
                                     <span class="input-row__value" id="val-gym-pts">0 pts</span>
                                 </div>
-                                <input type="range" id="rng-gym" min="0" max="100" step="1" value="0"
-                                       aria-label="Visitas al gimnasio">
-                                <p class="input-hint"><span id="val-gym-curr">0</span> / 100 Visitas</p>
+                                
+                                <!-- Barra de Progreso Visual -->
+                                <div class="progress-bar-container">
+                                    <div class="progress-bar-track bg-gradient-to-r from-rose-100 to-rose-200">
+                                        <div class="progress-bar-fill bg-gradient-to-r from-rose-400 to-rose-600" id="gym-progress-fill" style="width: 0%"></div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Botones +/- -->
+                                <div class="flex items-center justify-center gap-4 mt-3">
+                                    <button type="button" onclick="Dashboard.updateVisualProgress('gym', -5, 0, 100, 'gym-progress-fill', 'gym-display', 'visitas')" 
+                                            class="progress-btn progress-btn--minus !border-rose-300 !text-rose-600 !bg-rose-50 hover:!bg-rose-100" aria-label="Reducir visitas">
+                                        <i class="fa-solid fa-minus"></i>
+                                    </button>
+                                    <span class="text-lg font-bold text-rose-700 min-w-[5rem] text-center" id="gym-display">0 visitas</span>
+                                    <button type="button" onclick="Dashboard.updateVisualProgress('gym', 5, 0, 100, 'gym-progress-fill', 'gym-display', 'visitas')" 
+                                            class="progress-btn progress-btn--plus !bg-gradient-to-r !from-rose-500 !to-rose-600 !border-rose-600" aria-label="Aumentar visitas">
+                                        <i class="fa-solid fa-plus"></i>
+                                    </button>
+                                </div>
+                                
+                                <p class="input-hint text-center"><span id="val-gym-curr">0</span> / 100 Visitas</p>
                             </div>
                             <div>
                                 <div class="input-row">
                                     <span class="input-row__label">Control Nutricional (Deliveries)</span>
                                     <span class="input-row__value" id="val-delivery-pts">5 pts</span>
                                 </div>
-                                <input type="range" id="rng-delivery" min="0" max="52" step="1" value="0"
-                                       aria-label="Número de deliveries">
-                                <p class="input-hint">
+                                
+                                <!-- Barra de Progreso Visual -->
+                                <div class="progress-bar-container">
+                                    <div class="progress-bar-track bg-gradient-to-r from-orange-100 to-orange-200">
+                                        <div class="progress-bar-fill bg-gradient-to-r from-orange-400 to-orange-600" id="delivery-progress-fill" style="width: 0%"></div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Botones +/- -->
+                                <div class="flex items-center justify-center gap-4 mt-3">
+                                    <button type="button" onclick="Dashboard.updateVisualProgress('delivery', -1, 0, 52, 'delivery-progress-fill', 'delivery-display', 'deliveries')" 
+                                            class="progress-btn progress-btn--minus !border-orange-300 !text-orange-600 !bg-orange-50 hover:!bg-orange-100" aria-label="Reducir deliveries">
+                                        <i class="fa-solid fa-minus"></i>
+                                    </button>
+                                    <span class="text-lg font-bold text-orange-700 min-w-[6rem] text-center" id="delivery-display">0 deliveries</span>
+                                    <button type="button" onclick="Dashboard.updateVisualProgress('delivery', 1, 0, 52, 'delivery-progress-fill', 'delivery-display', 'deliveries')" 
+                                            class="progress-btn progress-btn--plus !bg-gradient-to-r !from-orange-500 !to-orange-600 !border-orange-600" aria-label="Aumentar deliveries">
+                                        <i class="fa-solid fa-plus"></i>
+                                    </button>
+                                </div>
+                                
+                                <p class="input-hint text-center">
                                     <span id="val-delivery-curr">0</span> / 24 Deliveries al año 
                                     <span id="val-delivery-status" class="font-semibold text-emerald-600">✓ En meta</span>
                                 </p>
@@ -611,9 +745,28 @@
                                     <span class="text-indigo-700 font-bold">Libro "Fundamentals of DE"</span>
                                     <span class="font-bold text-indigo-600" id="val-book-pts">0 pts</span>
                                 </div>
-                                <input type="range" id="rng-book" min="0" max="394" step="1" value="0"
-                                       class="w-full" aria-label="Páginas leídas del libro">
-                                <p class="input-hint">
+                                
+                                <!-- Barra de Progreso Visual -->
+                                <div class="progress-bar-container">
+                                    <div class="progress-bar-track bg-gradient-to-r from-indigo-100 to-indigo-200">
+                                        <div class="progress-bar-fill bg-gradient-to-r from-indigo-400 to-indigo-600" id="book-progress-fill" style="width: 0%"></div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Botones +/- -->
+                                <div class="flex items-center justify-center gap-3 mt-2">
+                                    <button type="button" onclick="Dashboard.updateVisualProgress('book', -10, 0, 394, 'book-progress-fill', 'book-display', 'págs')" 
+                                            class="progress-btn progress-btn--minus !w-8 !h-8 !border-indigo-300 !text-indigo-600 !bg-indigo-50 hover:!bg-indigo-100" aria-label="Reducir páginas">
+                                        <i class="fa-solid fa-minus text-xs"></i>
+                                    </button>
+                                    <span class="text-sm font-bold text-indigo-700 min-w-[4rem] text-center" id="book-display">0 págs</span>
+                                    <button type="button" onclick="Dashboard.updateVisualProgress('book', 10, 0, 394, 'book-progress-fill', 'book-display', 'págs')" 
+                                            class="progress-btn progress-btn--plus !w-8 !h-8 !bg-gradient-to-r !from-indigo-500 !to-indigo-600 !border-indigo-600" aria-label="Aumentar páginas">
+                                        <i class="fa-solid fa-plus text-xs"></i>
+                                    </button>
+                                </div>
+                                
+                                <p class="input-hint text-center">
                                     <span id="val-book-curr">0</span>/394 págs · +3 pts al completar
                                 </p>
                             </div>
@@ -624,9 +777,28 @@
                                     <span class="text-indigo-700 font-bold">Ejercicios Apache Spark</span>
                                     <span class="font-bold text-indigo-600" id="val-spark-ex-pts">0 pts</span>
                                 </div>
-                                <input type="range" id="rng-spark-ex" min="0" max="50" step="1" value="0" 
-                                       class="w-full" aria-label="Ejercicios Spark completados">
-                                <p class="input-hint">
+                                
+                                <!-- Barra de Progreso Visual -->
+                                <div class="progress-bar-container">
+                                    <div class="progress-bar-track bg-gradient-to-r from-indigo-100 to-indigo-200">
+                                        <div class="progress-bar-fill bg-gradient-to-r from-indigo-400 to-indigo-600" id="spark-ex-progress-fill" style="width: 0%"></div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Botones +/- -->
+                                <div class="flex items-center justify-center gap-3 mt-2">
+                                    <button type="button" onclick="Dashboard.updateVisualProgress('sparkEx', -5, 0, 50, 'spark-ex-progress-fill', 'spark-ex-display', 'ejercicios')" 
+                                            class="progress-btn progress-btn--minus !w-8 !h-8 !border-indigo-300 !text-indigo-600 !bg-indigo-50 hover:!bg-indigo-100" aria-label="Reducir ejercicios">
+                                        <i class="fa-solid fa-minus text-xs"></i>
+                                    </button>
+                                    <span class="text-sm font-bold text-indigo-700 min-w-[5rem] text-center" id="spark-ex-display">0 ejercicios</span>
+                                    <button type="button" onclick="Dashboard.updateVisualProgress('sparkEx', 5, 0, 50, 'spark-ex-progress-fill', 'spark-ex-display', 'ejercicios')" 
+                                            class="progress-btn progress-btn--plus !w-8 !h-8 !bg-gradient-to-r !from-indigo-500 !to-indigo-600 !border-indigo-600" aria-label="Aumentar ejercicios">
+                                        <i class="fa-solid fa-plus text-xs"></i>
+                                    </button>
+                                </div>
+                                
+                                <p class="input-hint text-center">
                                     <span id="val-spark-ex-curr">0</span>/50 ejercicios · +0.2 pts c/u (máx 10 pts)
                                 </p>
                             </div>
@@ -637,9 +809,28 @@
                                     <span class="text-rose-700 font-bold">Videos YT & TikTok</span>
                                     <span class="font-bold text-rose-600" id="val-videos-pts">0 pts</span>
                                 </div>
-                                <input type="range" id="rng-videos" min="0" max="50" step="1" value="0" 
-                                       class="w-full" aria-label="Videos subidos">
-                                <p class="input-hint">
+                                
+                                <!-- Barra de Progreso Visual -->
+                                <div class="progress-bar-container">
+                                    <div class="progress-bar-track bg-gradient-to-r from-rose-100 to-rose-200">
+                                        <div class="progress-bar-fill bg-gradient-to-r from-rose-400 to-rose-600" id="videos-progress-fill" style="width: 0%"></div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Botones +/- -->
+                                <div class="flex items-center justify-center gap-3 mt-2">
+                                    <button type="button" onclick="Dashboard.updateVisualProgress('videos', -1, 0, 50, 'videos-progress-fill', 'videos-display', 'videos')" 
+                                            class="progress-btn progress-btn--minus !w-8 !h-8 !border-rose-300 !text-rose-600 !bg-rose-50 hover:!bg-rose-100" aria-label="Reducir videos">
+                                        <i class="fa-solid fa-minus text-xs"></i>
+                                    </button>
+                                    <span class="text-sm font-bold text-rose-700 min-w-[4rem] text-center" id="videos-display">0 videos</span>
+                                    <button type="button" onclick="Dashboard.updateVisualProgress('videos', 1, 0, 50, 'videos-progress-fill', 'videos-display', 'videos')" 
+                                            class="progress-btn progress-btn--plus !w-8 !h-8 !bg-gradient-to-r !from-rose-500 !to-rose-600 !border-rose-600" aria-label="Aumentar videos">
+                                        <i class="fa-solid fa-plus text-xs"></i>
+                                    </button>
+                                </div>
+                                
+                                <p class="input-hint text-center">
                                     <span id="val-videos-curr">0</span>/50 videos · +0.2 pts c/u (máx 10 pts)
                                 </p>
                             </div>
@@ -650,9 +841,28 @@
                                     <span class="text-amber-700 font-bold">AWS - Estudio</span>
                                     <span class="font-bold text-amber-600" id="val-aws-study-pts">0 pts</span>
                                 </div>
-                                <input type="range" id="rng-aws-study" min="0" max="100" step="10" value="0"
-                                       class="w-full" aria-label="Progreso de estudio AWS">
-                                <p class="input-hint">
+                                
+                                <!-- Barra de Progreso Visual -->
+                                <div class="progress-bar-container">
+                                    <div class="progress-bar-track bg-gradient-to-r from-amber-100 to-amber-200">
+                                        <div class="progress-bar-fill bg-gradient-to-r from-amber-400 to-amber-600" id="aws-study-progress-fill" style="width: 0%"></div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Botones +/- -->
+                                <div class="flex items-center justify-center gap-3 mt-2">
+                                    <button type="button" onclick="Dashboard.updateVisualProgress('awsStudy', -10, 0, 100, 'aws-study-progress-fill', 'aws-study-display', '%')" 
+                                            class="progress-btn progress-btn--minus !w-8 !h-8 !border-amber-300 !text-amber-600 !bg-amber-50 hover:!bg-amber-100" aria-label="Reducir progreso">
+                                        <i class="fa-solid fa-minus text-xs"></i>
+                                    </button>
+                                    <span class="text-sm font-bold text-amber-700 min-w-[3rem] text-center" id="aws-study-display">0%</span>
+                                    <button type="button" onclick="Dashboard.updateVisualProgress('awsStudy', 10, 0, 100, 'aws-study-progress-fill', 'aws-study-display', '%')" 
+                                            class="progress-btn progress-btn--plus !w-8 !h-8 !bg-gradient-to-r !from-amber-500 !to-amber-600 !border-amber-600" aria-label="Aumentar progreso">
+                                        <i class="fa-solid fa-plus text-xs"></i>
+                                    </button>
+                                </div>
+                                
+                                <p class="input-hint text-center">
                                     <span id="val-aws-study-curr">0</span>% completado · +2 pts al 100%
                                 </p>
                             </div>

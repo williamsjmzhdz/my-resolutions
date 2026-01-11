@@ -33,7 +33,32 @@ const Dashboard = (function() {
         img: 0,  // Image/outfit counter
         pizzaSessions: 0,  // Pizza Lab sessions counter
         nexusfiProgress: 0,  // NexusFi frontend progress percentage
-        nexusfiBackendProgress: 0  // NexusFi backend progress percentage
+        nexusfiBackendProgress: 0,  // NexusFi backend progress percentage
+        // New visual progress bars
+        gofluent: 0,
+        finance: 80873,
+        savingsHabit: 0,
+        sparkTopics: 0,
+        gym: 0,
+        delivery: 0,
+        transfers: 0,
+        family: 0,
+        imgOutfits: 0,
+        spaceSavings: 0,
+        furniture: 0,
+        games: 0,
+        frieren: 0,
+        berserk: 0,
+        anime: 0,
+        animeExtra: 0,
+        mangaExtra: 0,
+        booksExtra: 0,
+        cinema: 0,
+        lol: 0,
+        book: 0,
+        sparkEx: 0,
+        videos: 0,
+        awsStudy: 0
     };
 
     /** Chart.js instance for finance chart */
@@ -157,6 +182,30 @@ const Dashboard = (function() {
                     pizzaSessions: 0, 
                     nexusfiProgress: 0, 
                     nexusfiBackendProgress: 0,
+                    gofluent: 0,
+                    finance: FINANCE.BASE_BALANCE,
+                    savingsHabit: 0,
+                    sparkTopics: 0,
+                    gym: 0,
+                    delivery: 0,
+                    transfers: 0,
+                    family: 0,
+                    imgOutfits: 0,
+                    spaceSavings: 0,
+                    furniture: 0,
+                    games: 0,
+                    frieren: 0,
+                    berserk: 0,
+                    anime: 0,
+                    animeExtra: 0,
+                    mangaExtra: 0,
+                    booksExtra: 0,
+                    cinema: 0,
+                    lol: 0,
+                    book: 0,
+                    sparkEx: 0,
+                    videos: 0,
+                    awsStudy: 0,
                     ...state.counters 
                 };
                 Object.keys(counters).forEach(key => {
@@ -333,30 +382,52 @@ const Dashboard = (function() {
         
         if (!confirmed) return;
 
-        // Reset counters
-        counters = { img: 0, pizzaSessions: 0, nexusfiProgress: 0, nexusfiBackendProgress: 0 };
-        Object.keys(counters).forEach(key => {
-            const el = document.getElementById(`count-${key}`);
-            if (el) el.innerText = 0;
+        // Reset all counters to defaults
+        counters = {
+            img: 0,
+            pizzaSessions: 0,
+            nexusfiProgress: 0,
+            nexusfiBackendProgress: 0,
+            gofluent: 0,
+            finance: FINANCE.BASE_BALANCE,
+            savingsHabit: 0,
+            sparkTopics: 0,
+            gym: 0,
+            delivery: 0,
+            transfers: 0,
+            family: 0,
+            imgOutfits: 0,
+            spaceSavings: 0,
+            furniture: 0,
+            games: 0,
+            frieren: 0,
+            berserk: 0,
+            anime: 0,
+            animeExtra: 0,
+            mangaExtra: 0,
+            booksExtra: 0,
+            cinema: 0,
+            lol: 0,
+            book: 0,
+            sparkEx: 0,
+            videos: 0,
+            awsStudy: 0
+        };
+        
+        // Reset all progress bar fills
+        document.querySelectorAll('[id$="-progress-fill"]').forEach(fill => {
+            fill.style.width = '0%';
         });
         
         // Reset pizza sessions display
         updateDisplay('pizza-sessions-display', '0');
         updateDisplay('val-pizza-sessions-curr', '0');
-        const pizzaFill = document.getElementById('pizza-progress-fill');
-        if (pizzaFill) pizzaFill.style.width = '0%';
         
-        // Reset NexusFi progress display
+        // Reset NexusFi displays
         updateDisplay('nexusfi-progress-display', '0%');
         updateDisplay('val-nexusfi-progress-curr', '0');
-        const nexusfiFill = document.getElementById('nexusfi-progress-fill');
-        if (nexusfiFill) nexusfiFill.style.width = '0%';
-        
-        // Reset NexusFi backend progress display
         updateDisplay('nexusfi-backend-progress-display', '0%');
         updateDisplay('val-nexusfi-backend-progress-curr', '0');
-        const nexusfiBackendFill = document.getElementById('nexusfi-backend-progress-fill');
-        if (nexusfiBackendFill) nexusfiBackendFill.style.width = '0%';
 
         // Uncheck all checkboxes
         document.querySelectorAll('input[type="checkbox"]').forEach(chk => {
@@ -368,7 +439,7 @@ const Dashboard = (function() {
             radio.checked = radio.value === '0';
         });
 
-        // Reset range sliders
+        // Reset range sliders (for any remaining ones)
         document.querySelectorAll('input[type="range"]').forEach(rng => {
             rng.value = rng.id === 'rng-finance' ? FINANCE.BASE_BALANCE : (rng.min || 0);
         });
@@ -444,6 +515,70 @@ const Dashboard = (function() {
         const ovenPts = ovenChecked ? 4 : 0;
         const totalPizzaPts = ovenPts + sessionPts;
         updateDisplay('val-pizza-total-pts', totalPizzaPts.toFixed(2) + ' pts');
+        
+        calculateScore();
+        saveState();
+    }
+
+    /**
+     * Generic function to update any visual progress bar
+     * @param {string} key - The counter key name
+     * @param {number} change - Amount to change (positive or negative)
+     * @param {number} min - Minimum value
+     * @param {number} max - Maximum value
+     * @param {string} fillId - ID of the progress bar fill element
+     * @param {string} displayId - ID of the display element showing current value
+     * @param {string} unit - Unit to display (%, horas, etc.)
+     */
+    function updateVisualProgress(key, change, min, max, fillId, displayId, unit = '') {
+        const currentValue = counters[key] || min;
+        const newValue = Math.max(min, Math.min(max, currentValue + change));
+        counters[key] = newValue;
+        
+        // Calculate percentage for the fill bar
+        const percentage = ((newValue - min) / (max - min)) * 100;
+        
+        // Update progress bar fill
+        const progressFill = document.getElementById(fillId);
+        if (progressFill) {
+            progressFill.style.width = percentage + '%';
+        }
+        
+        // Update display
+        const displayValue = unit === '%' ? newValue + '%' : newValue + (unit ? ' ' + unit : '');
+        updateDisplay(displayId, displayValue);
+        
+        calculateScore();
+        saveState();
+    }
+
+    /**
+     * Update Finance (Saldo de Inversión) progress with user-defined increment
+     * @param {number} direction - Direction of change (+1 for increase, -1 for decrease)
+     */
+    function updateFinanceProgress(direction) {
+        const incrementInput = document.getElementById('finance-increment');
+        const increment = parseInt(incrementInput?.value) || 5000;
+        const change = direction * increment;
+        
+        const min = 80873;
+        const max = 170000;
+        const currentValue = counters.finance || min;
+        const newValue = Math.max(min, Math.min(max, currentValue + change));
+        counters.finance = newValue;
+        
+        // Calculate percentage for the fill bar
+        const percentage = ((newValue - min) / (max - min)) * 100;
+        
+        // Update progress bar fill
+        const progressFill = document.getElementById('finance-progress-fill');
+        if (progressFill) {
+            progressFill.style.width = percentage + '%';
+        }
+        
+        // Update display with formatted currency
+        const formatted = '$' + newValue.toLocaleString('en-US');
+        updateDisplay('finance-display', formatted);
         
         calculateScore();
         saveState();
@@ -538,25 +673,37 @@ const Dashboard = (function() {
 
         // ===== ORO CALCULATIONS =====
         
-        // 1. English - GoFluent
-        const gofluentHours = parseInt(document.getElementById('rng-gofluent').value) || 0;
+        // 1. English - GoFluent (using counters now)
+        const gofluentHours = counters.gofluent || 0;
         const gofluentPts = (gofluentHours / 50) * 5;
         updateDisplay('val-gofluent-pts', gofluentPts.toFixed(1) + ' pts');
         updateDisplay('val-gofluent-curr', gofluentHours);
+        updateDisplay('gofluent-display', gofluentHours + ' hrs');
+        const gofluentFill = document.getElementById('gofluent-progress-fill');
+        if (gofluentFill) gofluentFill.style.width = ((gofluentHours / 50) * 100) + '%';
         oro += gofluentPts;
         
-        // English Certification
-        const engCert = document.querySelector('input[name="english-cert"]:checked');
-        if (engCert) oro += parseInt(engCert.value);
-
-        // 2. Apache Spark Training Course
-        const sparkCourseHours = parseFloat(document.getElementById('rng-spark-course').value) || 0;
+        // English Maintenance (1st half of year) - 5 pts
+        const engMaintenance = document.getElementById('chk-english-maintenance')?.checked || false;
+        const engMaintenancePts = engMaintenance ? 5 : 0;
+        updateDisplay('val-english-maintenance-pts', engMaintenancePts + ' pts');
+        oro += engMaintenancePts;
         
-        // +2 pts al completar el curso (8 horas)
-        const sparkCoursePts = sparkCourseHours >= 8 ? 2 : 0;
-        updateDisplay('val-spark-course-pts', sparkCoursePts.toFixed(1) + ' pts');
-        updateDisplay('val-spark-course-curr', sparkCourseHours.toFixed(1));
-        oro += sparkCoursePts;
+        // English Consistent Study (2nd half of year) - 10 pts
+        const engConsistent = document.getElementById('chk-english-consistent')?.checked || false;
+        const engConsistentPts = engConsistent ? 10 : 0;
+        updateDisplay('val-english-consistent-pts', engConsistentPts + ' pts');
+        oro += engConsistentPts;
+
+        // 2. Apache Spark - Topics Studied (32 subtopics) - using counters
+        const sparkTopics = counters.sparkTopics || 0;
+        const sparkTopicsPts = (sparkTopics / 32) * 2;
+        updateDisplay('val-spark-topics-pts', sparkTopicsPts.toFixed(1) + ' pts');
+        updateDisplay('val-spark-topics-curr', sparkTopics);
+        updateDisplay('spark-topics-display', sparkTopics + ' temas');
+        const sparkTopicsFill = document.getElementById('spark-topics-progress-fill');
+        if (sparkTopicsFill) sparkTopicsFill.style.width = ((sparkTopics / 32) * 100) + '%';
+        oro += sparkTopicsPts;
         
         // +2 pts por presentar el examen
         const sparkPresent = document.getElementById('chk-spark-present')?.checked || false;
@@ -566,15 +713,18 @@ const Dashboard = (function() {
         const sparkPass = document.getElementById('chk-spark-pass')?.checked || false;
         if (sparkPass) oro += 6;
 
-        // 3. Finance - Savings Habit
-        const savingsMonths = parseInt(document.getElementById('rng-savings-habit').value) || 0;
+        // 3. Finance - Savings Habit - using counters
+        const savingsMonths = counters.savingsHabit || 0;
         const savingsHabitPts = (savingsMonths / 12) * 10;
         updateDisplay('val-savings-habit-pts', savingsHabitPts.toFixed(1) + ' pts');
         updateDisplay('val-savings-habit-curr', savingsMonths);
+        updateDisplay('savings-habit-display', savingsMonths + ' meses');
+        const savingsHabitFill = document.getElementById('savings-habit-progress-fill');
+        if (savingsHabitFill) savingsHabitFill.style.width = ((savingsMonths / 12) * 100) + '%';
         oro += savingsHabitPts;
         
-        // Finance - Balance Growth
-        const currentBalance = parseInt(document.getElementById('rng-finance').value) || FINANCE.BASE_BALANCE;
+        // Finance - Balance Growth - using counters
+        const currentBalance = counters.finance || FINANCE.BASE_BALANCE;
         let financeGoalPts = 0;
         if (currentBalance > FINANCE.BASE_BALANCE) {
             const progress = (currentBalance - FINANCE.BASE_BALANCE) / 
@@ -583,18 +733,24 @@ const Dashboard = (function() {
         }
         updateDisplay('val-finance-pts', financeGoalPts.toFixed(1) + ' pts');
         updateDisplay('val-finance-curr', ResolutionApp.formatCurrency(currentBalance));
+        updateDisplay('finance-display', ResolutionApp.formatCurrency(currentBalance));
+        const financeFill = document.getElementById('finance-progress-fill');
+        if (financeFill) financeFill.style.width = (((currentBalance - FINANCE.BASE_BALANCE) / (FINANCE.TARGET_BALANCE - FINANCE.BASE_BALANCE)) * 100) + '%';
         oro += financeGoalPts;
         updateFinanceChart(currentBalance);
 
-        // 4. Health - Gym
-        const gymVisits = parseInt(document.getElementById('rng-gym').value) || 0;
+        // 4. Health - Gym - using counters
+        const gymVisits = counters.gym || 0;
         const gymPts = Math.min(5, (gymVisits / 100) * 5);
         updateDisplay('val-gym-pts', gymPts.toFixed(1) + ' pts');
         updateDisplay('val-gym-curr', gymVisits);
+        updateDisplay('gym-display', gymVisits + ' visitas');
+        const gymFill = document.getElementById('gym-progress-fill');
+        if (gymFill) gymFill.style.width = ((gymVisits / 100) * 100) + '%';
         oro += gymPts;
         
-        // Health - Nutrition
-        const deliveries = parseInt(document.getElementById('rng-delivery').value) || 0;
+        // Health - Nutrition - using counters
+        const deliveries = counters.delivery || 0;
         const targetDeliveries = 24;
         let nutritionPts = 5;
         
@@ -609,6 +765,9 @@ const Dashboard = (function() {
         }
         updateDisplay('val-delivery-pts', nutritionPts.toFixed(1) + ' pts');
         updateDisplay('val-delivery-curr', deliveries);
+        updateDisplay('delivery-display', deliveries + ' deliveries');
+        const deliveryFill = document.getElementById('delivery-progress-fill');
+        if (deliveryFill) deliveryFill.style.width = ((deliveries / 52) * 100) + '%';
         oro += nutritionPts;
 
         // ===== PLATA CALCULATIONS =====
@@ -750,34 +909,40 @@ const Dashboard = (function() {
         updateDisplay('val-lol-pts', lolPts.toFixed(1) + ' pts');
         updateDisplay('val-lol-rank', LOL_RANKS[lolRank]);
 
-        // 13. Book: Fundamentals of DE (slider - 394 pages)
-        const bookPages = Math.max(0, parseInt(document.getElementById('rng-book')?.value) || 0);
+        // 13. Book: Fundamentals of DE (visual progress bar - 394 pages)
+        const bookPages = Math.max(0, Math.min(394, counters.book * 10)); // counter is in 10-page increments
         const bookPts = bookPages >= 394 ? 3 : (bookPages / 394) * 3;
         updateDisplay('val-book-pts', bookPts.toFixed(1) + ' pts');
-        updateDisplay('val-book-curr', Math.min(394, bookPages));
+        updateDisplay('val-book-curr', bookPages);
+        updateProgressFill('book-fill', (bookPages / 394) * 100);
+        updateDisplay('book-display', bookPages);
         extra += bookPts;
         
-        // 14. Spark Exercises Extra
-        const sparkExercises = parseInt(document.getElementById('rng-spark-ex')?.value) || 0;
-        const sparkExercisesClamped = Math.max(0, Math.min(50, sparkExercises));
-        const sparkExercisesPts = sparkExercisesClamped * 0.2;
+        // 14. Spark Exercises Extra (visual progress bar)
+        const sparkExercises = Math.max(0, Math.min(50, counters.sparkEx * 5)); // counter is in 5-exercise increments
+        const sparkExercisesPts = sparkExercises * 0.2;
         updateDisplay('val-spark-ex-pts', sparkExercisesPts.toFixed(1) + ' pts');
-        updateDisplay('val-spark-ex-curr', sparkExercisesClamped);
+        updateDisplay('val-spark-ex-curr', sparkExercises);
+        updateProgressFill('spark-ex-fill', (sparkExercises / 50) * 100);
+        updateDisplay('spark-ex-display', sparkExercises);
         extra += sparkExercisesPts;
         
-        // 15. YouTube/TikTok Videos Extra
-        const videos = parseInt(document.getElementById('rng-videos')?.value) || 0;
-        const videosClamped = Math.max(0, Math.min(50, videos));
-        const videosPts = videosClamped * 0.2;
+        // 15. YouTube/TikTok Videos Extra (visual progress bar)
+        const videos = Math.max(0, Math.min(50, counters.videos)); // counter is in 1-video increments
+        const videosPts = videos * 0.2;
         updateDisplay('val-videos-pts', videosPts.toFixed(1) + ' pts');
-        updateDisplay('val-videos-curr', videosClamped);
+        updateDisplay('val-videos-curr', videos);
+        updateProgressFill('videos-fill', (videos / 50) * 100);
+        updateDisplay('videos-display', videos);
         extra += videosPts;
         
-        // 16. AWS
-        const awsStudyPct = parseInt(document.getElementById('rng-aws-study').value) || 0;
+        // 16. AWS Study (visual progress bar)
+        const awsStudyPct = Math.max(0, Math.min(100, counters.awsStudy * 10)); // counter is in 10% increments
         const awsStudyPts = (awsStudyPct / 100) * 2;
         updateDisplay('val-aws-study-pts', awsStudyPts.toFixed(1) + ' pts');
         updateDisplay('val-aws-study-curr', awsStudyPct);
+        updateProgressFill('aws-study-fill', awsStudyPct);
+        updateDisplay('aws-study-display', awsStudyPct);
         extra += awsStudyPts;
         
         const awsCert = document.querySelector('input[name="aws-cert"]:checked');
@@ -862,6 +1027,16 @@ const Dashboard = (function() {
     function updateDisplay(id, value) {
         const el = document.getElementById(id);
         if (el) el.innerText = value;
+    }
+
+    /**
+     * Helper to update progress bar fill width
+     * @param {string} id - Element ID of the fill div
+     * @param {number} percent - Percentage to fill (0-100)
+     */
+    function updateProgressFill(id, percent) {
+        const el = document.getElementById(id);
+        if (el) el.style.width = Math.min(100, Math.max(0, percent)) + '%';
     }
 
     /**
@@ -1109,6 +1284,8 @@ const Dashboard = (function() {
         updatePizzaSessions,
         updateNexusFiProgress,
         updateNexusFiBackendProgress,
+        updateVisualProgress,
+        updateFinanceProgress,
         toggleMobileMenu,
         calculateScore
     };
