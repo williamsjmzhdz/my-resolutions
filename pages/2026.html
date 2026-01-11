@@ -293,20 +293,29 @@
                             <h4 id="obj3-title" class="goal-card__title">3. Especialización Técnica (Spark)</h4>
                             <span class="goal-card__points">10 Pts Max</span>
                         </header>
-                        <div class="radio-panel">
-                            <p class="radio-panel__title">Certificación Databricks (Udemy + Material):</p>
-                            <div class="radio-panel__options radio-panel__options--horizontal">
-                                <label class="radio-option">
-                                    <input type="radio" name="spark-cert" value="10" class="accent-amber-500">
-                                    <span class="radio-option__text">Aprobar (+10)</span>
+                        <div class="space-y-4">
+                            <!-- Curso Apache Spark -->
+                            <div>
+                                <div class="input-row">
+                                    <span class="input-row__label">Apache Spark Training Course</span>
+                                    <span class="input-row__value" id="val-spark-course-pts">0 pts</span>
+                                </div>
+                                <input type="range" id="rng-spark-course" min="0" max="8" step="0.5" value="0"
+                                       class="w-full" aria-label="Horas del curso de Apache Spark completadas">
+                                <p class="input-hint">
+                                    <span id="val-spark-course-curr">0</span> / 8 horas · +2 pts al completar
+                                </p>
+                            </div>
+                            
+                            <!-- Checkboxes del examen -->
+                            <div class="flex flex-wrap gap-4 pt-2 border-t border-amber-200">
+                                <label class="flex items-center gap-2 cursor-pointer">
+                                    <input type="checkbox" id="chk-spark-present" class="w-5 h-5 cursor-pointer accent-amber-500">
+                                    <span class="text-sm text-amber-700">Presentar Examen (+2 pts)</span>
                                 </label>
-                                <label class="radio-option">
-                                    <input type="radio" name="spark-cert" value="4" class="accent-amber-500">
-                                    <span class="radio-option__text">Curso + Presentar (+4)</span>
-                                </label>
-                                <label class="radio-option">
-                                    <input type="radio" name="spark-cert" value="0" class="accent-slate-500" checked>
-                                    <span class="radio-option__text radio-option__text--muted">Nada</span>
+                                <label class="flex items-center gap-2 cursor-pointer">
+                                    <input type="checkbox" id="chk-spark-pass" class="w-5 h-5 cursor-pointer accent-amber-500">
+                                    <span class="text-sm text-amber-700">Aprobar Examen (+6 pts)</span>
                                 </label>
                             </div>
                         </div>
@@ -740,49 +749,101 @@
                                     <span class="ml-auto font-bold text-purple-600" id="val-nexusfi-total-pts">0 pts</span>
                                 </div>
                                 
-                                <!-- Desarrollo Frontend -->
-                                <div class="space-y-2 mb-4 pb-3 border-b border-purple-200">
-                                    <div class="flex justify-between items-center text-sm">
-                                        <span class="text-purple-700">Desarrollo Frontend (UI/UX)</span>
-                                        <span class="font-bold text-purple-600" id="val-nexusfi-frontend-pts">0 pts</span>
-                                    </div>
+                                <!-- ===== BACKEND SECTION ===== -->
+                                <div class="mb-4 pb-4 border-b border-purple-200">
+                                    <p class="text-xs font-bold text-purple-800 uppercase tracking-wide mb-3">🔧 Backend</p>
                                     
-                                    <!-- Barra de Progreso Visual -->
-                                    <div class="progress-bar-container">
-                                        <div class="progress-bar-track">
-                                            <div class="progress-bar-fill bg-gradient-to-r from-purple-400 to-purple-600" id="nexusfi-progress-fill" style="width: 0%"></div>
+                                    <!-- Desarrollo Backend (API y Smoke Tests) -->
+                                    <div class="space-y-2 mb-3">
+                                        <div class="flex justify-between items-center text-sm">
+                                            <span class="text-purple-700">Desarrollo Backend (API y Smoke Tests)</span>
+                                            <span class="font-bold text-purple-600" id="val-nexusfi-backend-pts">0 pts</span>
                                         </div>
-                                        <div class="progress-bar-labels">
-                                            <span id="val-nexusfi-progress-curr">0</span>
-                                            <span class="text-slate-400">%</span>
+                                        
+                                        <!-- Barra de Progreso Visual Backend -->
+                                        <div class="progress-bar-container">
+                                            <div class="progress-bar-track">
+                                                <div class="progress-bar-fill bg-gradient-to-r from-purple-400 to-purple-600" id="nexusfi-backend-progress-fill" style="width: 0%"></div>
+                                            </div>
+                                            <div class="progress-bar-labels">
+                                                <span id="val-nexusfi-backend-progress-curr">0</span>
+                                                <span class="text-slate-400">%</span>
+                                            </div>
                                         </div>
+                                        
+                                        <!-- Botones +/- Backend -->
+                                        <div class="flex items-center justify-center gap-4 mt-2">
+                                            <button type="button" onclick="Dashboard.updateNexusFiBackendProgress(-10)" 
+                                                    class="progress-btn progress-btn--minus" aria-label="Reducir progreso backend">
+                                                <i class="fa-solid fa-minus"></i>
+                                            </button>
+                                            <span class="text-lg font-bold text-purple-700 min-w-[3rem] text-center" id="nexusfi-backend-progress-display">0%</span>
+                                            <button type="button" onclick="Dashboard.updateNexusFiBackendProgress(10)" 
+                                                    class="progress-btn progress-btn--plus" aria-label="Aumentar progreso backend">
+                                                <i class="fa-solid fa-plus"></i>
+                                            </button>
+                                        </div>
+                                        <p class="input-hint text-center">+0.025 pts por cada 1% (máx 2.5 pts)</p>
                                     </div>
                                     
-                                    <!-- Botones +/- -->
-                                    <div class="flex items-center justify-center gap-4 mt-3">
-                                        <button type="button" onclick="Dashboard.updateNexusFiProgress(-10)" 
-                                                class="progress-btn progress-btn--minus" aria-label="Reducir progreso">
-                                            <i class="fa-solid fa-minus"></i>
-                                        </button>
-                                        <span class="text-lg font-bold text-purple-700 min-w-[3rem] text-center" id="nexusfi-progress-display">0%</span>
-                                        <button type="button" onclick="Dashboard.updateNexusFiProgress(10)" 
-                                                class="progress-btn progress-btn--plus" aria-label="Aumentar progreso">
-                                            <i class="fa-solid fa-plus"></i>
-                                        </button>
+                                    <!-- Deploy Backend -->
+                                    <div class="flex items-center justify-between mt-3">
+                                        <label class="flex items-center gap-2 cursor-pointer">
+                                            <input type="checkbox" id="chk-nexusfi-backend-deploy" class="w-5 h-5 cursor-pointer accent-purple-500">
+                                            <span class="text-sm text-purple-700">Deploy en Producción (API)</span>
+                                        </label>
+                                        <span class="font-bold text-purple-600 text-sm" id="val-nexusfi-backend-deploy-pts">0 pts</span>
                                     </div>
-                                    
-                                    <p class="input-hint text-center">+0.06 pts por cada 1% (máx 6 pts)</p>
+                                    <p class="text-xs text-purple-600 mt-1 ml-7 italic">+2 pts al desplegar la API en producción</p>
                                 </div>
                                 
-                                <!-- Deploy en Producción -->
-                                <div class="flex items-center justify-between">
-                                    <label class="flex items-center gap-2 cursor-pointer">
-                                        <input type="checkbox" id="chk-nexusfi-deploy" class="w-5 h-5 cursor-pointer accent-purple-500">
-                                        <span class="text-sm text-purple-700">Deploy en Producción y Migración</span>
-                                    </label>
-                                    <span class="font-bold text-purple-600 text-sm" id="val-nexusfi-deploy-pts">0 pts</span>
+                                <!-- ===== FRONTEND SECTION ===== -->
+                                <div>
+                                    <p class="text-xs font-bold text-purple-800 uppercase tracking-wide mb-3">🎨 Frontend</p>
+                                    
+                                    <!-- Desarrollo Frontend -->
+                                    <div class="space-y-2 mb-3">
+                                        <div class="flex justify-between items-center text-sm">
+                                            <span class="text-purple-700">Desarrollo Frontend (UI/UX)</span>
+                                            <span class="font-bold text-purple-600" id="val-nexusfi-frontend-pts">0 pts</span>
+                                        </div>
+                                        
+                                        <!-- Barra de Progreso Visual Frontend -->
+                                        <div class="progress-bar-container">
+                                            <div class="progress-bar-track">
+                                                <div class="progress-bar-fill bg-gradient-to-r from-purple-400 to-purple-600" id="nexusfi-progress-fill" style="width: 0%"></div>
+                                            </div>
+                                            <div class="progress-bar-labels">
+                                                <span id="val-nexusfi-progress-curr">0</span>
+                                                <span class="text-slate-400">%</span>
+                                            </div>
+                                        </div>
+                                        
+                                        <!-- Botones +/- Frontend -->
+                                        <div class="flex items-center justify-center gap-4 mt-2">
+                                            <button type="button" onclick="Dashboard.updateNexusFiProgress(-10)" 
+                                                    class="progress-btn progress-btn--minus" aria-label="Reducir progreso frontend">
+                                                <i class="fa-solid fa-minus"></i>
+                                            </button>
+                                            <span class="text-lg font-bold text-purple-700 min-w-[3rem] text-center" id="nexusfi-progress-display">0%</span>
+                                            <button type="button" onclick="Dashboard.updateNexusFiProgress(10)" 
+                                                    class="progress-btn progress-btn--plus" aria-label="Aumentar progreso frontend">
+                                                <i class="fa-solid fa-plus"></i>
+                                            </button>
+                                        </div>
+                                        <p class="input-hint text-center">+0.025 pts por cada 1% (máx 2.5 pts)</p>
+                                    </div>
+                                    
+                                    <!-- Deploy Frontend -->
+                                    <div class="flex items-center justify-between mt-3">
+                                        <label class="flex items-center gap-2 cursor-pointer">
+                                            <input type="checkbox" id="chk-nexusfi-frontend-deploy" class="w-5 h-5 cursor-pointer accent-purple-500">
+                                            <span class="text-sm text-purple-700">Deploy en Producción (UI/UX)</span>
+                                        </label>
+                                        <span class="font-bold text-purple-600 text-sm" id="val-nexusfi-frontend-deploy-pts">0 pts</span>
+                                    </div>
+                                    <p class="text-xs text-purple-600 mt-1 ml-7 italic">+3 pts cuando reemplace oficialmente al Google Sheet</p>
                                 </div>
-                                <p class="text-xs text-purple-600 mt-1 ml-7 italic">Cuando reemplace oficialmente al Google Sheet</p>
                             </div>
                         </div>
                     </article>

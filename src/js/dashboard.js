@@ -32,7 +32,8 @@ const Dashboard = (function() {
     let counters = {
         img: 0,  // Image/outfit counter
         pizzaSessions: 0,  // Pizza Lab sessions counter
-        nexusfiProgress: 0  // NexusFi frontend progress percentage
+        nexusfiProgress: 0,  // NexusFi frontend progress percentage
+        nexusfiBackendProgress: 0  // NexusFi backend progress percentage
     };
 
     /** Chart.js instance for finance chart */
@@ -149,9 +150,15 @@ const Dashboard = (function() {
         if (!state) return;
 
         try {
-            // Restore counters
+            // Restore counters (merge with defaults to handle missing keys)
             if (state.counters) {
-                counters = state.counters;
+                counters = { 
+                    img: 0, 
+                    pizzaSessions: 0, 
+                    nexusfiProgress: 0, 
+                    nexusfiBackendProgress: 0,
+                    ...state.counters 
+                };
                 Object.keys(counters).forEach(key => {
                     const el = document.getElementById(`count-${key}`);
                     if (el) el.innerText = counters[key];
@@ -327,7 +334,7 @@ const Dashboard = (function() {
         if (!confirmed) return;
 
         // Reset counters
-        counters = { img: 0, pizzaSessions: 0, nexusfiProgress: 0 };
+        counters = { img: 0, pizzaSessions: 0, nexusfiProgress: 0, nexusfiBackendProgress: 0 };
         Object.keys(counters).forEach(key => {
             const el = document.getElementById(`count-${key}`);
             if (el) el.innerText = 0;
@@ -344,6 +351,12 @@ const Dashboard = (function() {
         updateDisplay('val-nexusfi-progress-curr', '0');
         const nexusfiFill = document.getElementById('nexusfi-progress-fill');
         if (nexusfiFill) nexusfiFill.style.width = '0%';
+        
+        // Reset NexusFi backend progress display
+        updateDisplay('nexusfi-backend-progress-display', '0%');
+        updateDisplay('val-nexusfi-backend-progress-curr', '0');
+        const nexusfiBackendFill = document.getElementById('nexusfi-backend-progress-fill');
+        if (nexusfiBackendFill) nexusfiBackendFill.style.width = '0%';
 
         // Uncheck all checkboxes
         document.querySelectorAll('input[type="checkbox"]').forEach(chk => {
@@ -454,18 +467,60 @@ const Dashboard = (function() {
             progressFill.style.width = newValue + '%';
         }
         
-        // Update points
-        const frontendPts = newValue * 0.06;
+        // Update points (2.5 pts max for frontend dev)
+        const frontendPts = Math.min(2.5, newValue * 0.025);
         updateDisplay('val-nexusfi-frontend-pts', frontendPts.toFixed(2) + ' pts');
         
-        // Recalculate total NexusFi points
-        const deployChecked = document.getElementById('chk-nexusfi-deploy')?.checked || false;
-        const deployPts = deployChecked ? 4 : 0;
-        const totalNexusFiPts = frontendPts + deployPts;
-        updateDisplay('val-nexusfi-total-pts', totalNexusFiPts.toFixed(2) + ' pts');
-        
+        recalculateNexusFiTotal();
         calculateScore();
         saveState();
+    }
+    
+    /**
+     * Update NexusFi backend progress
+     * @param {number} change - Amount to change (+10 or -10)
+     */
+    function updateNexusFiBackendProgress(change) {
+        const newValue = Math.max(0, Math.min(100, counters.nexusfiBackendProgress + change));
+        counters.nexusfiBackendProgress = newValue;
+        
+        // Update display
+        updateDisplay('nexusfi-backend-progress-display', newValue + '%');
+        updateDisplay('val-nexusfi-backend-progress-curr', newValue);
+        
+        // Update progress bar
+        const progressFill = document.getElementById('nexusfi-backend-progress-fill');
+        if (progressFill) {
+            progressFill.style.width = newValue + '%';
+        }
+        
+        // Update points (2.5 pts max for backend dev)
+        const backendPts = Math.min(2.5, newValue * 0.025);
+        updateDisplay('val-nexusfi-backend-pts', backendPts.toFixed(2) + ' pts');
+        
+        recalculateNexusFiTotal();
+        calculateScore();
+        saveState();
+    }
+    
+    /**
+     * Recalculate total NexusFi points from all components
+     */
+    function recalculateNexusFiTotal() {
+        // Backend: dev (2.5) + deploy (2)
+        const backendProgress = counters.nexusfiBackendProgress || 0;
+        const backendDevPts = Math.min(2.5, backendProgress * 0.025);
+        const backendDeployChecked = document.getElementById('chk-nexusfi-backend-deploy')?.checked || false;
+        const backendDeployPts = backendDeployChecked ? 2 : 0;
+        
+        // Frontend: dev (2.5) + deploy (3)
+        const frontendProgress = counters.nexusfiProgress || 0;
+        const frontendDevPts = Math.min(2.5, frontendProgress * 0.025);
+        const frontendDeployChecked = document.getElementById('chk-nexusfi-frontend-deploy')?.checked || false;
+        const frontendDeployPts = frontendDeployChecked ? 3 : 0;
+        
+        const totalNexusFiPts = backendDevPts + backendDeployPts + frontendDevPts + frontendDeployPts;
+        updateDisplay('val-nexusfi-total-pts', totalNexusFiPts.toFixed(2) + ' pts');
     }
 
     /**
@@ -494,9 +549,22 @@ const Dashboard = (function() {
         const engCert = document.querySelector('input[name="english-cert"]:checked');
         if (engCert) oro += parseInt(engCert.value);
 
-        // 2. Spark Certification
-        const sparkCert = document.querySelector('input[name="spark-cert"]:checked');
-        if (sparkCert) oro += parseInt(sparkCert.value);
+        // 2. Apache Spark Training Course
+        const sparkCourseHours = parseFloat(document.getElementById('rng-spark-course').value) || 0;
+        
+        // +2 pts al completar el curso (8 horas)
+        const sparkCoursePts = sparkCourseHours >= 8 ? 2 : 0;
+        updateDisplay('val-spark-course-pts', sparkCoursePts.toFixed(1) + ' pts');
+        updateDisplay('val-spark-course-curr', sparkCourseHours.toFixed(1));
+        oro += sparkCoursePts;
+        
+        // +2 pts por presentar el examen
+        const sparkPresent = document.getElementById('chk-spark-present')?.checked || false;
+        if (sparkPresent) oro += 2;
+        
+        // +6 pts por aprobar el examen
+        const sparkPass = document.getElementById('chk-spark-pass')?.checked || false;
+        if (sparkPass) oro += 6;
 
         // 3. Finance - Savings Habit
         const savingsMonths = parseInt(document.getElementById('rng-savings-habit').value) || 0;
@@ -745,23 +813,39 @@ const Dashboard = (function() {
         extra += pizzaTotalPts;
 
         // 19. NexusFi Project (10 pts max)
+        // Backend: development (2.5 pts) + deploy (2 pts)
+        const nexusfiBackendProgress = counters.nexusfiBackendProgress || 0;
+        const nexusfiBackendDevPts = Math.min(2.5, nexusfiBackendProgress * 0.025);
+        updateDisplay('val-nexusfi-backend-pts', nexusfiBackendDevPts.toFixed(2) + ' pts');
+        updateDisplay('val-nexusfi-backend-progress-curr', nexusfiBackendProgress);
+        updateDisplay('nexusfi-backend-progress-display', nexusfiBackendProgress + '%');
+        
+        const nexusfiBackendFill = document.getElementById('nexusfi-backend-progress-fill');
+        if (nexusfiBackendFill) {
+            nexusfiBackendFill.style.width = nexusfiBackendProgress + '%';
+        }
+        
+        const nexusfiBackendDeployChecked = document.getElementById('chk-nexusfi-backend-deploy')?.checked || false;
+        const nexusfiBackendDeployPts = nexusfiBackendDeployChecked ? 2 : 0;
+        updateDisplay('val-nexusfi-backend-deploy-pts', nexusfiBackendDeployPts + ' pts');
+        
+        // Frontend: development (2.5 pts) + deploy (3 pts)
         const nexusfiFrontendProgress = counters.nexusfiProgress || 0;
-        const nexusfiFrontendPts = Math.min(6, nexusfiFrontendProgress * 0.06);
+        const nexusfiFrontendPts = Math.min(2.5, nexusfiFrontendProgress * 0.025);
         updateDisplay('val-nexusfi-frontend-pts', nexusfiFrontendPts.toFixed(2) + ' pts');
         updateDisplay('val-nexusfi-progress-curr', nexusfiFrontendProgress);
         updateDisplay('nexusfi-progress-display', nexusfiFrontendProgress + '%');
         
-        // Update progress bar
         const nexusfiProgressFill = document.getElementById('nexusfi-progress-fill');
         if (nexusfiProgressFill) {
             nexusfiProgressFill.style.width = nexusfiFrontendProgress + '%';
         }
         
-        const nexusfiDeployChecked = document.getElementById('chk-nexusfi-deploy')?.checked || false;
-        const nexusfiDeployPts = nexusfiDeployChecked ? 4 : 0;
-        updateDisplay('val-nexusfi-deploy-pts', nexusfiDeployPts + ' pts');
+        const nexusfiFrontendDeployChecked = document.getElementById('chk-nexusfi-frontend-deploy')?.checked || false;
+        const nexusfiFrontendDeployPts = nexusfiFrontendDeployChecked ? 3 : 0;
+        updateDisplay('val-nexusfi-frontend-deploy-pts', nexusfiFrontendDeployPts + ' pts');
         
-        const nexusfiTotalPts = nexusfiFrontendPts + nexusfiDeployPts;
+        const nexusfiTotalPts = nexusfiBackendDevPts + nexusfiBackendDeployPts + nexusfiFrontendPts + nexusfiFrontendDeployPts;
         updateDisplay('val-nexusfi-total-pts', nexusfiTotalPts.toFixed(2) + ' pts');
         extra += nexusfiTotalPts;
 
@@ -1024,6 +1108,7 @@ const Dashboard = (function() {
         updateCounter,
         updatePizzaSessions,
         updateNexusFiProgress,
+        updateNexusFiBackendProgress,
         toggleMobileMenu,
         calculateScore
     };
