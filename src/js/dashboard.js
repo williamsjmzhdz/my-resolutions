@@ -910,7 +910,7 @@ const Dashboard = (function() {
 
         // 6. Family - Transfers (4 pts) + Meetings (4 pts) = 8 pts total
         const transfers = parseInt(document.getElementById('rng-transfers').value) || 0;
-        const transfersPts = (transfers / 12) * 4;
+        const transfersPts = (transfers / 24) * 4;  // 24 quincenas
         updateDisplay('val-transfers-pts', transfersPts.toFixed(1) + ' pts');
         updateDisplay('val-transfers-curr', transfers);
         plata += transfersPts;
@@ -937,7 +937,7 @@ const Dashboard = (function() {
         
         // 8. Space - Savings
         const spaceSavings = parseInt(document.getElementById('rng-space-savings').value) || 0;
-        const spaceSavingsPts = (spaceSavings / 12) * 2;
+        const spaceSavingsPts = (spaceSavings / 24) * 2;  // 24 quincenas
         updateDisplay('val-space-savings-pts', spaceSavingsPts.toFixed(1) + ' pts');
         updateDisplay('val-space-savings-curr', spaceSavings);
         plata += spaceSavingsPts;
