@@ -974,6 +974,59 @@
                                 </div>
                             </div>
                             
+                            <!-- Pizza Lab Project -->
+                            <div class="p-4 rounded-lg bg-orange-50/50 border border-orange-200 md:col-span-2">
+                                <div class="flex items-center gap-2 mb-4">
+                                    <span class="text-lg">🍕</span>
+                                    <span class="text-sm text-orange-800 font-bold">Proyecto Pizza Lab</span>
+                                    <span class="ml-auto font-bold text-orange-600" id="val-pizza-total-pts">0 pts</span>
+                                </div>
+                                
+                                <!-- Hito: Compra del Horno -->
+                                <div class="flex items-center justify-between mb-4 pb-3 border-b border-orange-200">
+                                    <label class="flex items-center gap-2 cursor-pointer">
+                                        <input type="checkbox" id="chk-pizza-oven" class="w-5 h-5 cursor-pointer accent-orange-500">
+                                        <span class="text-sm text-orange-700">Horno Ooni Adquirido</span>
+                                    </label>
+                                    <span class="font-bold text-orange-600 text-sm" id="val-pizza-oven-pts">0 pts</span>
+                                </div>
+                                
+                                <!-- Sesiones de Práctica -->
+                                <div class="space-y-2">
+                                    <div class="flex justify-between items-center text-sm">
+                                        <span class="text-orange-700">Sesiones de Práctica y Validación</span>
+                                        <span class="font-bold text-orange-600" id="val-pizza-sessions-pts">0 pts</span>
+                                    </div>
+                                    
+                                    <!-- Barra de Progreso Visual -->
+                                    <div class="progress-bar-container">
+                                        <div class="progress-bar-track">
+                                            <div class="progress-bar-fill bg-gradient-to-r from-orange-400 to-orange-600" id="pizza-progress-fill" style="width: 0%"></div>
+                                        </div>
+                                        <div class="progress-bar-labels">
+                                            <span id="val-pizza-sessions-curr">0</span>
+                                            <span class="text-slate-400">/</span>
+                                            <span>24 sesiones</span>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Botones +/- -->
+                                    <div class="flex items-center justify-center gap-4 mt-3">
+                                        <button type="button" onclick="Dashboard.updatePizzaSessions(-1)" 
+                                                class="progress-btn progress-btn--minus !border-orange-300 !text-orange-600 !bg-orange-50 hover:!bg-orange-100" aria-label="Reducir sesiones">
+                                            <i class="fa-solid fa-minus"></i>
+                                        </button>
+                                        <span class="text-lg font-bold text-orange-700 min-w-[3rem] text-center" id="pizza-sessions-display">0</span>
+                                        <button type="button" onclick="Dashboard.updatePizzaSessions(1)" 
+                                                class="progress-btn progress-btn--plus !bg-gradient-to-r !from-orange-500 !to-orange-600 !border-orange-600" aria-label="Aumentar sesiones">
+                                            <i class="fa-solid fa-plus"></i>
+                                        </button>
+                                    </div>
+                                    
+                                    <p class="input-hint text-center">+0.25 pts por sesión (máx 6 pts)</p>
+                                </div>
+                            </div>
+                            
                             <!-- NexusFi Project -->
                             <div class="p-4 rounded-lg bg-purple-50/50 border border-purple-200 md:col-span-2">
                                 <div class="flex items-center gap-2 mb-4">

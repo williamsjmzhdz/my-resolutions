@@ -40,6 +40,7 @@ const Dashboard = (function() {
         ivvpeso: 50873.58,      // Base: $50,873.58 → Meta: $97,000
         afore: 20000,           // Base: $20,000 → Meta: $63,000
         fondoEmergencia: 30000, // Base: $30,000 → Meta: $55,000
+        pizzaSessions: 0,       // Pizza Lab sessions (max 24)
         sparkTopics: 0,
         gym: 0,
         delivery: 0,
@@ -411,6 +412,7 @@ const Dashboard = (function() {
             ivvpeso: FINANCE.IVVPESO_BASE,
             afore: FINANCE.AFORE_BASE,
             fondoEmergencia: FINANCE.EMERGENCIA_BASE,
+            pizzaSessions: 0,
             sparkTopics: 0,
             gym: 0,
             delivery: 0,
@@ -640,6 +642,38 @@ const Dashboard = (function() {
         
         const formatted = '$' + newValue.toLocaleString('en-US');
         updateDisplay('fondo-emergencia-display', formatted);
+        
+        calculateScore();
+        saveState();
+    }
+
+    /**
+     * Update Pizza Lab sessions
+     * @param {number} change - Amount to change (+1 or -1)
+     */
+    function updatePizzaSessions(change) {
+        const max = 24;  // max sessions
+        const newValue = Math.max(0, Math.min(max, (counters.pizzaSessions || 0) + change));
+        counters.pizzaSessions = newValue;
+        
+        // Update display
+        updateDisplay('val-pizza-sessions-curr', newValue);
+        updateDisplay('pizza-sessions-display', newValue);
+        
+        // Update progress bar
+        const progressFill = document.getElementById('pizza-progress-fill');
+        if (progressFill) {
+            progressFill.style.width = ((newValue / max) * 100) + '%';
+        }
+        
+        // Update points (0.25 pts per session, max 6 pts)
+        const sessionsPts = Math.min(6, newValue * 0.25);
+        updateDisplay('val-pizza-sessions-pts', sessionsPts.toFixed(2) + ' pts');
+        
+        // Update total pizza pts
+        const ovenPts = document.getElementById('chk-pizza-oven')?.checked ? 4 : 0;
+        const totalPts = ovenPts + sessionsPts;
+        updateDisplay('val-pizza-total-pts', totalPts.toFixed(2) + ' pts');
         
         calculateScore();
         saveState();
@@ -1051,7 +1085,27 @@ const Dashboard = (function() {
         updateDisplay('val-savings-extra-pts', savingsExtraPts + ' pts');
         if (savingsExtraPts > 0) extra += savingsExtraPts;
 
-        // 18. NexusFi Project (10 pts max)
+        // 18. Pizza Lab Project (max 10 pts: 4 oven + 6 sessions)
+        const pizzaOven = document.getElementById('chk-pizza-oven')?.checked || false;
+        const pizzaOvenPts = pizzaOven ? 4 : 0;
+        updateDisplay('val-pizza-oven-pts', pizzaOvenPts + ' pts');
+        
+        const pizzaSessions = counters.pizzaSessions || 0;
+        const pizzaSessionsPts = Math.min(6, pizzaSessions * 0.25);  // max 24 sessions = 6 pts
+        updateDisplay('val-pizza-sessions-pts', pizzaSessionsPts.toFixed(2) + ' pts');
+        updateDisplay('val-pizza-sessions-curr', pizzaSessions);
+        updateDisplay('pizza-sessions-display', pizzaSessions);
+        
+        const pizzaProgressFill = document.getElementById('pizza-progress-fill');
+        if (pizzaProgressFill) {
+            pizzaProgressFill.style.width = ((pizzaSessions / 24) * 100) + '%';
+        }
+        
+        const pizzaTotalPts = pizzaOvenPts + pizzaSessionsPts;
+        updateDisplay('val-pizza-total-pts', pizzaTotalPts.toFixed(2) + ' pts');
+        extra += pizzaTotalPts;
+
+        // 19. NexusFi Project (10 pts max)
         // Backend: development (2.5 pts) + deploy (2 pts)
         const nexusfiBackendProgress = counters.nexusfiBackendProgress || 0;
         const nexusfiBackendDevPts = Math.min(2.5, nexusfiBackendProgress * 0.025);
@@ -1367,6 +1421,7 @@ const Dashboard = (function() {
         updateIvvpesoProgress,
         updateAforeProgress,
         updateFondoEmergenciaProgress,
+        updatePizzaSessions,
         toggleMobileMenu,
         calculateScore
     };
