@@ -198,7 +198,7 @@
                         </span>
                         <div>
                             <h3 id="gold-section-title" class="section-header__title">🏆 Objetivos Oro</h3>
-                            <p class="section-header__subtitle">Objetivos de alto impacto · 55 puntos</p>
+                            <p class="section-header__subtitle">Objetivos de alto impacto · 60 puntos</p>
                         </div>
                     </header>
 
@@ -279,74 +279,150 @@
                     <article class="goal-card goal-card--gold" aria-labelledby="obj2-title">
                         <header class="goal-card__header">
                             <h4 id="obj2-title" class="goal-card__title">2. Patrimonio e Inversión</h4>
-                            <span class="goal-card__points">15 Pts Max</span>
+                            <span class="goal-card__points">20 Pts Max</span>
                         </header>
                         <div class="space-y-4">
+                            <!-- Fondo Auto (9 pts) - El más grande -->
                             <div>
                                 <div class="input-row">
-                                    <span class="input-row__label">Saldo en Inversión (Base + Ahorro)</span>
-                                    <span class="input-row__value" id="val-finance-pts">0 pts</span>
+                                    <span class="input-row__label">🚗 Fondo Auto (Enganche)</span>
+                                    <span class="input-row__value" id="val-fondo-auto-pts">0 pts</span>
                                 </div>
                                 
-                                <!-- Barra de Progreso Visual -->
                                 <div class="progress-bar-container">
-                                    <div class="progress-bar-track bg-gradient-to-r from-emerald-100 to-emerald-200">
-                                        <div class="progress-bar-fill bg-gradient-to-r from-emerald-400 to-emerald-600" id="finance-progress-fill" style="width: 0%"></div>
+                                    <div class="progress-bar-track bg-gradient-to-r from-amber-100 to-amber-200">
+                                        <div class="progress-bar-fill bg-gradient-to-r from-amber-400 to-amber-600" id="fondo-auto-progress-fill" style="width: 0%"></div>
                                     </div>
                                 </div>
                                 
-                                <!-- Incremento personalizable -->
+                                <div class="flex items-center justify-center gap-2 mt-3 mb-2">
+                                    <span class="text-xs text-amber-600">Incremento: $</span>
+                                    <input type="number" id="fondo-auto-increment" value="1000" min="100" max="50000" step="100"
+                                           class="w-20 px-2 py-1 text-sm font-mono text-center border border-amber-300 rounded-lg focus:ring-2 focus:ring-amber-400 focus:border-amber-400">
+                                </div>
+                                
+                                <div class="flex items-center justify-center gap-4">
+                                    <button type="button" onclick="Dashboard.updateFondoAutoProgress(-1)" 
+                                            class="progress-btn progress-btn--minus !border-amber-300 !text-amber-600 !bg-amber-50 hover:!bg-amber-100" aria-label="Reducir saldo">
+                                        <i class="fa-solid fa-minus"></i>
+                                    </button>
+                                    <span class="text-lg font-bold text-amber-700 min-w-[6rem] text-center font-mono" id="fondo-auto-display">$0</span>
+                                    <button type="button" onclick="Dashboard.updateFondoAutoProgress(1)" 
+                                            class="progress-btn progress-btn--plus !bg-gradient-to-r !from-amber-500 !to-amber-600 !border-amber-600" aria-label="Aumentar saldo">
+                                        <i class="fa-solid fa-plus"></i>
+                                    </button>
+                                </div>
+                                
+                                <p class="input-hint text-center">
+                                    Meta 2026: <span class="font-mono text-slate-800 font-bold">$86,000</span> · 9 pts
+                                </p>
+                            </div>
+                            
+                            <!-- IVVPESO (5 pts) -->
+                            <div>
+                                <div class="input-row">
+                                    <span class="input-row__label">📈 Cubo de Riqueza (IVVPESO)</span>
+                                    <span class="input-row__value" id="val-ivvpeso-pts">0 pts</span>
+                                </div>
+                                
+                                <div class="progress-bar-container">
+                                    <div class="progress-bar-track bg-gradient-to-r from-emerald-100 to-emerald-200">
+                                        <div class="progress-bar-fill bg-gradient-to-r from-emerald-400 to-emerald-600" id="ivvpeso-progress-fill" style="width: 0%"></div>
+                                    </div>
+                                </div>
+                                
                                 <div class="flex items-center justify-center gap-2 mt-3 mb-2">
                                     <span class="text-xs text-emerald-600">Incremento: $</span>
-                                    <input type="number" id="finance-increment" value="5000" min="100" max="50000" step="100"
+                                    <input type="number" id="ivvpeso-increment" value="1000" min="100" max="50000" step="100"
                                            class="w-20 px-2 py-1 text-sm font-mono text-center border border-emerald-300 rounded-lg focus:ring-2 focus:ring-emerald-400 focus:border-emerald-400">
                                 </div>
                                 
-                                <!-- Botones +/- -->
                                 <div class="flex items-center justify-center gap-4">
-                                    <button type="button" onclick="Dashboard.updateFinanceProgress(-1)" 
+                                    <button type="button" onclick="Dashboard.updateIvvpesoProgress(-1)" 
                                             class="progress-btn progress-btn--minus !border-emerald-300 !text-emerald-600 !bg-emerald-50 hover:!bg-emerald-100" aria-label="Reducir saldo">
                                         <i class="fa-solid fa-minus"></i>
                                     </button>
-                                    <span class="text-lg font-bold text-emerald-700 min-w-[6rem] text-center font-mono" id="finance-display">$80,873</span>
-                                    <button type="button" onclick="Dashboard.updateFinanceProgress(1)" 
+                                    <span class="text-lg font-bold text-emerald-700 min-w-[6rem] text-center font-mono" id="ivvpeso-display">$50,873.58</span>
+                                    <button type="button" onclick="Dashboard.updateIvvpesoProgress(1)" 
                                             class="progress-btn progress-btn--plus !bg-gradient-to-r !from-emerald-500 !to-emerald-600 !border-emerald-600" aria-label="Aumentar saldo">
                                         <i class="fa-solid fa-plus"></i>
                                     </button>
                                 </div>
                                 
                                 <p class="input-hint text-center">
-                                    Meta: <span class="font-mono text-slate-800 font-bold">$170,000</span>
+                                    Base: $50,873.58 → Meta: <span class="font-mono text-slate-800 font-bold">$97,000</span> · 5 pts
                                 </p>
                             </div>
+                            
+                            <!-- Afore (4 pts) -->
                             <div>
                                 <div class="input-row">
-                                    <span class="input-row__label">Disciplina del 36%</span>
-                                    <span class="input-row__value" id="val-savings-habit-pts">0 pts</span>
+                                    <span class="input-row__label">🏦 Afore (Automático)</span>
+                                    <span class="input-row__value" id="val-afore-pts">0 pts</span>
                                 </div>
                                 
-                                <!-- Barra de Progreso Visual -->
                                 <div class="progress-bar-container">
-                                    <div class="progress-bar-track bg-gradient-to-r from-emerald-100 to-emerald-200">
-                                        <div class="progress-bar-fill bg-gradient-to-r from-emerald-400 to-emerald-600" id="savings-habit-progress-fill" style="width: 0%"></div>
+                                    <div class="progress-bar-track bg-gradient-to-r from-blue-100 to-blue-200">
+                                        <div class="progress-bar-fill bg-gradient-to-r from-blue-400 to-blue-600" id="afore-progress-fill" style="width: 0%"></div>
                                     </div>
                                 </div>
                                 
-                                <!-- Botones +/- -->
-                                <div class="flex items-center justify-center gap-4 mt-3">
-                                    <button type="button" onclick="Dashboard.updateVisualProgress('savingsHabit', -1, 0, 12, 'savings-habit-progress-fill', 'savings-habit-display', 'meses')" 
-                                            class="progress-btn progress-btn--minus !border-emerald-300 !text-emerald-600 !bg-emerald-50 hover:!bg-emerald-100" aria-label="Reducir meses">
+                                <div class="flex items-center justify-center gap-2 mt-3 mb-2">
+                                    <span class="text-xs text-blue-600">Incremento: $</span>
+                                    <input type="number" id="afore-increment" value="1000" min="100" max="50000" step="100"
+                                           class="w-20 px-2 py-1 text-sm font-mono text-center border border-blue-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:border-blue-400">
+                                </div>
+                                
+                                <div class="flex items-center justify-center gap-4">
+                                    <button type="button" onclick="Dashboard.updateAforeProgress(-1)" 
+                                            class="progress-btn progress-btn--minus !border-blue-300 !text-blue-600 !bg-blue-50 hover:!bg-blue-100" aria-label="Reducir saldo">
                                         <i class="fa-solid fa-minus"></i>
                                     </button>
-                                    <span class="text-lg font-bold text-emerald-700 min-w-[5rem] text-center" id="savings-habit-display">0 meses</span>
-                                    <button type="button" onclick="Dashboard.updateVisualProgress('savingsHabit', 1, 0, 12, 'savings-habit-progress-fill', 'savings-habit-display', 'meses')" 
-                                            class="progress-btn progress-btn--plus !bg-gradient-to-r !from-emerald-500 !to-emerald-600 !border-emerald-600" aria-label="Aumentar meses">
+                                    <span class="text-lg font-bold text-blue-700 min-w-[6rem] text-center font-mono" id="afore-display">$20,000</span>
+                                    <button type="button" onclick="Dashboard.updateAforeProgress(1)" 
+                                            class="progress-btn progress-btn--plus !bg-gradient-to-r !from-blue-500 !to-blue-600 !border-blue-600" aria-label="Aumentar saldo">
                                         <i class="fa-solid fa-plus"></i>
                                     </button>
                                 </div>
                                 
                                 <p class="input-hint text-center">
-                                    <span id="val-savings-habit-curr">0</span> / 12 meses con ahorro del 36%
+                                    Base: $20,000 → Meta: <span class="font-mono text-slate-800 font-bold">$63,000</span> · 4 pts
+                                </p>
+                            </div>
+                            
+                            <!-- Fondo Emergencia (2 pts) -->
+                            <div>
+                                <div class="input-row">
+                                    <span class="input-row__label">🛡️ Fondo de Emergencia</span>
+                                    <span class="input-row__value" id="val-fondo-emergencia-pts">0 pts</span>
+                                </div>
+                                
+                                <div class="progress-bar-container">
+                                    <div class="progress-bar-track bg-gradient-to-r from-slate-100 to-slate-200">
+                                        <div class="progress-bar-fill bg-gradient-to-r from-slate-400 to-slate-600" id="fondo-emergencia-progress-fill" style="width: 0%"></div>
+                                    </div>
+                                </div>
+                                
+                                <div class="flex items-center justify-center gap-2 mt-3 mb-2">
+                                    <span class="text-xs text-slate-600">Incremento: $</span>
+                                    <input type="number" id="fondo-emergencia-increment" value="1000" min="100" max="50000" step="100"
+                                           class="w-20 px-2 py-1 text-sm font-mono text-center border border-slate-300 rounded-lg focus:ring-2 focus:ring-slate-400 focus:border-slate-400">
+                                </div>
+                                
+                                <div class="flex items-center justify-center gap-4">
+                                    <button type="button" onclick="Dashboard.updateFondoEmergenciaProgress(-1)" 
+                                            class="progress-btn progress-btn--minus !border-slate-300 !text-slate-600 !bg-slate-50 hover:!bg-slate-100" aria-label="Reducir saldo">
+                                        <i class="fa-solid fa-minus"></i>
+                                    </button>
+                                    <span class="text-lg font-bold text-slate-700 min-w-[6rem] text-center font-mono" id="fondo-emergencia-display">$30,000</span>
+                                    <button type="button" onclick="Dashboard.updateFondoEmergenciaProgress(1)" 
+                                            class="progress-btn progress-btn--plus !bg-gradient-to-r !from-slate-500 !to-slate-600 !border-slate-600" aria-label="Aumentar saldo">
+                                        <i class="fa-solid fa-plus"></i>
+                                    </button>
+                                </div>
+                                
+                                <p class="input-hint text-center">
+                                    Base: $30,000 → Meta: <span class="font-mono text-slate-800 font-bold">$55,000</span> · 2 pts
                                 </p>
                             </div>
                         </div>
@@ -898,59 +974,6 @@
                                 </div>
                             </div>
                             
-                            <!-- Pizza Lab Project -->
-                            <div class="p-4 rounded-lg bg-orange-50/50 border border-orange-200 md:col-span-2">
-                                <div class="flex items-center gap-2 mb-4">
-                                    <span class="text-lg">🍕</span>
-                                    <span class="text-sm text-orange-800 font-bold">Proyecto Pizza Lab</span>
-                                    <span class="ml-auto font-bold text-orange-600" id="val-pizza-total-pts">0 pts</span>
-                                </div>
-                                
-                                <!-- Hito: Compra del Horno -->
-                                <div class="flex items-center justify-between mb-4 pb-3 border-b border-orange-200">
-                                    <label class="flex items-center gap-2 cursor-pointer">
-                                        <input type="checkbox" id="chk-pizza-oven" class="w-5 h-5 cursor-pointer accent-orange-500">
-                                        <span class="text-sm text-orange-700">Horno Ooni Adquirido</span>
-                                    </label>
-                                    <span class="font-bold text-orange-600 text-sm" id="val-pizza-oven-pts">0 pts</span>
-                                </div>
-                                
-                                <!-- Sesiones de Práctica -->
-                                <div class="space-y-2">
-                                    <div class="flex justify-between items-center text-sm">
-                                        <span class="text-orange-700">Sesiones de Práctica y Validación</span>
-                                        <span class="font-bold text-orange-600" id="val-pizza-sessions-pts">0 pts</span>
-                                    </div>
-                                    
-                                    <!-- Barra de Progreso Visual -->
-                                    <div class="progress-bar-container">
-                                        <div class="progress-bar-track">
-                                            <div class="progress-bar-fill" id="pizza-progress-fill" style="width: 0%"></div>
-                                        </div>
-                                        <div class="progress-bar-labels">
-                                            <span id="val-pizza-sessions-curr">0</span>
-                                            <span class="text-slate-400">/</span>
-                                            <span>24 sesiones</span>
-                                        </div>
-                                    </div>
-                                    
-                                    <!-- Botones +/- -->
-                                    <div class="flex items-center justify-center gap-4 mt-3">
-                                        <button type="button" onclick="Dashboard.updatePizzaSessions(-1)" 
-                                                class="progress-btn progress-btn--minus" aria-label="Reducir sesiones">
-                                            <i class="fa-solid fa-minus"></i>
-                                        </button>
-                                        <span class="text-lg font-bold text-orange-700 min-w-[3rem] text-center" id="pizza-sessions-display">0</span>
-                                        <button type="button" onclick="Dashboard.updatePizzaSessions(1)" 
-                                                class="progress-btn progress-btn--plus" aria-label="Aumentar sesiones">
-                                            <i class="fa-solid fa-plus"></i>
-                                        </button>
-                                    </div>
-                                    
-                                    <p class="input-hint text-center">+0.25 pts por sesión (máx 6 pts)</p>
-                                </div>
-                            </div>
-                            
                             <!-- NexusFi Project -->
                             <div class="p-4 rounded-lg bg-purple-50/50 border border-purple-200 md:col-span-2">
                                 <div class="flex items-center gap-2 mb-4">
@@ -1115,11 +1138,11 @@
 
                 <!-- Financial Chart -->
                 <section class="chart-card" aria-labelledby="finance-chart-title">
-                    <h4 id="finance-chart-title" class="chart-card__title">Ruta Financiera ($180k)</h4>
+                    <h4 id="finance-chart-title" class="chart-card__title">4 Cubos Patrimoniales (Meta $301k)</h4>
                     <div class="chart-container">
                         <canvas id="financeChart" aria-label="Gráfica de progreso financiero"></canvas>
                     </div>
-                    <p class="chart-card__footer">Progreso basado en saldo actual</p>
+                    <p class="chart-card__footer">Fondo Auto + IVVPESO + Afore + Emergencia</p>
                 </section>
 
                 <!-- Evaluation Matrix -->
