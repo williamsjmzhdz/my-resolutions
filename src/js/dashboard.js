@@ -43,6 +43,7 @@ const Dashboard = (function() {
         pizzaSessions: 0,       // Pizza Lab sessions (max 24)
         sparkTopics: 0,
         gym: 0,
+        homeExercise: 0,        // Home exercise sessions (max 50)
         delivery: 0,
         transfers: 0,
         family: 0,
@@ -206,6 +207,7 @@ const Dashboard = (function() {
                     fondoEmergencia: FINANCE.EMERGENCIA_BASE,
                     sparkTopics: 0,
                     gym: 0,
+                    homeExercise: 0,
                     delivery: 0,
                     transfers: 0,
                     family: 0,
@@ -415,6 +417,7 @@ const Dashboard = (function() {
             pizzaSessions: 0,
             sparkTopics: 0,
             gym: 0,
+            homeExercise: 0,
             delivery: 0,
             transfers: 0,
             family: 0,
@@ -878,6 +881,16 @@ const Dashboard = (function() {
         const gymFill = document.getElementById('gym-progress-fill');
         if (gymFill) gymFill.style.width = ((gymVisits / 100) * 100) + '%';
         oro += gymPts;
+        
+        // Health - Home Exercise - using counters (3 pts max, 50 sessions)
+        const homeExerciseSessions = counters.homeExercise || 0;
+        const homeExercisePts = Math.min(3, (homeExerciseSessions / 50) * 3);
+        updateDisplay('val-home-exercise-pts', homeExercisePts.toFixed(1) + ' pts');
+        updateDisplay('val-home-exercise-curr', homeExerciseSessions);
+        updateDisplay('home-exercise-display', homeExerciseSessions + ' sesiones');
+        const homeExerciseFill = document.getElementById('home-exercise-progress-fill');
+        if (homeExerciseFill) homeExerciseFill.style.width = ((homeExerciseSessions / 50) * 100) + '%';
+        oro += homeExercisePts;
         
         // Health - Nutrition - using counters
         const deliveries = counters.delivery || 0;

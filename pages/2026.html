@@ -198,7 +198,7 @@
                         </span>
                         <div>
                             <h3 id="gold-section-title" class="section-header__title">🏆 Objetivos Oro</h3>
-                            <p class="section-header__subtitle">Objetivos de alto impacto · 60 puntos</p>
+                            <p class="section-header__subtitle">Objetivos de alto impacto · 63 puntos</p>
                         </div>
                     </header>
 
@@ -428,10 +428,108 @@
                         </div>
                     </article>
 
-                    <!-- Objective 3: Technical -->
+                    <!-- Objective 3: Health -->
                     <article class="goal-card goal-card--gold" aria-labelledby="obj3-title">
                         <header class="goal-card__header">
-                            <h4 id="obj3-title" class="goal-card__title">3. Especialización Técnica (Spark)</h4>
+                            <h4 id="obj3-title" class="goal-card__title">3. Salud Física</h4>
+                            <span class="goal-card__points">13 Pts Max</span>
+                        </header>
+                        <div class="space-y-4">
+                            <div>
+                                <div class="input-row">
+                                    <span class="input-row__label">Visitas al Gym (Acumulado Anual)</span>
+                                    <span class="input-row__value" id="val-gym-pts">0 pts</span>
+                                </div>
+                                
+                                <!-- Barra de Progreso Visual -->
+                                <div class="progress-bar-container">
+                                    <div class="progress-bar-track bg-gradient-to-r from-rose-100 to-rose-200">
+                                        <div class="progress-bar-fill bg-gradient-to-r from-rose-400 to-rose-600" id="gym-progress-fill" style="width: 0%"></div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Botones +/- -->
+                                <div class="flex items-center justify-center gap-4 mt-3">
+                                    <button type="button" onclick="Dashboard.updateVisualProgress('gym', -1, 0, 100, 'gym-progress-fill', 'gym-display', 'visitas')" 
+                                            class="progress-btn progress-btn--minus !border-rose-300 !text-rose-600 !bg-rose-50 hover:!bg-rose-100" aria-label="Reducir visitas">
+                                        <i class="fa-solid fa-minus"></i>
+                                    </button>
+                                    <span class="text-lg font-bold text-rose-700 min-w-[5rem] text-center" id="gym-display">0 visitas</span>
+                                    <button type="button" onclick="Dashboard.updateVisualProgress('gym', 1, 0, 100, 'gym-progress-fill', 'gym-display', 'visitas')" 
+                                            class="progress-btn progress-btn--plus !bg-gradient-to-r !from-rose-500 !to-rose-600 !border-rose-600" aria-label="Aumentar visitas">
+                                        <i class="fa-solid fa-plus"></i>
+                                    </button>
+                                </div>
+                                
+                                <p class="input-hint text-center"><span id="val-gym-curr">0</span> / 100 Visitas · 5 pts máx</p>
+                            </div>
+                            
+                            <div>
+                                <div class="input-row">
+                                    <span class="input-row__label">Ejercicio en Casa (Acumulado Anual)</span>
+                                    <span class="input-row__value" id="val-home-exercise-pts">0 pts</span>
+                                </div>
+                                
+                                <!-- Barra de Progreso Visual -->
+                                <div class="progress-bar-container">
+                                    <div class="progress-bar-track bg-gradient-to-r from-purple-100 to-purple-200">
+                                        <div class="progress-bar-fill bg-gradient-to-r from-purple-400 to-purple-600" id="home-exercise-progress-fill" style="width: 0%"></div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Botones +/- -->
+                                <div class="flex items-center justify-center gap-4 mt-3">
+                                    <button type="button" onclick="Dashboard.updateVisualProgress('homeExercise', -1, 0, 50, 'home-exercise-progress-fill', 'home-exercise-display', 'sesiones')" 
+                                            class="progress-btn progress-btn--minus !border-purple-300 !text-purple-600 !bg-purple-50 hover:!bg-purple-100" aria-label="Reducir sesiones">
+                                        <i class="fa-solid fa-minus"></i>
+                                    </button>
+                                    <span class="text-lg font-bold text-purple-700 min-w-[5rem] text-center" id="home-exercise-display">0 sesiones</span>
+                                    <button type="button" onclick="Dashboard.updateVisualProgress('homeExercise', 1, 0, 50, 'home-exercise-progress-fill', 'home-exercise-display', 'sesiones')" 
+                                            class="progress-btn progress-btn--plus !bg-gradient-to-r !from-purple-500 !to-purple-600 !border-purple-600" aria-label="Aumentar sesiones">
+                                        <i class="fa-solid fa-plus"></i>
+                                    </button>
+                                </div>
+                                
+                                <p class="input-hint text-center"><span id="val-home-exercise-curr">0</span> / 50 Sesiones · 3 pts máx</p>
+                            </div>
+                            <div>
+                                <div class="input-row">
+                                    <span class="input-row__label">Control Nutricional (Deliveries)</span>
+                                    <span class="input-row__value" id="val-delivery-pts">5 pts</span>
+                                </div>
+                                
+                                <!-- Barra de Progreso Visual -->
+                                <div class="progress-bar-container">
+                                    <div class="progress-bar-track bg-gradient-to-r from-orange-100 to-orange-200">
+                                        <div class="progress-bar-fill bg-gradient-to-r from-orange-400 to-orange-600" id="delivery-progress-fill" style="width: 0%"></div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Botones +/- -->
+                                <div class="flex items-center justify-center gap-4 mt-3">
+                                    <button type="button" onclick="Dashboard.updateVisualProgress('delivery', -1, 0, 52, 'delivery-progress-fill', 'delivery-display', 'deliveries')" 
+                                            class="progress-btn progress-btn--minus !border-orange-300 !text-orange-600 !bg-orange-50 hover:!bg-orange-100" aria-label="Reducir deliveries">
+                                        <i class="fa-solid fa-minus"></i>
+                                    </button>
+                                    <span class="text-lg font-bold text-orange-700 min-w-[6rem] text-center" id="delivery-display">0 deliveries</span>
+                                    <button type="button" onclick="Dashboard.updateVisualProgress('delivery', 1, 0, 52, 'delivery-progress-fill', 'delivery-display', 'deliveries')" 
+                                            class="progress-btn progress-btn--plus !bg-gradient-to-r !from-orange-500 !to-orange-600 !border-orange-600" aria-label="Aumentar deliveries">
+                                        <i class="fa-solid fa-plus"></i>
+                                    </button>
+                                </div>
+                                
+                                <p class="input-hint text-center">
+                                    <span id="val-delivery-curr">0</span> / 24 Deliveries al año 
+                                    <span id="val-delivery-status" class="font-semibold text-emerald-600">✓ En meta</span>
+                                </p>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- Objective 4: Technical -->
+                    <article class="goal-card goal-card--gold" aria-labelledby="obj4-title">
+                        <header class="goal-card__header">
+                            <h4 id="obj4-title" class="goal-card__title">4. Especialización Técnica (Spark)</h4>
                             <span class="goal-card__points">10 Pts Max</span>
                         </header>
                         <div class="space-y-4">
@@ -489,75 +587,6 @@
                                     <input type="checkbox" id="chk-spark-pass" class="w-5 h-5 cursor-pointer accent-amber-500">
                                     <span class="text-sm text-amber-700">Aprobar Examen (+6 pts)</span>
                                 </label>
-                            </div>
-                        </div>
-                    </article>
-
-                    <!-- Objective 4: Health -->
-                    <article class="goal-card goal-card--gold" aria-labelledby="obj4-title">
-                        <header class="goal-card__header">
-                            <h4 id="obj4-title" class="goal-card__title">4. Salud Física</h4>
-                            <span class="goal-card__points">10 Pts Max</span>
-                        </header>
-                        <div class="space-y-4">
-                            <div>
-                                <div class="input-row">
-                                    <span class="input-row__label">Visitas al Gym (Acumulado Anual)</span>
-                                    <span class="input-row__value" id="val-gym-pts">0 pts</span>
-                                </div>
-                                
-                                <!-- Barra de Progreso Visual -->
-                                <div class="progress-bar-container">
-                                    <div class="progress-bar-track bg-gradient-to-r from-rose-100 to-rose-200">
-                                        <div class="progress-bar-fill bg-gradient-to-r from-rose-400 to-rose-600" id="gym-progress-fill" style="width: 0%"></div>
-                                    </div>
-                                </div>
-                                
-                                <!-- Botones +/- -->
-                                <div class="flex items-center justify-center gap-4 mt-3">
-                                    <button type="button" onclick="Dashboard.updateVisualProgress('gym', -1, 0, 100, 'gym-progress-fill', 'gym-display', 'visitas')" 
-                                            class="progress-btn progress-btn--minus !border-rose-300 !text-rose-600 !bg-rose-50 hover:!bg-rose-100" aria-label="Reducir visitas">
-                                        <i class="fa-solid fa-minus"></i>
-                                    </button>
-                                    <span class="text-lg font-bold text-rose-700 min-w-[5rem] text-center" id="gym-display">0 visitas</span>
-                                    <button type="button" onclick="Dashboard.updateVisualProgress('gym', 1, 0, 100, 'gym-progress-fill', 'gym-display', 'visitas')" 
-                                            class="progress-btn progress-btn--plus !bg-gradient-to-r !from-rose-500 !to-rose-600 !border-rose-600" aria-label="Aumentar visitas">
-                                        <i class="fa-solid fa-plus"></i>
-                                    </button>
-                                </div>
-                                
-                                <p class="input-hint text-center"><span id="val-gym-curr">0</span> / 100 Visitas</p>
-                            </div>
-                            <div>
-                                <div class="input-row">
-                                    <span class="input-row__label">Control Nutricional (Deliveries)</span>
-                                    <span class="input-row__value" id="val-delivery-pts">5 pts</span>
-                                </div>
-                                
-                                <!-- Barra de Progreso Visual -->
-                                <div class="progress-bar-container">
-                                    <div class="progress-bar-track bg-gradient-to-r from-orange-100 to-orange-200">
-                                        <div class="progress-bar-fill bg-gradient-to-r from-orange-400 to-orange-600" id="delivery-progress-fill" style="width: 0%"></div>
-                                    </div>
-                                </div>
-                                
-                                <!-- Botones +/- -->
-                                <div class="flex items-center justify-center gap-4 mt-3">
-                                    <button type="button" onclick="Dashboard.updateVisualProgress('delivery', -1, 0, 52, 'delivery-progress-fill', 'delivery-display', 'deliveries')" 
-                                            class="progress-btn progress-btn--minus !border-orange-300 !text-orange-600 !bg-orange-50 hover:!bg-orange-100" aria-label="Reducir deliveries">
-                                        <i class="fa-solid fa-minus"></i>
-                                    </button>
-                                    <span class="text-lg font-bold text-orange-700 min-w-[6rem] text-center" id="delivery-display">0 deliveries</span>
-                                    <button type="button" onclick="Dashboard.updateVisualProgress('delivery', 1, 0, 52, 'delivery-progress-fill', 'delivery-display', 'deliveries')" 
-                                            class="progress-btn progress-btn--plus !bg-gradient-to-r !from-orange-500 !to-orange-600 !border-orange-600" aria-label="Aumentar deliveries">
-                                        <i class="fa-solid fa-plus"></i>
-                                    </button>
-                                </div>
-                                
-                                <p class="input-hint text-center">
-                                    <span id="val-delivery-curr">0</span> / 24 Deliveries al año 
-                                    <span id="val-delivery-status" class="font-semibold text-emerald-600">✓ En meta</span>
-                                </p>
                             </div>
                         </div>
                     </article>
