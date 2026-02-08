@@ -75,11 +75,11 @@ const Dashboard = (function() {
     const FINANCE = {
         // Fondo Auto
         FONDO_AUTO_BASE: 0,
-        FONDO_AUTO_TARGET: 86000,
+        FONDO_AUTO_TARGET: 99000,
         FONDO_AUTO_PTS: 9,
         // IVVPESO
         IVVPESO_BASE: 50873.58,
-        IVVPESO_TARGET: 97000,
+        IVVPESO_TARGET: 84000,
         IVVPESO_PTS: 5,
         // Afore
         AFORE_BASE: 20000,
@@ -87,7 +87,7 @@ const Dashboard = (function() {
         AFORE_PTS: 4,
         // Fondo Emergencia
         EMERGENCIA_BASE: 30000,
-        EMERGENCIA_TARGET: 55000,
+        EMERGENCIA_TARGET: 70000,
         EMERGENCIA_PTS: 2
     };
 
