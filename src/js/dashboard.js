@@ -35,11 +35,10 @@ const Dashboard = (function() {
         nexusfiBackendProgress: 0,  // NexusFi backend progress percentage
         // New visual progress bars
         gofluent: 0,
-        // Finance - 4 cubos patrimoniales
-        fondoAuto: 0,           // Base: $0 → Meta: $86,000
-        ivvpeso: 50873.58,      // Base: $50,873.58 → Meta: $97,000
+        // Finance - 3 cubos patrimoniales
+        ivvpeso: 50873.58,      // Base: $50,873.58 → Meta: $191,000
         afore: 20000,           // Base: $20,000 → Meta: $63,000
-        fondoEmergencia: 30000, // Base: $30,000 → Meta: $55,000
+        fondoEmergencia: 30000, // Base: $30,000 → Meta: $70,000
         pizzaSessions: 0,       // Pizza Lab sessions (max 24)
         sparkTopics: 0,
         gym: 0,
@@ -73,14 +72,10 @@ const Dashboard = (function() {
 
     /** Financial constants */
     const FINANCE = {
-        // Fondo Auto
-        FONDO_AUTO_BASE: 0,
-        FONDO_AUTO_TARGET: 99000,
-        FONDO_AUTO_PTS: 9,
-        // IVVPESO
+        // Ahorro e Inversiones (IVVPESO)
         IVVPESO_BASE: 50873.58,
-        IVVPESO_TARGET: 84000,
-        IVVPESO_PTS: 5,
+        IVVPESO_TARGET: 191000,
+        IVVPESO_PTS: 14,
         // Afore
         AFORE_BASE: 20000,
         AFORE_TARGET: 63000,
@@ -200,8 +195,7 @@ const Dashboard = (function() {
                     nexusfiProgress: 0, 
                     nexusfiBackendProgress: 0,
                     gofluent: 0,
-                    // Finance - 4 cubos patrimoniales
-                    fondoAuto: FINANCE.FONDO_AUTO_BASE,
+                    // Finance - 3 cubos patrimoniales
                     ivvpeso: FINANCE.IVVPESO_BASE,
                     afore: FINANCE.AFORE_BASE,
                     fondoEmergencia: FINANCE.EMERGENCIA_BASE,
@@ -409,8 +403,7 @@ const Dashboard = (function() {
             nexusfiProgress: 0,
             nexusfiBackendProgress: 0,
             gofluent: 0,
-            // Finance - 4 cubos patrimoniales
-            fondoAuto: FINANCE.FONDO_AUTO_BASE,
+            // Finance - 3 cubos patrimoniales
             ivvpeso: FINANCE.IVVPESO_BASE,
             afore: FINANCE.AFORE_BASE,
             fondoEmergencia: FINANCE.EMERGENCIA_BASE,
@@ -445,7 +438,6 @@ const Dashboard = (function() {
         });
         
         // Reset finance displays to base values
-        updateDisplay('fondo-auto-display', '$0');
         updateDisplay('ivvpeso-display', '$' + FINANCE.IVVPESO_BASE.toLocaleString('en-US'));
         updateDisplay('afore-display', '$' + FINANCE.AFORE_BASE.toLocaleString('en-US'));
         updateDisplay('fondo-emergencia-display', '$' + FINANCE.EMERGENCIA_BASE.toLocaleString('en-US'));
@@ -541,32 +533,6 @@ const Dashboard = (function() {
         // Update display
         const displayValue = unit === '%' ? newValue + '%' : newValue + (unit ? ' ' + unit : '');
         updateDisplay(displayId, displayValue);
-        
-        calculateScore();
-        saveState();
-    }
-
-    /**
-     * Update Fondo Auto progress with user-defined increment
-     * @param {number} direction - Direction of change (+1 for increase, -1 for decrease)
-     */
-    function updateFondoAutoProgress(direction) {
-        const incrementInput = document.getElementById('fondo-auto-increment');
-        const increment = parseInt(incrementInput?.value) || 1000;
-        const change = direction * increment;
-        
-        const min = FINANCE.FONDO_AUTO_BASE;
-        const max = FINANCE.FONDO_AUTO_TARGET;
-        const currentValue = counters.fondoAuto || min;
-        const newValue = Math.max(min, Math.min(max, currentValue + change));
-        counters.fondoAuto = newValue;
-        
-        const percentage = ((newValue - min) / (max - min)) * 100;
-        const progressFill = document.getElementById('fondo-auto-progress-fill');
-        if (progressFill) progressFill.style.width = percentage + '%';
-        
-        const formatted = '$' + newValue.toLocaleString('en-US');
-        updateDisplay('fondo-auto-display', formatted);
         
         calculateScore();
         saveState();
@@ -811,23 +777,9 @@ const Dashboard = (function() {
         const sparkPass = document.getElementById('chk-spark-pass')?.checked || false;
         if (sparkPass) oro += 6;
 
-        // 3. Finance - 4 Cubos Patrimoniales (20 pts total)
+        // 3. Finance - 3 Cubos Patrimoniales (20 pts total)
         
-        // 3a. Fondo Auto (9 pts) - $0 → $86,000
-        const fondoAutoValue = counters.fondoAuto || FINANCE.FONDO_AUTO_BASE;
-        let fondoAutoPts = 0;
-        if (fondoAutoValue > FINANCE.FONDO_AUTO_BASE) {
-            const progress = (fondoAutoValue - FINANCE.FONDO_AUTO_BASE) / 
-                           (FINANCE.FONDO_AUTO_TARGET - FINANCE.FONDO_AUTO_BASE);
-            fondoAutoPts = ResolutionApp.clamp(progress, 0, 1) * FINANCE.FONDO_AUTO_PTS;
-        }
-        updateDisplay('val-fondo-auto-pts', fondoAutoPts.toFixed(1) + ' pts');
-        updateDisplay('fondo-auto-display', '$' + fondoAutoValue.toLocaleString('en-US'));
-        const fondoAutoFill = document.getElementById('fondo-auto-progress-fill');
-        if (fondoAutoFill) fondoAutoFill.style.width = ((fondoAutoValue / FINANCE.FONDO_AUTO_TARGET) * 100) + '%';
-        oro += fondoAutoPts;
-        
-        // 3b. IVVPESO (5 pts) - $50,800 → $97,000
+        // 3a. Ahorro e Inversiones (14 pts) - $50,873.58 → $191,000
         const ivvpesoValue = counters.ivvpeso || FINANCE.IVVPESO_BASE;
         let ivvpesoPts = 0;
         if (ivvpesoValue > FINANCE.IVVPESO_BASE) {
@@ -841,7 +793,7 @@ const Dashboard = (function() {
         if (ivvpesoFill) ivvpesoFill.style.width = (((ivvpesoValue - FINANCE.IVVPESO_BASE) / (FINANCE.IVVPESO_TARGET - FINANCE.IVVPESO_BASE)) * 100) + '%';
         oro += ivvpesoPts;
         
-        // 3c. Afore (4 pts) - $28,000 → $63,000
+        // 3b. Afore (4 pts) - $20,000 → $63,000
         const aforeValue = counters.afore || FINANCE.AFORE_BASE;
         let aforePts = 0;
         if (aforeValue > FINANCE.AFORE_BASE) {
@@ -855,7 +807,7 @@ const Dashboard = (function() {
         if (aforeFill) aforeFill.style.width = (((aforeValue - FINANCE.AFORE_BASE) / (FINANCE.AFORE_TARGET - FINANCE.AFORE_BASE)) * 100) + '%';
         oro += aforePts;
         
-        // 3d. Fondo Emergencia (2 pts) - $30,000 → $55,000
+        // 3c. Fondo Emergencia (2 pts) - $30,000 → $70,000
         const emergenciaValue = counters.fondoEmergencia || FINANCE.EMERGENCIA_BASE;
         let emergenciaPts = 0;
         if (emergenciaValue > FINANCE.EMERGENCIA_BASE) {
@@ -1270,22 +1222,20 @@ const Dashboard = (function() {
         financeChartInstance = new Chart(ctx, {
             type: 'bar',
             data: {
-                labels: ['Fondo Auto', 'IVVPESO', 'Afore', 'Emergencia'],
+                labels: ['Ahorro e Inv.', 'Afore', 'Emergencia'],
                 datasets: [
                     { 
                         label: 'Actual', 
                         data: [
-                            FINANCE.FONDO_AUTO_BASE,
                             FINANCE.IVVPESO_BASE,
                             FINANCE.AFORE_BASE,
                             FINANCE.EMERGENCIA_BASE
                         ], 
-                        backgroundColor: ['#f59e0b', '#10b981', '#3b82f6', '#64748b']
+                        backgroundColor: ['#10b981', '#3b82f6', '#64748b']
                     },
                     { 
                         label: 'Faltante', 
                         data: [
-                            FINANCE.FONDO_AUTO_TARGET - FINANCE.FONDO_AUTO_BASE,
                             FINANCE.IVVPESO_TARGET - FINANCE.IVVPESO_BASE,
                             FINANCE.AFORE_TARGET - FINANCE.AFORE_BASE,
                             FINANCE.EMERGENCIA_TARGET - FINANCE.EMERGENCIA_BASE
@@ -1301,7 +1251,7 @@ const Dashboard = (function() {
                 scales: {
                     x: { 
                         stacked: true, 
-                        max: 100000, 
+                        max: 200000, 
                         ticks: { 
                             callback: val => '$' + val/1000 + 'k'
                         }
@@ -1321,19 +1271,17 @@ const Dashboard = (function() {
     }
 
     /**
-     * Update finance chart with 4 cubos patrimoniales
+     * Update finance chart with 3 cubos patrimoniales
      */
     function updateFinanceChart() {
         if (!financeChartInstance) return;
         
-        const fondoAuto = counters.fondoAuto || FINANCE.FONDO_AUTO_BASE;
         const ivvpeso = counters.ivvpeso || FINANCE.IVVPESO_BASE;
         const afore = counters.afore || FINANCE.AFORE_BASE;
         const emergencia = counters.fondoEmergencia || FINANCE.EMERGENCIA_BASE;
 
-        financeChartInstance.data.datasets[0].data = [fondoAuto, ivvpeso, afore, emergencia];
+        financeChartInstance.data.datasets[0].data = [ivvpeso, afore, emergencia];
         financeChartInstance.data.datasets[1].data = [
-            Math.max(0, FINANCE.FONDO_AUTO_TARGET - fondoAuto),
             Math.max(0, FINANCE.IVVPESO_TARGET - ivvpeso),
             Math.max(0, FINANCE.AFORE_TARGET - afore),
             Math.max(0, FINANCE.EMERGENCIA_TARGET - emergencia)
@@ -1430,7 +1378,6 @@ const Dashboard = (function() {
         updateNexusFiProgress,
         updateNexusFiBackendProgress,
         updateVisualProgress,
-        updateFondoAutoProgress,
         updateIvvpesoProgress,
         updateAforeProgress,
         updateFondoEmergenciaProgress,

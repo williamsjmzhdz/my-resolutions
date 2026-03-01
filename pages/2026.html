@@ -282,46 +282,10 @@
                             <span class="goal-card__points">20 Pts Max</span>
                         </header>
                         <div class="space-y-4">
-                            <!-- Fondo Auto (9 pts) - El más grande -->
+                            <!-- Ahorro e Inversiones (14 pts) -->
                             <div>
                                 <div class="input-row">
-                                    <span class="input-row__label">🚗 Fondo Auto (Enganche)</span>
-                                    <span class="input-row__value" id="val-fondo-auto-pts">0 pts</span>
-                                </div>
-                                
-                                <div class="progress-bar-container">
-                                    <div class="progress-bar-track bg-gradient-to-r from-amber-100 to-amber-200">
-                                        <div class="progress-bar-fill bg-gradient-to-r from-amber-400 to-amber-600" id="fondo-auto-progress-fill" style="width: 0%"></div>
-                                    </div>
-                                </div>
-                                
-                                <div class="flex items-center justify-center gap-2 mt-3 mb-2">
-                                    <span class="text-xs text-amber-600">Incremento: $</span>
-                                    <input type="number" id="fondo-auto-increment" value="1000" min="100" max="50000" step="100"
-                                           class="w-20 px-2 py-1 text-sm font-mono text-center border border-amber-300 rounded-lg focus:ring-2 focus:ring-amber-400 focus:border-amber-400">
-                                </div>
-                                
-                                <div class="flex items-center justify-center gap-4">
-                                    <button type="button" onclick="Dashboard.updateFondoAutoProgress(-1)" 
-                                            class="progress-btn progress-btn--minus !border-amber-300 !text-amber-600 !bg-amber-50 hover:!bg-amber-100" aria-label="Reducir saldo">
-                                        <i class="fa-solid fa-minus"></i>
-                                    </button>
-                                    <span class="text-lg font-bold text-amber-700 min-w-[6rem] text-center font-mono" id="fondo-auto-display">$0</span>
-                                    <button type="button" onclick="Dashboard.updateFondoAutoProgress(1)" 
-                                            class="progress-btn progress-btn--plus !bg-gradient-to-r !from-amber-500 !to-amber-600 !border-amber-600" aria-label="Aumentar saldo">
-                                        <i class="fa-solid fa-plus"></i>
-                                    </button>
-                                </div>
-                                
-                                <p class="input-hint text-center">
-                                    Meta 2026: <span class="font-mono text-slate-800 font-bold">$99,000</span> · 9 pts
-                                </p>
-                            </div>
-                            
-                            <!-- IVVPESO (5 pts) -->
-                            <div>
-                                <div class="input-row">
-                                    <span class="input-row__label">📈 Cubo de Riqueza (IVVPESO)</span>
+                                    <span class="input-row__label">📈 Ahorro e Inversiones</span>
                                     <span class="input-row__value" id="val-ivvpeso-pts">0 pts</span>
                                 </div>
                                 
@@ -350,14 +314,14 @@
                                 </div>
                                 
                                 <p class="input-hint text-center">
-                                    Base: $50,873.58 → Meta: <span class="font-mono text-slate-800 font-bold">$84,000</span> · 5 pts
+                                    Base: $50,873.58 → Meta: <span class="font-mono text-slate-800 font-bold">$191,000</span> · 14 pts
                                 </p>
                             </div>
                             
                             <!-- Afore (4 pts) -->
                             <div>
                                 <div class="input-row">
-                                    <span class="input-row__label">🏦 Afore (Automático)</span>
+                                    <span class="input-row__label">🏦 Afore</span>
                                     <span class="input-row__value" id="val-afore-pts">0 pts</span>
                                 </div>
                                 
@@ -1220,11 +1184,11 @@
 
                 <!-- Financial Chart -->
                 <section class="chart-card" aria-labelledby="finance-chart-title">
-                    <h4 id="finance-chart-title" class="chart-card__title">4 Cubos Patrimoniales (Meta $301k)</h4>
+                    <h4 id="finance-chart-title" class="chart-card__title">3 Cubos Patrimoniales (Meta $324k)</h4>
                     <div class="chart-container">
                         <canvas id="financeChart" aria-label="Gráfica de progreso financiero"></canvas>
                     </div>
-                    <p class="chart-card__footer">Fondo Auto + IVVPESO + Afore + Emergencia</p>
+                    <p class="chart-card__footer">Ahorro e Inversiones + Afore + Emergencia</p>
                 </section>
 
                 <!-- Evaluation Matrix -->
