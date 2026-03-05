@@ -500,32 +500,25 @@
                             <!-- Estudio de Temas para Certificación -->
                             <div>
                                 <div class="input-row">
-                                    <span class="input-row__label">Temas Estudiados (Exam Outline)</span>
+                                    <span class="input-row__label">Progreso de Estudio (Exam Outline)</span>
                                     <span class="input-row__value" id="val-spark-topics-pts">0 pts</span>
                                 </div>
                                 
-                                <!-- Barra de Progreso Visual -->
-                                <div class="progress-bar-container">
-                                    <div class="progress-bar-track bg-gradient-to-r from-amber-100 to-amber-200">
-                                        <div class="progress-bar-fill bg-gradient-to-r from-amber-400 to-amber-600" id="spark-topics-progress-fill" style="width: 0%"></div>
+                                <!-- YouTube-style Draggable Progress Bar -->
+                                <div class="yt-slider" id="spark-slider-container">
+                                    <div class="yt-slider__track" id="spark-slider-track">
+                                        <div class="yt-slider__fill" id="spark-slider-fill" style="width: 0%"></div>
+                                        <div class="yt-slider__thumb" id="spark-slider-thumb" style="left: 0%"></div>
+                                    </div>
+                                    <div class="yt-slider__labels">
+                                        <span>0%</span>
+                                        <span class="text-lg font-bold text-amber-700" id="spark-topics-display">0%</span>
+                                        <span>100%</span>
                                     </div>
                                 </div>
                                 
-                                <!-- Botones +/- -->
-                                <div class="flex items-center justify-center gap-4 mt-3">
-                                    <button type="button" onclick="Dashboard.updateVisualProgress('sparkTopics', -1, 0, 32, 'spark-topics-progress-fill', 'spark-topics-display', 'temas')" 
-                                            class="progress-btn progress-btn--minus !border-amber-300 !text-amber-600 !bg-amber-50 hover:!bg-amber-100" aria-label="Reducir temas">
-                                        <i class="fa-solid fa-minus"></i>
-                                    </button>
-                                    <span class="text-lg font-bold text-amber-700 min-w-[5rem] text-center" id="spark-topics-display">0 temas</span>
-                                    <button type="button" onclick="Dashboard.updateVisualProgress('sparkTopics', 1, 0, 32, 'spark-topics-progress-fill', 'spark-topics-display', 'temas')" 
-                                            class="progress-btn progress-btn--plus !bg-gradient-to-r !from-amber-500 !to-amber-600 !border-amber-600" aria-label="Aumentar temas">
-                                        <i class="fa-solid fa-plus"></i>
-                                    </button>
-                                </div>
-                                
                                 <p class="input-hint text-center">
-                                    <span id="val-spark-topics-curr">0</span> / 32 subtemas · +2 pts al completar todos
+                                    <span id="val-spark-topics-curr">0</span>% completado · +2 pts al llegar a 100%
                                 </p>
                                 <details class="mt-2 text-xs text-amber-700">
                                     <summary class="cursor-pointer font-medium hover:text-amber-800">Ver desglose de temas (7 secciones)</summary>

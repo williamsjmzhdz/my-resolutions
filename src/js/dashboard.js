@@ -759,14 +759,16 @@ const Dashboard = (function() {
         updateDisplay('val-english-consistent-pts', engConsistentPts + ' pts');
         oro += engConsistentPts;
 
-        // 2. Apache Spark - Topics Studied (32 subtopics) - using counters
+        // 2. Apache Spark - Study Progress (0-100%) - using counters
         const sparkTopics = counters.sparkTopics || 0;
-        const sparkTopicsPts = (sparkTopics / 32) * 2;
+        const sparkTopicsPts = (sparkTopics / 100) * 2;
         updateDisplay('val-spark-topics-pts', sparkTopicsPts.toFixed(1) + ' pts');
         updateDisplay('val-spark-topics-curr', sparkTopics);
-        updateDisplay('spark-topics-display', sparkTopics + ' temas');
-        const sparkTopicsFill = document.getElementById('spark-topics-progress-fill');
-        if (sparkTopicsFill) sparkTopicsFill.style.width = ((sparkTopics / 32) * 100) + '%';
+        updateDisplay('spark-topics-display', sparkTopics + '%');
+        const sparkSliderFill = document.getElementById('spark-slider-fill');
+        const sparkSliderThumb = document.getElementById('spark-slider-thumb');
+        if (sparkSliderFill) sparkSliderFill.style.width = sparkTopics + '%';
+        if (sparkSliderThumb) sparkSliderThumb.style.left = sparkTopics + '%';
         oro += sparkTopicsPts;
         
         // +2 pts por presentar el examen
@@ -1320,6 +1322,87 @@ const Dashboard = (function() {
     /**
      * Attach all event listeners
      */
+    /**
+     * Initialize a YouTube-style draggable slider
+     * @param {string} containerId - ID of the slider container
+     * @param {string} trackId - ID of the slider track
+     * @param {string} fillId - ID of the fill element
+     * @param {string} thumbId - ID of the thumb element
+     * @param {string} counterKey - Key in the counters object
+     */
+    function initYouTubeSlider(containerId, trackId, fillId, thumbId, counterKey) {
+        const container = document.getElementById(containerId);
+        const track = document.getElementById(trackId);
+        const fill = document.getElementById(fillId);
+        const thumb = document.getElementById(thumbId);
+        
+        if (!container || !track || !fill || !thumb) return;
+        
+        let isDragging = false;
+        
+        function getPercentFromEvent(e) {
+            const rect = track.getBoundingClientRect();
+            const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+            const x = clientX - rect.left;
+            const percent = Math.round(Math.max(0, Math.min(100, (x / rect.width) * 100)));
+            return percent;
+        }
+        
+        function updateSlider(percent) {
+            counters[counterKey] = percent;
+            fill.style.width = percent + '%';
+            thumb.style.left = percent + '%';
+            calculateScore();
+            saveState();
+        }
+        
+        // Mouse events
+        track.addEventListener('mousedown', function(e) {
+            isDragging = true;
+            updateSlider(getPercentFromEvent(e));
+            container.classList.add('yt-slider--active');
+            e.preventDefault();
+        });
+        
+        document.addEventListener('mousemove', function(e) {
+            if (!isDragging) return;
+            updateSlider(getPercentFromEvent(e));
+            e.preventDefault();
+        });
+        
+        document.addEventListener('mouseup', function() {
+            if (isDragging) {
+                isDragging = false;
+                container.classList.remove('yt-slider--active');
+            }
+        });
+        
+        // Touch events for mobile
+        track.addEventListener('touchstart', function(e) {
+            isDragging = true;
+            updateSlider(getPercentFromEvent(e));
+            container.classList.add('yt-slider--active');
+            e.preventDefault();
+        }, { passive: false });
+        
+        document.addEventListener('touchmove', function(e) {
+            if (!isDragging) return;
+            updateSlider(getPercentFromEvent(e));
+        }, { passive: true });
+        
+        document.addEventListener('touchend', function() {
+            if (isDragging) {
+                isDragging = false;
+                container.classList.remove('yt-slider--active');
+            }
+        });
+        
+        // Click on track to jump
+        track.addEventListener('click', function(e) {
+            updateSlider(getPercentFromEvent(e));
+        });
+    }
+
     function bindEvents() {
         // Debounced save and calculate for performance
         const debouncedUpdate = ResolutionApp.debounce(() => {
@@ -1342,6 +1425,15 @@ const Dashboard = (function() {
         if (elements.menuOverlay) {
             elements.menuOverlay.addEventListener('click', toggleMobileMenu);
         }
+        
+        // Initialize YouTube-style sliders
+        initYouTubeSlider(
+            'spark-slider-container',
+            'spark-slider-track',
+            'spark-slider-fill',
+            'spark-slider-thumb',
+            'sparkTopics'
+        );
     }
 
     /**
