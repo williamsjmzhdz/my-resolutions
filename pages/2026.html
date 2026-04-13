@@ -314,7 +314,7 @@
                                 </div>
                                 
                                 <p class="input-hint text-center">
-                                    Base: $50,873.58 → Meta: <span class="font-mono text-slate-800 font-bold">$191,000</span> · 14 pts
+                                    Base: $50,873.58 → Meta: <span class="font-mono text-slate-800 font-bold">$110,000</span> · 5 pts
                                 </p>
                             </div>
                             
@@ -350,7 +350,7 @@
                                 </div>
                                 
                                 <p class="input-hint text-center">
-                                    Base: $20,000 → Meta: <span class="font-mono text-slate-800 font-bold">$63,000</span> · 4 pts
+                                    Base: $20,000 → Meta: <span class="font-mono text-slate-800 font-bold">$63,000</span> · 5 pts
                                 </p>
                             </div>
                             
@@ -386,7 +386,43 @@
                                 </div>
                                 
                                 <p class="input-hint text-center">
-                                    Base: $30,000 → Meta: <span class="font-mono text-slate-800 font-bold">$70,000</span> · 2 pts
+                                    Base: $30,000 → Meta: <span class="font-mono text-slate-800 font-bold">$70,000</span> · 5 pts
+                                </p>
+                            </div>
+                            
+                            <!-- Fondo para Proyectos (7 pts) -->
+                            <div>
+                                <div class="input-row">
+                                    <span class="input-row__label">🚀 Fondo para Proyectos</span>
+                                    <span class="input-row__value" id="val-fondo-proyectos-pts">0 pts</span>
+                                </div>
+                                
+                                <div class="progress-bar-container">
+                                    <div class="progress-bar-track bg-gradient-to-r from-violet-100 to-violet-200">
+                                        <div class="progress-bar-fill bg-gradient-to-r from-violet-400 to-violet-600" id="fondo-proyectos-progress-fill" style="width: 0%"></div>
+                                    </div>
+                                </div>
+                                
+                                <div class="flex items-center justify-center gap-2 mt-3 mb-2">
+                                    <span class="text-xs text-violet-600">Incremento: $</span>
+                                    <input type="number" id="fondo-proyectos-increment" value="1000" min="100" max="50000" step="100"
+                                           class="w-20 px-2 py-1 text-sm font-mono text-center border border-violet-300 rounded-lg focus:ring-2 focus:ring-violet-400 focus:border-violet-400">
+                                </div>
+                                
+                                <div class="flex items-center justify-center gap-4">
+                                    <button type="button" onclick="Dashboard.updateFondoProyectosProgress(-1)" 
+                                            class="progress-btn progress-btn--minus !border-violet-300 !text-violet-600 !bg-violet-50 hover:!bg-violet-100" aria-label="Reducir saldo">
+                                        <i class="fa-solid fa-minus"></i>
+                                    </button>
+                                    <span class="text-lg font-bold text-violet-700 min-w-[6rem] text-center font-mono" id="fondo-proyectos-display">$0</span>
+                                    <button type="button" onclick="Dashboard.updateFondoProyectosProgress(1)" 
+                                            class="progress-btn progress-btn--plus !bg-gradient-to-r !from-violet-500 !to-violet-600 !border-violet-600" aria-label="Aumentar saldo">
+                                        <i class="fa-solid fa-plus"></i>
+                                    </button>
+                                </div>
+                                
+                                <p class="input-hint text-center">
+                                    Base: $0 → Meta: <span class="font-mono text-slate-800 font-bold">$64,000</span> · 5 pts
                                 </p>
                             </div>
                         </div>
@@ -396,7 +432,7 @@
                     <article class="goal-card goal-card--gold" aria-labelledby="obj3-title">
                         <header class="goal-card__header">
                             <h4 id="obj3-title" class="goal-card__title">3. Salud Física</h4>
-                            <span class="goal-card__points">13 Pts Max</span>
+                            <span class="goal-card__points">20 Pts Max</span>
                         </header>
                         <div class="space-y-4">
                             <div>
@@ -425,37 +461,9 @@
                                     </button>
                                 </div>
                                 
-                                <p class="input-hint text-center"><span id="val-gym-curr">0</span> / 100 Visitas · 5 pts máx</p>
+                                <p class="input-hint text-center"><span id="val-gym-curr">0</span> / 100 Visitas · 15 pts máx</p>
                             </div>
                             
-                            <div>
-                                <div class="input-row">
-                                    <span class="input-row__label">Ejercicio en Casa (Acumulado Anual)</span>
-                                    <span class="input-row__value" id="val-home-exercise-pts">0 pts</span>
-                                </div>
-                                
-                                <!-- Barra de Progreso Visual -->
-                                <div class="progress-bar-container">
-                                    <div class="progress-bar-track bg-gradient-to-r from-purple-100 to-purple-200">
-                                        <div class="progress-bar-fill bg-gradient-to-r from-purple-400 to-purple-600" id="home-exercise-progress-fill" style="width: 0%"></div>
-                                    </div>
-                                </div>
-                                
-                                <!-- Botones +/- -->
-                                <div class="flex items-center justify-center gap-4 mt-3">
-                                    <button type="button" onclick="Dashboard.updateVisualProgress('homeExercise', -1, 0, 50, 'home-exercise-progress-fill', 'home-exercise-display', 'sesiones')" 
-                                            class="progress-btn progress-btn--minus !border-purple-300 !text-purple-600 !bg-purple-50 hover:!bg-purple-100" aria-label="Reducir sesiones">
-                                        <i class="fa-solid fa-minus"></i>
-                                    </button>
-                                    <span class="text-lg font-bold text-purple-700 min-w-[5rem] text-center" id="home-exercise-display">0 sesiones</span>
-                                    <button type="button" onclick="Dashboard.updateVisualProgress('homeExercise', 1, 0, 50, 'home-exercise-progress-fill', 'home-exercise-display', 'sesiones')" 
-                                            class="progress-btn progress-btn--plus !bg-gradient-to-r !from-purple-500 !to-purple-600 !border-purple-600" aria-label="Aumentar sesiones">
-                                        <i class="fa-solid fa-plus"></i>
-                                    </button>
-                                </div>
-                                
-                                <p class="input-hint text-center"><span id="val-home-exercise-curr">0</span> / 50 Sesiones · 3 pts máx</p>
-                            </div>
                             <div>
                                 <div class="input-row">
                                     <span class="input-row__label">Control Nutricional (Deliveries)</span>
@@ -1117,6 +1125,34 @@
                                     <p class="text-xs text-purple-600 mt-1 ml-7 italic">+3 pts cuando reemplace oficialmente al Google Sheet</p>
                                 </div>
                             </div>
+
+                            <!-- Ejercicio en Casa Extra -->
+                            <div class="p-3 rounded-lg bg-purple-50/50 border border-purple-100 md:col-span-2">
+                                <div class="flex justify-between items-center text-sm mb-3">
+                                    <span class="text-purple-700 font-bold">🏠 Ejercicio en Casa (Acumulado Anual)</span>
+                                    <span class="font-bold text-purple-600" id="val-home-exercise-pts">0 pts</span>
+                                </div>
+
+                                <div class="progress-bar-container">
+                                    <div class="progress-bar-track bg-gradient-to-r from-purple-100 to-purple-200">
+                                        <div class="progress-bar-fill bg-gradient-to-r from-purple-400 to-purple-600" id="home-exercise-progress-fill" style="width: 0%"></div>
+                                    </div>
+                                </div>
+
+                                <div class="flex items-center justify-center gap-4 mt-3">
+                                    <button type="button" onclick="Dashboard.updateVisualProgress('homeExercise', -1, 0, 50, 'home-exercise-progress-fill', 'home-exercise-display', 'sesiones')"
+                                            class="progress-btn progress-btn--minus !border-purple-300 !text-purple-600 !bg-purple-50 hover:!bg-purple-100" aria-label="Reducir sesiones">
+                                        <i class="fa-solid fa-minus"></i>
+                                    </button>
+                                    <span class="text-lg font-bold text-purple-700 min-w-[5rem] text-center" id="home-exercise-display">0 sesiones</span>
+                                    <button type="button" onclick="Dashboard.updateVisualProgress('homeExercise', 1, 0, 50, 'home-exercise-progress-fill', 'home-exercise-display', 'sesiones')"
+                                            class="progress-btn progress-btn--plus !bg-gradient-to-r !from-purple-500 !to-purple-600 !border-purple-600" aria-label="Aumentar sesiones">
+                                        <i class="fa-solid fa-plus"></i>
+                                    </button>
+                                </div>
+
+                                <p class="input-hint text-center"><span id="val-home-exercise-curr">0</span> / 50 Sesiones · 5 pts máx</p>
+                            </div>
                         </div>
                     </article>
                 </section>
@@ -1177,11 +1213,11 @@
 
                 <!-- Financial Chart -->
                 <section class="chart-card" aria-labelledby="finance-chart-title">
-                    <h4 id="finance-chart-title" class="chart-card__title">3 Cubos Patrimoniales (Meta $324k)</h4>
+                    <h4 id="finance-chart-title" class="chart-card__title">4 Cubos Patrimoniales</h4>
                     <div class="chart-container">
                         <canvas id="financeChart" aria-label="Gráfica de progreso financiero"></canvas>
                     </div>
-                    <p class="chart-card__footer">Ahorro e Inversiones + Afore + Emergencia</p>
+                    <p class="chart-card__footer">Ahorro e Inv. + Afore + Emergencia + Proyectos</p>
                 </section>
 
                 <!-- Evaluation Matrix -->

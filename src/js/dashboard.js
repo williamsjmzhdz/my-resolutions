@@ -35,11 +35,12 @@ const Dashboard = (function() {
         nexusfiBackendProgress: 0,  // NexusFi backend progress percentage
         // New visual progress bars
         gofluent: 0,
-        // Finance - 3 cubos patrimoniales
-        ivvpeso: 50873.58,      // Base: $50,873.58 → Meta: $191,000
-        afore: 20000,           // Base: $20,000 → Meta: $63,000
-        fondoEmergencia: 30000, // Base: $30,000 → Meta: $70,000
-        pizzaSessions: 0,       // Pizza Lab sessions (max 24)
+        // Finance - 4 cubos patrimoniales
+        ivvpeso: 50873.58,       // Base: $50,873.58 → Meta: $110,000
+        afore: 20000,            // Base: $20,000 → Meta: $63,000
+        fondoEmergencia: 30000,  // Base: $30,000 → Meta: $70,000
+        fondoProyectos: 0,       // Base: $0 → Meta: $64,000
+        pizzaSessions: 0,        // Pizza Lab sessions (max 24)
         sparkTopics: 0,
         gym: 0,
         homeExercise: 0,        // Home exercise sessions (max 50)
@@ -74,16 +75,20 @@ const Dashboard = (function() {
     const FINANCE = {
         // Ahorro e Inversiones (IVVPESO)
         IVVPESO_BASE: 50873.58,
-        IVVPESO_TARGET: 191000,
-        IVVPESO_PTS: 14,
+        IVVPESO_TARGET: 110000,
+        IVVPESO_PTS: 5,
         // Afore
         AFORE_BASE: 20000,
         AFORE_TARGET: 63000,
-        AFORE_PTS: 4,
+        AFORE_PTS: 5,
         // Fondo Emergencia
         EMERGENCIA_BASE: 30000,
         EMERGENCIA_TARGET: 70000,
-        EMERGENCIA_PTS: 2
+        EMERGENCIA_PTS: 5,
+        // Fondo para Proyectos
+        PROYECTOS_BASE: 0,
+        PROYECTOS_TARGET: 64000,
+        PROYECTOS_PTS: 5
     };
 
     /** LoL rank names */
@@ -199,6 +204,7 @@ const Dashboard = (function() {
                     ivvpeso: FINANCE.IVVPESO_BASE,
                     afore: FINANCE.AFORE_BASE,
                     fondoEmergencia: FINANCE.EMERGENCIA_BASE,
+                    fondoProyectos: FINANCE.PROYECTOS_BASE,
                     sparkTopics: 0,
                     gym: 0,
                     homeExercise: 0,
@@ -403,10 +409,11 @@ const Dashboard = (function() {
             nexusfiProgress: 0,
             nexusfiBackendProgress: 0,
             gofluent: 0,
-            // Finance - 3 cubos patrimoniales
+            // Finance - 4 cubos patrimoniales
             ivvpeso: FINANCE.IVVPESO_BASE,
             afore: FINANCE.AFORE_BASE,
             fondoEmergencia: FINANCE.EMERGENCIA_BASE,
+            fondoProyectos: FINANCE.PROYECTOS_BASE,
             pizzaSessions: 0,
             sparkTopics: 0,
             gym: 0,
@@ -441,6 +448,7 @@ const Dashboard = (function() {
         updateDisplay('ivvpeso-display', '$' + FINANCE.IVVPESO_BASE.toLocaleString('en-US'));
         updateDisplay('afore-display', '$' + FINANCE.AFORE_BASE.toLocaleString('en-US'));
         updateDisplay('fondo-emergencia-display', '$' + FINANCE.EMERGENCIA_BASE.toLocaleString('en-US'));
+        updateDisplay('fondo-proyectos-display', '$' + FINANCE.PROYECTOS_BASE.toLocaleString('en-US'));
         
         // Reset NexusFi displays
         updateDisplay('nexusfi-progress-display', '0%');
@@ -611,6 +619,32 @@ const Dashboard = (function() {
         
         const formatted = '$' + newValue.toLocaleString('en-US');
         updateDisplay('fondo-emergencia-display', formatted);
+        
+        calculateScore();
+        saveState();
+    }
+
+    /**
+     * Update Fondo para Proyectos progress with user-defined increment
+     * @param {number} direction - Direction of change (+1 for increase, -1 for decrease)
+     */
+    function updateFondoProyectosProgress(direction) {
+        const incrementInput = document.getElementById('fondo-proyectos-increment');
+        const increment = parseInt(incrementInput?.value) || 1000;
+        const change = direction * increment;
+        
+        const min = FINANCE.PROYECTOS_BASE;
+        const max = FINANCE.PROYECTOS_TARGET;
+        const currentValue = counters.fondoProyectos !== undefined ? counters.fondoProyectos : min;
+        const newValue = Math.max(min, Math.min(max, currentValue + change));
+        counters.fondoProyectos = newValue;
+        
+        const percentage = (newValue / max) * 100;
+        const progressFill = document.getElementById('fondo-proyectos-progress-fill');
+        if (progressFill) progressFill.style.width = percentage + '%';
+        
+        const formatted = '$' + newValue.toLocaleString('en-US');
+        updateDisplay('fondo-proyectos-display', formatted);
         
         calculateScore();
         saveState();
@@ -823,12 +857,25 @@ const Dashboard = (function() {
         if (emergenciaFill) emergenciaFill.style.width = (((emergenciaValue - FINANCE.EMERGENCIA_BASE) / (FINANCE.EMERGENCIA_TARGET - FINANCE.EMERGENCIA_BASE)) * 100) + '%';
         oro += emergenciaPts;
         
+        // 3d. Fondo para Proyectos (7 pts) - $0 → $64,000
+        const proyectosValue = counters.fondoProyectos !== undefined ? counters.fondoProyectos : FINANCE.PROYECTOS_BASE;
+        let proyectosPts = 0;
+        if (proyectosValue > FINANCE.PROYECTOS_BASE) {
+            const progress = proyectosValue / FINANCE.PROYECTOS_TARGET;
+            proyectosPts = ResolutionApp.clamp(progress, 0, 1) * FINANCE.PROYECTOS_PTS;
+        }
+        updateDisplay('val-fondo-proyectos-pts', proyectosPts.toFixed(1) + ' pts');
+        updateDisplay('fondo-proyectos-display', '$' + proyectosValue.toLocaleString('en-US'));
+        const proyectosFill = document.getElementById('fondo-proyectos-progress-fill');
+        if (proyectosFill) proyectosFill.style.width = ((proyectosValue / FINANCE.PROYECTOS_TARGET) * 100) + '%';
+        oro += proyectosPts;
+        
         // Update finance chart
         updateFinanceChart();
 
         // 4. Health - Gym - using counters
         const gymVisits = counters.gym || 0;
-        const gymPts = Math.min(5, (gymVisits / 100) * 5);
+        const gymPts = Math.min(15, (gymVisits / 100) * 15);
         updateDisplay('val-gym-pts', gymPts.toFixed(1) + ' pts');
         updateDisplay('val-gym-curr', gymVisits);
         updateDisplay('gym-display', gymVisits + ' visitas');
@@ -838,13 +885,13 @@ const Dashboard = (function() {
         
         // Health - Home Exercise - using counters (3 pts max, 50 sessions)
         const homeExerciseSessions = counters.homeExercise || 0;
-        const homeExercisePts = Math.min(3, (homeExerciseSessions / 50) * 3);
+        const homeExercisePts = Math.min(5, (homeExerciseSessions / 50) * 5);
         updateDisplay('val-home-exercise-pts', homeExercisePts.toFixed(1) + ' pts');
         updateDisplay('val-home-exercise-curr', homeExerciseSessions);
         updateDisplay('home-exercise-display', homeExerciseSessions + ' sesiones');
         const homeExerciseFill = document.getElementById('home-exercise-progress-fill');
         if (homeExerciseFill) homeExerciseFill.style.width = ((homeExerciseSessions / 50) * 100) + '%';
-        oro += homeExercisePts;
+        extra += homeExercisePts;
         
         // Health - Nutrition - using counters
         const deliveries = counters.delivery || 0;
@@ -1224,23 +1271,25 @@ const Dashboard = (function() {
         financeChartInstance = new Chart(ctx, {
             type: 'bar',
             data: {
-                labels: ['Ahorro e Inv.', 'Afore', 'Emergencia'],
+                labels: ['Ahorro e Inv.', 'Afore', 'Emergencia', 'Proyectos'],
                 datasets: [
                     { 
                         label: 'Actual', 
                         data: [
                             FINANCE.IVVPESO_BASE,
                             FINANCE.AFORE_BASE,
-                            FINANCE.EMERGENCIA_BASE
+                            FINANCE.EMERGENCIA_BASE,
+                            FINANCE.PROYECTOS_BASE
                         ], 
-                        backgroundColor: ['#10b981', '#3b82f6', '#64748b']
+                        backgroundColor: ['#10b981', '#3b82f6', '#64748b', '#8b5cf6']
                     },
                     { 
                         label: 'Faltante', 
                         data: [
                             FINANCE.IVVPESO_TARGET - FINANCE.IVVPESO_BASE,
                             FINANCE.AFORE_TARGET - FINANCE.AFORE_BASE,
-                            FINANCE.EMERGENCIA_TARGET - FINANCE.EMERGENCIA_BASE
+                            FINANCE.EMERGENCIA_TARGET - FINANCE.EMERGENCIA_BASE,
+                            FINANCE.PROYECTOS_TARGET - FINANCE.PROYECTOS_BASE
                         ], 
                         backgroundColor: '#e2e8f0'
                     }
@@ -1281,12 +1330,14 @@ const Dashboard = (function() {
         const ivvpeso = counters.ivvpeso || FINANCE.IVVPESO_BASE;
         const afore = counters.afore || FINANCE.AFORE_BASE;
         const emergencia = counters.fondoEmergencia || FINANCE.EMERGENCIA_BASE;
+        const proyectos = counters.fondoProyectos !== undefined ? counters.fondoProyectos : FINANCE.PROYECTOS_BASE;
 
-        financeChartInstance.data.datasets[0].data = [ivvpeso, afore, emergencia];
+        financeChartInstance.data.datasets[0].data = [ivvpeso, afore, emergencia, proyectos];
         financeChartInstance.data.datasets[1].data = [
             Math.max(0, FINANCE.IVVPESO_TARGET - ivvpeso),
             Math.max(0, FINANCE.AFORE_TARGET - afore),
-            Math.max(0, FINANCE.EMERGENCIA_TARGET - emergencia)
+            Math.max(0, FINANCE.EMERGENCIA_TARGET - emergencia),
+            Math.max(0, FINANCE.PROYECTOS_TARGET - proyectos)
         ];
         financeChartInstance.update();
     }
@@ -1473,6 +1524,7 @@ const Dashboard = (function() {
         updateIvvpesoProgress,
         updateAforeProgress,
         updateFondoEmergenciaProgress,
+        updateFondoProyectosProgress,
         updatePizzaSessions,
         toggleMobileMenu,
         calculateScore
