@@ -48,8 +48,6 @@ const Dashboard = (function() {
         transfers: 0,
         family: 0,
         imgOutfits: 0,
-        spaceSavings: 0,
-        furniture: 0,
         games: 0,
         frieren: 0,
         berserk: 0,
@@ -212,8 +210,6 @@ const Dashboard = (function() {
                     transfers: 0,
                     family: 0,
                     imgOutfits: 0,
-                    spaceSavings: 0,
-                    furniture: 0,
                     games: 0,
                     frieren: 0,
                     berserk: 0,
@@ -422,8 +418,6 @@ const Dashboard = (function() {
             transfers: 0,
             family: 0,
             imgOutfits: 0,
-            spaceSavings: 0,
-            furniture: 0,
             games: 0,
             frieren: 0,
             berserk: 0,
@@ -949,29 +943,23 @@ const Dashboard = (function() {
         updateDisplay('val-img-pts', imageTotalPts.toFixed(1) + ' pts');
         updateDisplay('val-img-curr', imageSets);
         
-        // 8. Space - Savings
-        const spaceSavings = parseInt(document.getElementById('rng-space-savings').value) || 0;
-        const spaceSavingsPts = (spaceSavings / 24) * 2;  // 24 quincenas
-        updateDisplay('val-space-savings-pts', spaceSavingsPts.toFixed(1) + ' pts');
-        updateDisplay('val-space-savings-curr', spaceSavings);
-        plata += spaceSavingsPts;
-        
-        // Space - Furniture
-        const furniture = parseInt(document.getElementById('rng-furniture').value) || 0;
-        let furniturePts = 0;
-        let furnitureTotal = 0;
-        if (furniture >= 1) {
-            furniturePts = 3;
-            furnitureTotal = 3;
-            if (furniture > 1) {
-                const extraFurniture = furniture - 1;
-                extra += extraFurniture;
-                furnitureTotal += extraFurniture;
-            }
-        }
-        updateDisplay('val-furniture-pts', furnitureTotal.toFixed(1) + ' pts');
-        updateDisplay('val-furniture-curr', furniture);
-        plata += furniturePts;
+        // 8. Mejora Espacio - 3 muebles × 2pts = 6pts base
+        const f1 = document.getElementById('chk-furniture-1')?.checked || false;
+        const f2 = document.getElementById('chk-furniture-2')?.checked || false;
+        const f3 = document.getElementById('chk-furniture-3')?.checked || false;
+        const f1Pts = f1 ? 2 : 0;
+        const f2Pts = f2 ? 2 : 0;
+        const f3Pts = f3 ? 2 : 0;
+        const furnitureTotalPts = f1Pts + f2Pts + f3Pts;
+        const furnitureCount = [f1, f2, f3].filter(Boolean).length;
+        updateDisplay('val-furniture-1-pts', f1Pts + ' pts');
+        updateDisplay('val-furniture-2-pts', f2Pts + ' pts');
+        updateDisplay('val-furniture-3-pts', f3Pts + ' pts');
+        updateDisplay('val-furniture-total-pts', furnitureTotalPts.toFixed(1) + ' pts');
+        updateDisplay('val-furniture-count', furnitureCount);
+        const furnitureBarEl = document.getElementById('furniture-bar');
+        if (furnitureBarEl) furnitureBarEl.style.width = ((furnitureCount / 3) * 100) + '%';
+        plata += furnitureTotalPts;
 
         // ===== BRONCE & EXTRAS =====
         

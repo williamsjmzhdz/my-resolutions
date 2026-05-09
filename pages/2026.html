@@ -625,27 +625,44 @@
 
                         <!-- Objective 8: Space -->
                         <article class="goal-card goal-card--compact goal-card--silver" aria-labelledby="obj8-title">
-                            <h5 id="obj8-title" class="font-bold text-sm text-slate-700 mb-3">8. Mejora Espacio (6pts)</h5>
-                            <div class="space-y-3">
-                                <div>
-                                    <div class="flex justify-between text-xs mb-1">
-                                        <span class="text-slate-600">Ahorro Quincenal</span>
-                                        <span class="font-bold text-blue-600" id="val-space-savings-pts">0 pts</span>
-                                    </div>
-                                    <input type="range" id="rng-space-savings" min="0" max="24" step="1" value="0"
-                                           aria-label="Quincenas con ahorro para espacio">
-                                    <p class="input-hint"><span id="val-space-savings-curr">0</span> / 24 quincenas</p>
+                            <div class="flex items-center justify-between mb-3">
+                                <h5 id="obj8-title" class="font-bold text-sm text-slate-700">8. Mejora Espacio (6pts)</h5>
+                                <span class="font-bold text-blue-600 text-sm" id="val-furniture-total-pts">0 pts</span>
+                            </div>
+
+                            <!-- Progress bar -->
+                            <div class="mb-3">
+                                <div class="flex justify-between text-xs text-slate-400 mb-1">
+                                    <span>Compras realizadas</span>
+                                    <span><span id="val-furniture-count">0</span> / 3</span>
                                 </div>
-                                <div>
-                                    <div class="flex justify-between text-xs mb-1">
-                                        <span class="text-slate-600">Muebles Comprados</span>
-                                        <span class="font-bold text-blue-600" id="val-furniture-pts">0 pts</span>
-                                    </div>
-                                    <input type="range" id="rng-furniture" min="0" max="3" step="1" value="0"
-                                           aria-label="Muebles comprados">
-                                    <p class="input-hint"><span id="val-furniture-curr">0</span> muebles (1°=3pts, +1pt c/u)</p>
+                                <div class="h-1.5 bg-slate-100 rounded-full overflow-hidden">
+                                    <div class="h-1.5 rounded-full transition-all duration-500 bg-gradient-to-r from-teal-400 to-teal-600" id="furniture-bar" style="width: 0%"></div>
                                 </div>
                             </div>
+
+                            <!-- 3 furniture items -->
+                            <div class="space-y-2">
+                                <label class="flex items-center gap-3 p-2.5 rounded-lg border border-slate-200 bg-white/60 cursor-pointer hover:bg-teal-50 hover:border-teal-200 transition-all">
+                                    <input type="checkbox" id="chk-furniture-1" class="w-4 h-4 cursor-pointer accent-teal-500">
+                                    <i class="fa-solid fa-couch text-slate-400 text-sm w-4 text-center" aria-hidden="true"></i>
+                                    <span class="flex-1 text-sm text-slate-700">Mueble 1</span>
+                                    <span class="text-xs font-bold text-slate-400" id="val-furniture-1-pts">0 pts</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-2.5 rounded-lg border border-slate-200 bg-white/60 cursor-pointer hover:bg-teal-50 hover:border-teal-200 transition-all">
+                                    <input type="checkbox" id="chk-furniture-2" class="w-4 h-4 cursor-pointer accent-teal-500">
+                                    <i class="fa-solid fa-couch text-slate-400 text-sm w-4 text-center" aria-hidden="true"></i>
+                                    <span class="flex-1 text-sm text-slate-700">Mueble 2</span>
+                                    <span class="text-xs font-bold text-slate-400" id="val-furniture-2-pts">0 pts</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-2.5 rounded-lg border border-slate-200 bg-white/60 cursor-pointer hover:bg-teal-50 hover:border-teal-200 transition-all">
+                                    <input type="checkbox" id="chk-furniture-3" class="w-4 h-4 cursor-pointer accent-teal-500">
+                                    <i class="fa-solid fa-couch text-slate-400 text-sm w-4 text-center" aria-hidden="true"></i>
+                                    <span class="flex-1 text-sm text-slate-700">Mueble 3</span>
+                                    <span class="text-xs font-bold text-slate-400" id="val-furniture-3-pts">0 pts</span>
+                                </label>
+                            </div>
+                            <p class="input-hint mt-2 text-center">2 pts por cada mueble adquirido · máx 6 pts</p>
                         </article>
                     </div>
                 </section>
